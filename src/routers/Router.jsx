@@ -5,6 +5,7 @@ import AuthLayouts from "../layouts/authLayout/AuthLayouts";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
+import DashBoardLayout from "../layouts/dashboard/DashBoardLayout";
 
 export const router = createBrowserRouter([
   {
@@ -48,8 +49,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "/auth/forgot-password",
-        element: <ForgotPassword/>,
+        element: <ForgotPassword />,
       },
     ],
+  },
+  {
+      path: "/dashboard",
+      element:<DashBoardLayout/>
   },
 ]);

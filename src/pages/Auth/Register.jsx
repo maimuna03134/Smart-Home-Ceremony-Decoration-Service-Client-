@@ -34,8 +34,7 @@ const Register = () => {
       // Create user
       const result = await createUser(data.email, data.password);
         console.log("User created:", result.user);
-         reset();
-      navigate("/");
+      
       // Upload image
       const formData = new FormData();
       formData.append("image", profileImg);
@@ -53,7 +52,8 @@ const Register = () => {
         photoURL: imageUrl,
       });
 
-      console.log("Profile updated successfully");
+        console.log("Profile updated successfully");
+           reset();
       navigate(location.state || "/");
     } catch (error) {
       console.error("Registration failed:", error);
