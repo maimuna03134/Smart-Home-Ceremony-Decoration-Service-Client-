@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router";
 
 import axios from "axios";
 import SocialLogin from "./SocialLogin";
+import Button from "../shared/button/Button";
+import Loader from "../shared/loader/Loader";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
+  const [loading, setLoading] = useState(false);
+    const [showPass, setShowPass] = useState(false);
+    
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const { createUser, updateProfileInfo } = useAuth();
@@ -18,45 +25,49 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleRegistration = (data) => {
-    console.log("after register : ", data.photo[0]);
-    const profileImg = data.photo[0];
-    createUser(data.email, data.password)
-      .then((res) => {
-        console.log(res.user);
-        navigate("/");
+  const handleRegistration = async (data) => {
+    setLoading(true);
 
-        // 1. store the image in form data
-        const formData = new FormData();
-        formData.append("image", profileImg);
+    try {
+      const profileImg = data.photo[0];
 
-        // 2. send the photo to store and get the ul
-        const image_API_URL = `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_image_host
-        }`;
+      // Create user
+      const result = await createUser(data.email, data.password);
+        console.log("User created:", result.user);
+         reset();
+      navigate("/");
+      // Upload image
+      const formData = new FormData();
+      formData.append("image", profileImg);
 
-        axios.post(image_API_URL, formData).then((res) => {
-          console.log("after image upload", res.data.data.url);
+      const imageResponse = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host}`,
+        formData
+      );
 
-          // update user profile to firebase
-          const userProfile = {
-            displayName: data.name,
-            photoURL: res.data.data.url,
-          };
+      const imageUrl = imageResponse.data.data.url;
 
-          updateProfileInfo(userProfile)
-            .then(() => {
-              console.log("user profile updated done.");
-              navigate(location.state || "/");
-            })
-            .catch((error) => console.log(error));
-        });
-      })
-
-      .catch((err) => {
-        console.log(err);
+      // Update profile
+      await updateProfileInfo({
+        displayName: data.name,
+        photoURL: imageUrl,
       });
+
+      console.log("Profile updated successfully");
+      navigate(location.state || "/");
+    } catch (error) {
+      console.error("Registration failed:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleTogglePasswordShow = (e) => {
+    e.preventDefault();
+    setShowPass(!showPass);
+    };
+    
+    if (loading) return <Loader />;
 
   return (
     <div className="hero-content flex-col">
@@ -73,7 +84,7 @@ const Register = () => {
               <input
                 type="text"
                 {...register("name", { required: true })}
-                className="input"
+                className="input w-full"
                 placeholder="Your Name"
               />
               {errors.name?.type === "required" && (
@@ -87,7 +98,7 @@ const Register = () => {
               <input
                 type="file"
                 {...register("photo", { required: true })}
-                className="file-input"
+                className="file-input w-full"
                 placeholder="Your Photo"
               />
 
@@ -99,8 +110,8 @@ const Register = () => {
               <input
                 type="email"
                 {...register("email", { required: true })}
-                className="input"
-                placeholder="Email"
+                placeholder="you@example.com"
+                className="input w-full"
               />
               {errors.email?.type === "required" && (
                 <p className="text-red-500" role="alert">
@@ -108,17 +119,26 @@ const Register = () => {
                 </p>
               )}
               <label className="label">Password</label>
-              <input
-                type="password"
-                {...register("password", {
-                  required: true,
-                  minLength: 6,
-                  pattern:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
-                })}
-                className="input"
-                placeholder="Password"
-              />
+              <div className="relative">
+                <input
+                  type={showPass ? "text" : "password"}
+                  placeholder="••••••••"
+                  className="input w-full pr-10"
+                  {...register("password", {
+                    required: true,
+                    minLength: 6,
+                    pattern:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
+                  })}
+                />
+                <button
+                  type="button"
+                  onClick={handleTogglePasswordShow}
+                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                >
+                  {showPass ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
               {errors.password?.type === "required" && (
                 <p className="text-red-500" role="alert">
                   Password is required
@@ -135,10 +155,8 @@ const Register = () => {
                   lowercase and at least one special characters
                 </p>
               )}
-              <div>
-                <a className="link link-hover">Forgot password?</a>
-              </div>
-              <button className="btn btn-neutral mt-4">Register</button>
+
+              <Button label="Sign Up" loading={loading} small />
 
               <SocialLogin />
             </fieldset>
