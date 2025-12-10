@@ -10,6 +10,7 @@ import avatarImg from "../../assets/placeholder.jpg";
 import useAuth from "../../hooks/useAuth";
 import Logo from "../../components/logo/Logo";
 import MyContainer from "../../components/container/MyContainer";
+import MyLinks from "../../components/links/MyLinks";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -45,14 +46,14 @@ const Navbar = () => {
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-1">
               {navLinks.map((link) => (
-                <Link
+                <MyLinks
                   key={link.path}
                   to={link.path}
-                  className="px-4 py-2 text-gray-700 hover:text-primary font-medium transition-colors duration-200 relative group"
+                  
                 >
                   {link.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-200"></span>
-                </Link>
+                 
+                </MyLinks>
               ))}
             </div>
 

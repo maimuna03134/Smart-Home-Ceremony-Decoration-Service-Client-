@@ -163,7 +163,7 @@ const ServiceDetails = () => {
                   {infoSections.map((section) => (
                     <div
                       key={section.id}
-                      className="bg-linear-to-br from-purple-50 to-pink-50 rounded-xl p-4 border-2 border-transparent hover:border-purple-300 transition-all duration-300 cursor-pointer hover:shadow-lg"
+                      className="bg-linear-to-br from-purple-50 to-pink-50 rounded-xl p-4 border-2 border-transparent hover:border-primary/55 transition-all duration-300 cursor-pointer hover:shadow-lg"
                     >
                       <div className="flex items-center gap-2 text-primary mb-2">
                         {section.icon}
@@ -234,7 +234,7 @@ const ServiceDetails = () => {
                       key={idx}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.1 }}
+                      transition={{ delay: idx * 0.3 }}
                       className="flex items-start gap-2 bg-white/10 backdrop-blur-md rounded-lg p-3"
                     >
                       <BiCheckCircle className="w-5 h-5 text-green-400 mt-0.5 shrink-0" />
