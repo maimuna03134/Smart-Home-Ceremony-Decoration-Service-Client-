@@ -22,7 +22,7 @@ const ServiceCard = () => {
           </h2>
 
           {/* Project Name */}
-          <p className="text-lg text-rose-600 font-medium mt-2">
+          <p className="text-lg text-primary font-medium mt-2">
             Supernova Spira
           </p>
 
@@ -46,7 +46,7 @@ const ServiceCard = () => {
 
           {/* CTA Button */}
           <div className="mt-8 ">
-            <button className="w-full text-center flex justify-center shared-style">
+            <button className="w-full shared-style">
               Get This Design
             </button>
           </div>

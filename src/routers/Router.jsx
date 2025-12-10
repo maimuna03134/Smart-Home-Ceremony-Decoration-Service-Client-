@@ -7,6 +7,9 @@ import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 import DashBoardLayout from "../layouts/dashboard/DashBoardLayout";
 import ErrorPage from "../pages/shared/errorPage/ErrorPage";
+import Contact from "../pages/other/Contact";
+import About from "../pages/other/About";
+import Services from "../pages/servicesPage/Services";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +21,18 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: '/contact',
+        element:<Contact/>
+      },
+      {
+        path: '/about',
+        element:<About/>
+      },
+      {
+        path: '/services',
+        element:<Services/>
       },
       //   {
       //     path: "/services",

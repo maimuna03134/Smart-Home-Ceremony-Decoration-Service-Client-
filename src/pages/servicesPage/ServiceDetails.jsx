@@ -1,5 +1,7 @@
 import React from "react";
+/* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
+
 import {
   FiMapPin,
   FiClock,
@@ -116,7 +118,7 @@ const ServiceDetails = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-amber-50 py-12 px-4">
+    <div className="min-h-screen bg-linear-to-br from-purple-50 via-pink-50 to-amber-50 py-12 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Main Card */}
         <motion.div
@@ -128,7 +130,7 @@ const ServiceDetails = () => {
             {/* Left Side - Content */}
             <div className="p-8 md:p-12 flex flex-col justify-between">
               <div>
-                <span className="inline-block px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
+                <span className="inline-block px-4 py-2 bg-purple-100 text-primary rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
                   {service.service_category} Service
                 </span>
 
@@ -161,9 +163,9 @@ const ServiceDetails = () => {
                   {infoSections.map((section) => (
                     <div
                       key={section.id}
-                      className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border-2 border-transparent hover:border-purple-300 transition-all duration-300 cursor-pointer hover:shadow-lg"
+                      className="bg-linear-to-br from-purple-50 to-pink-50 rounded-xl p-4 border-2 border-transparent hover:border-purple-300 transition-all duration-300 cursor-pointer hover:shadow-lg"
                     >
-                      <div className="flex items-center gap-2 text-purple-600 mb-2">
+                      <div className="flex items-center gap-2 text-primary mb-2">
                         {section.icon}
                         <span className="text-xs font-medium uppercase tracking-wider">
                           {section.label}
@@ -179,7 +181,7 @@ const ServiceDetails = () => {
                 {/* Created By */}
                 <div className="bg-gray-50 rounded-xl p-4 mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg">
                       S
                     </div>
                     <div>
@@ -199,14 +201,14 @@ const ServiceDetails = () => {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl"
+                  className="flex-1 shared-style shadow-lg hover:shadow-xl"
                 >
                   Get This Design
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-6 py-4 border-2 border-purple-600 text-purple-600 rounded-xl font-semibold hover:bg-purple-50"
+                  className="px-6 py-4 border border-amber-800 text-amber-800 rounded-xl font-semibold hover:bg-purple-50"
                 >
                   <FiCalendar className="w-5 h-5" />
                 </motion.button>
@@ -220,7 +222,7 @@ const ServiceDetails = () => {
                 alt={service.service_name}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
 
               <div className="absolute bottom-0 left-0 right-0 p-8">
                 <h3 className="text-white font-bold text-xl mb-4">
@@ -235,7 +237,7 @@ const ServiceDetails = () => {
                       transition={{ delay: idx * 0.1 }}
                       className="flex items-start gap-2 bg-white/10 backdrop-blur-md rounded-lg p-3"
                     >
-                      <BiCheckCircle className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                      <BiCheckCircle className="w-5 h-5 text-green-400 mt-0.5 shrink-0" />
                       <span className="text-white text-sm font-medium">
                         {feature}
                       </span>
@@ -254,7 +256,7 @@ const ServiceDetails = () => {
             className="bg-white rounded-2xl p-6 shadow-lg"
           >
             <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-              <FiShield className="w-6 h-6 text-purple-600" />
+              <FiShield className="w-6 h-6 text-amber-700" />
             </div>
             <h3 className="font-bold text-gray-900 mb-2">Quality Assured</h3>
             <p className="text-gray-600 text-sm">
@@ -267,7 +269,7 @@ const ServiceDetails = () => {
             className="bg-white rounded-2xl p-6 shadow-lg"
           >
             <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
-              <MdPeople className="w-6 h-6 text-pink-600" />
+              <MdPeople className="w-6 h-6 text-amber-800" />
             </div>
             <h3 className="font-bold text-gray-900 mb-2">Expert Team</h3>
             <p className="text-gray-600 text-sm">

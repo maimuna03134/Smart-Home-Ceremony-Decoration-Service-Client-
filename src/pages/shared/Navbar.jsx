@@ -124,7 +124,10 @@ const Navbar = () => {
               {/* Login Button (Mobile Only) */}
               {!user && (
                 <div className="hidden md:block">
-                  <Link to="/auth/login" className=" shared-style">
+                  <Link
+                    to="/auth/login"
+                    className="flex items-center  shared-style"
+                  >
                     <IoLogIn size={18} />
                     <span>Login</span>
                   </Link>
