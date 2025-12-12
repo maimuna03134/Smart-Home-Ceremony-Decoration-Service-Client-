@@ -1,18 +1,18 @@
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router";
-
-import axios from "axios";
 import SocialLogin from "./SocialLogin";
 import Button from "../shared/button/Button";
 import Loader from "../shared/loader/Loader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { imageUpload } from "../../utils";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
-    const [showPass, setShowPass] = useState(false);
-    
+  const [showPass, setShowPass] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -27,24 +27,15 @@ const Register = () => {
 
   const handleRegistration = async (data) => {
     setLoading(true);
-
+ const profileImg = data.photo[0];
     try {
-      const profileImg = data.photo[0];
+     
 
       // Create user
-      const result = await createUser(data.email, data.password);
-        console.log("User created:", result.user);
-      
-      // Upload image
-      const formData = new FormData();
-      formData.append("image", profileImg);
+      await createUser(data.email, data.password);
+    
 
-      const imageResponse = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host}`,
-        formData
-      );
-
-      const imageUrl = imageResponse.data.data.url;
+      const imageUrl = await imageUpload(profileImg);
 
       // Update profile
       await updateProfileInfo({
@@ -52,8 +43,8 @@ const Register = () => {
         photoURL: imageUrl,
       });
 
-        console.log("Profile updated successfully");
-           reset();
+      console.log("Profile updated successfully");
+      reset();
       navigate(location.state || "/");
     } catch (error) {
       console.error("Registration failed:", error);
@@ -65,9 +56,9 @@ const Register = () => {
   const handleTogglePasswordShow = (e) => {
     e.preventDefault();
     setShowPass(!showPass);
-    };
-    
-    if (loading) return <Loader />;
+  };
+
+  if (loading) return <Loader />;
 
   return (
     <div className="hero-content flex-col">
@@ -80,81 +71,112 @@ const Register = () => {
         <div className="card-body">
           <form onSubmit={handleSubmit(handleRegistration)}>
             <fieldset className="fieldset">
-              <label className="label">Name</label>
-              <input
-                type="text"
-                {...register("name", { required: true })}
-                className="input w-full"
-                placeholder="Your Name"
-              />
-              {errors.name?.type === "required" && (
-                <p className="text-red-500" role="alert">
-                  Name is required
-                </p>
-              )}
-              {/* photo image field */}
-              <label className="label">Photo</label>
-
-              <input
-                type="file"
-                {...register("photo", { required: true })}
-                className="file-input w-full"
-                placeholder="Your Photo"
-              />
-
-              {errors.name?.type === "required" && (
-                <p className="text-red-500">Photo is required.</p>
-              )}
-              {/* email filed */}
-              <label className="label">Email</label>
-              <input
-                type="email"
-                {...register("email", { required: true })}
-                placeholder="you@example.com"
-                className="input w-full"
-              />
-              {errors.email?.type === "required" && (
-                <p className="text-red-500" role="alert">
-                  Email is required
-                </p>
-              )}
-              <label className="label">Password</label>
-              <div className="relative">
+              <div>
+                <label htmlFor="email" className="label">
+                  Name
+                </label>
                 <input
-                  type={showPass ? "text" : "password"}
-                  placeholder="••••••••"
-                  className="input w-full pr-10"
-                  {...register("password", {
-                    required: true,
-                    minLength: 6,
-                    pattern:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
+                  type="text"
+                  className="input w-full"
+                  placeholder="Your Name"
+                  {...register("name", {
+                    required: "Name is required",
+                    maxLength: {
+                      value: 20,
+                      message: "Name cannot be too long",
+                    },
                   })}
                 />
-                <button
-                  type="button"
-                  onClick={handleTogglePasswordShow}
-                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                >
-                  {showPass ? <FaEyeSlash /> : <FaEye />}
-                </button>
+                {errors.name && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.name.message}
+                  </p>
+                )}
               </div>
-              {errors.password?.type === "required" && (
-                <p className="text-red-500" role="alert">
-                  Password is required
-                </p>
-              )}
-              {errors.password?.type === "minLength" && (
-                <p className="text-red-500" role="alert">
-                  Password must be 6 characters or longer
-                </p>
-              )}
-              {errors.password?.type === "pattern" && (
-                <p className="text-red-500" role="alert">
-                  Password must have at least one uppercase, at least on
-                  lowercase and at least one special characters
-                </p>
-              )}
+
+              {/* image field */}
+              <div>
+                <label htmlFor="image" className="label">
+                  Profile Image
+                </label>
+
+                <input
+                  type="file"
+                  {...register("image", { required: "Name is required" })}
+                  className="block w-full text-sm text-gray-500
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-md file:border-0
+      file:text-sm file:font-semibold
+      file:bg-lime-50 file:text-primary
+      hover:file:bg-orange-100
+      bg-gray-100 border border-dashed border-orange-300 rounded-md cursor-pointer
+      focus:outline-none focus:ring-2 focus:ring-primary/55 focus:border-primary/40
+      py-2"
+                  placeholder="Your Photo"
+                />
+              </div>
+
+              {/* email filed */}
+              <div>
+                <label className="label">Email</label>
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  className="input w-full"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      message: "Please enter a valid email address.",
+                    },
+                  })}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+              {/* password filed */}
+              <div>
+                <label className="label">Password</label>
+
+                <div className="relative">
+                  <input
+                    type={showPass ? "text" : "password"}
+                    placeholder="••••••••"
+                    className="input w-full pr-10"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters",
+                      },
+                      pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
+                    })}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleTogglePasswordShow}
+                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                  >
+                    {showPass ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
+
+                {errors.password?.type === "pattern" && (
+                  <p className="text-red-500" role="alert">
+                    Password must have at least one uppercase, at least on
+                    lowercase and at least one special characters
+                  </p>
+                )}
+              </div>
 
               <Button label="Sign Up" loading={loading} small />
 

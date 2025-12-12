@@ -15,6 +15,7 @@ import {
 } from "react-icons/fi";
 import { BiCheckCircle } from "react-icons/bi";
 import { MdPeople, MdSchedule } from "react-icons/md";
+import MyContainer from "../../components/container/MyContainer";
 
 const ServiceDetails = () => {
   // Mock data - replace with your own if needed
@@ -119,7 +120,7 @@ const ServiceDetails = () => {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-purple-50 via-pink-50 to-amber-50 py-12 px-4">
-      <div className="max-w-6xl mx-auto">
+      <MyContainer>
         {/* Main Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -290,7 +291,7 @@ const ServiceDetails = () => {
             </p>
           </motion.div>
         </div>
-      </div>
+      </MyContainer>
     </div>
   );
 };

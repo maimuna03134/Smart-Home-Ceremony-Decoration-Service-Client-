@@ -10,12 +10,13 @@ import ErrorPage from "../pages/shared/errorPage/ErrorPage";
 import Contact from "../pages/other/Contact";
 import About from "../pages/other/About";
 import Services from "../pages/servicesPage/Services";
+import AddServices from "../pages/manageServices/AddServices";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    errorElement: <ErrorPage/>,
+    errorElement: <ErrorPage />,
     hydrateFallbackElement: <p>Loading...</p>,
     children: [
       {
@@ -23,16 +24,20 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/contact',
-        element:<Contact/>
+        path: "/contact",
+        element: <Contact />,
       },
       {
-        path: '/about',
-        element:<About/>
+        path: "/about",
+        element: <About />,
       },
       {
-        path: '/services',
-        element:<Services/>
+        path: "/services",
+        element: <Services />,
+      },
+      {
+        path: "/add-service",
+        element: <AddServices />,
       },
       //   {
       //     path: "/services",
