@@ -17,7 +17,7 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log(loading, user);
+  // console.log(loading, user);
   // crate user
   const createUser = (email, password) => {
     setLoading(true);
@@ -31,9 +31,10 @@ const AuthProvider = ({ children }) => {
   };
 
   // google sign in
-  const signInWithGoogle = () => {
-    return signInWithPopup(auth, googleProvider);
-  };
+   const signInWithGoogle = () => {
+     setLoading(true);
+     return signInWithPopup(auth, googleProvider);
+   };
 
   // forgot pass
   const forgotPass = (email) => {

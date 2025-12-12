@@ -10,8 +10,8 @@ import ErrorPage from "../pages/shared/errorPage/ErrorPage";
 import Contact from "../pages/other/Contact";
 import About from "../pages/other/About";
 import Services from "../pages/servicesPage/Services";
-import AddServices from "../pages/manageServices/AddServices";
 import Profile from "../pages/dashboard/common/Profile";
+import AddServices from "../pages/servicesPage/AddServices";
 
 export const router = createBrowserRouter([
   {

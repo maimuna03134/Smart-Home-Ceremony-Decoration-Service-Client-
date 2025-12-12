@@ -9,7 +9,7 @@ import Loader from "../shared/loader/Loader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
+    const { signIn, loading, setLoading } = useAuth();
   const [showPass, setShowPass] = useState(false);
 
   const {
@@ -24,10 +24,10 @@ const Login = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+
 
   const handleLogin = async (data) => {
-    setLoading(true);
+  
 
     try {
       await signIn(data.email, data.password);

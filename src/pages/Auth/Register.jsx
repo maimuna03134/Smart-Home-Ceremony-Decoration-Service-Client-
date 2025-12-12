@@ -10,7 +10,7 @@ import { imageUpload } from "../../utils";
 import toast from "react-hot-toast";
 
 const Register = () => {
-  const [loading, setLoading] = useState(false);
+  const { createUser, updateProfileInfo , loading} = useAuth();
   const [showPass, setShowPass] = useState(false);
 
   const {
@@ -20,47 +20,37 @@ const Register = () => {
     reset,
   } = useForm();
 
-  const { createUser, updateProfileInfo } = useAuth();
+  
 
   const navigate = useNavigate();
   const location = useLocation();
 
- const handleRegistration = async (data) => {
-   setLoading(true);
+  const handleRegistration = async (data) => {
+    const { name, email, password, image } = data;
 
- 
-   const { name, email, password, image } = data;
+    if (!image || image.length === 0) {
+      toast.error("Please select a profile image");
+      return;
+    }
 
- 
-   if (!image || image.length === 0) {
-     toast.error("Please select a profile image");
-     setLoading(false);
-     return;
-   }
+    const imageFile = image[0];
 
-   const imageFile = image[0]; 
+    try {
+      await createUser(email, password);
 
-   try {
-    
-     await createUser(email, password);
+      const imageUrl = await imageUpload(imageFile);
+      console.log("Uploaded image URL:", imageUrl);
 
-   
-     const imageUrl = await imageUpload(imageFile);
-     console.log("Uploaded image URL:", imageUrl); 
+      await updateProfileInfo(name, imageUrl);
 
-  
-     await updateProfileInfo(name, imageUrl);
-
-     toast.success("Registration Successful!");
-     reset();
-     navigate(location.state || "/");
-   } catch (error) {
-     console.error("Registration error:", error);
-     toast.error(error.message || "Registration failed");
-   } finally {
-     setLoading(false);
-   }
- };
+      toast.success("Registration Successful!");
+      reset();
+      navigate(location.state || "/");
+    } catch (error) {
+      console.error("Registration error:", error);
+      toast.error(error.message || "Registration failed");
+    } 
+  };
   const handleTogglePasswordShow = (e) => {
     e.preventDefault();
     setShowPass(!showPass);
@@ -115,13 +105,7 @@ const Register = () => {
                   {...register("image", {
                     required: "Profile image is required",
                   })}
-                  className="block w-full text-sm text-gray-500
-    file:mr-4 file:py-2 file:px-4
-    file:rounded-md file:border-0
-    file:text-sm file:font-semibold
-    file:bg-orange-50 file:text-primary
-    hover:file:bg-orange-100
-    bg-gray-100 border border-dashed border-orange-300 rounded-md cursor-pointer
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold  file:bg-orange-50 file:text-primary  hover:file:bg-orange-100  bg-gray-100 border border-dashed border-orange-300 rounded- cursor-pointer
     py-2"
                 />
                 {errors.image && (
@@ -205,6 +189,20 @@ const Register = () => {
                 </Link>
               </span>
             </p>
+
+            <div>
+              <button
+                type="submit"
+                className="shared-style"
+              >
+                {loading ? (
+                  <Loader/>
+                ) : (
+                  "Continue"
+                )}
+              </button>
+            </div>
+
           </form>
         </div>
       </div>
