@@ -9,8 +9,8 @@ import Loader from "../shared/loader/Loader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-    const [loading, setLoading] = useState(false);
-    const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
   const {
     register,
@@ -20,34 +20,33 @@ const Login = () => {
     watch,
   } = useForm();
 
-    const email = watch("email");
-    
+  const email = watch("email");
+
   const location = useLocation();
   const navigate = useNavigate();
   const { signIn } = useAuth();
 
-    const handleLogin = async (data) => {
-      setLoading(true); 
+  const handleLogin = async (data) => {
+    setLoading(true);
 
-      try {
-        await signIn(data.email, data.password);
-          toast.success("Login successful!");
-          reset();
-        navigate(location.state?.from || "/", { replace: true });
-      } catch (err) {
-        toast.error(err.message || "Login failed");
-      } finally {
-        setLoading(false); 
-      }
-    };
-    
-     const handleTogglePasswordShow = (e) => {
-       e.preventDefault();
-       setShowPass(!showPass);
-    };
-    
+    try {
+      await signIn(data.email, data.password);
+      toast.success("Login successful!");
+      reset();
+      navigate(location.state?.from || "/", { replace: true });
+    } catch (err) {
+      toast.error(err.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    if (loading) return <Loader />;
+  const handleTogglePasswordShow = (e) => {
+    e.preventDefault();
+    setShowPass(!showPass);
+  };
+
+  if (loading) return <Loader />;
 
   return (
     <div className="hero-content flex-col">
@@ -59,7 +58,7 @@ const Login = () => {
         <div className="card-body">
           <form onSubmit={handleSubmit(handleLogin)}>
             <fieldset className="fieldset space-y-4">
-              {/* Email */}
+              {/* email filed */}
               <div>
                 <label className="label">Email</label>
                 <input
@@ -69,56 +68,57 @@ const Login = () => {
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Invalid email address",
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      message: "Please enter a valid email address.",
                     },
                   })}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-red-500 text-xs mt-1">
                     {errors.email.message}
                   </p>
                 )}
               </div>
               {/* password filed */}
-              <label className="label">Password</label>
-              <div className="relative">
-                <input
-                  type={showPass ? "text" : "password"}
-                  placeholder="••••••••"
-                  className="input w-full pr-10"
-                  {...register("password", {
-                    required: true,
-                    minLength: 6,
-                    pattern:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
-                  })}
-                />
-                <button
-                  type="button"
-                  onClick={handleTogglePasswordShow}
-                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                >
-                  {showPass ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
+              <div>
+                <label className="label">Password</label>
 
-              {errors.password?.type === "required" && (
-                <p className="text-red-500" role="alert">
-                  Password is required
-                </p>
-              )}
-              {errors.password?.type === "minLength" && (
-                <p className="text-red-500" role="alert">
-                  Password must be 6 characters or longer
-                </p>
-              )}
-              {errors.password?.type === "pattern" && (
-                <p className="text-red-500" role="alert">
-                  Password must have at least one uppercase, at least on
-                  lowercase and at least one special characters
-                </p>
-              )}
+                <div className="relative">
+                  <input
+                    type={showPass ? "text" : "password"}
+                    placeholder="••••••••"
+                    className="input w-full pr-10"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters",
+                      },
+                      pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
+                    })}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleTogglePasswordShow}
+                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                  >
+                    {showPass ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
+
+                {errors.password?.type === "pattern" && (
+                  <p className="text-red-500" role="alert">
+                    Password must have at least one uppercase, at least on
+                    lowercase and at least one special characters
+                  </p>
+                )}
+              </div>
 
               {/* forgot pass */}
               <label className="label my-2">

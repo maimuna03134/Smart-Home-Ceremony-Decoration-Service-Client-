@@ -11,6 +11,7 @@ import Contact from "../pages/other/Contact";
 import About from "../pages/other/About";
 import Services from "../pages/servicesPage/Services";
 import AddServices from "../pages/manageServices/AddServices";
+import Profile from "../pages/dashboard/common/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -24,20 +25,24 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/contact",
+        path: "contact",
         element: <Contact />,
       },
       {
-        path: "/about",
+        path: "about",
         element: <About />,
       },
       {
-        path: "/services",
+        path: "services",
         element: <Services />,
       },
       {
-        path: "/add-service",
+        path: "add-service",
         element: <AddServices />,
+      },
+      {
+        path: "profile",
+        element: <Profile/>,
       },
       //   {
       //     path: "/services",

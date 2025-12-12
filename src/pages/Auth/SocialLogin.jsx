@@ -11,31 +11,46 @@ const SocialLogin = () => {
   const { signInWithGoogle } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-
+   const from = location.state || "/";
   const handleGoogleSignIn = async () => {
-    setLoading(true); 
-    try {
-      const result = await signInWithGoogle();
-      const user = result.user;
+  setLoading(true); 
+  try {
+    //User Registration using google
+    await signInWithGoogle();
 
-      toast.success(`Welcome ${user.displayName || "back"}!`);
-      navigate(location.state || "/");
-    } catch (err) {
-      console.error("Google sign-in error:", err);
+    navigate(from, { replace: true });
+    toast.success("Signup Successful");
+  } catch (err) {
+    console.log(err);
+    toast.error(err?.message);
+  } finally {
+    setLoading(false);
+  }
+};
+  // const handleGoogleSignIn = async () => {
+  //   setLoading(true); 
+  //   try {
+  //     const result = await signInWithGoogle();
+  //     const user = result.user;
 
-      if (err.code === "auth/account-exists-with-different-credential") {
-        toast.error(
-          "This email is already linked to another login method. Please use that instead."
-        );
-      } else if (err.code === "auth/popup-closed-by-user") {
-        // User closed popup — no toast needed
-      } else {
-        toast.error("Google sign-in failed. Try again.");
-      }
-    } finally {
-      setLoading(false); 
-    }
-  };
+  //     toast.success(`Welcome ${user.displayName || "back"}!`);
+  //     navigate(location.state || "/");
+  //   } catch (err) {
+  //     console.error("Google sign-in error:", err);
+
+  //     if (err.code === "auth/account-exists-with-different-credential") {
+  //       toast.error(
+  //         "This email is already linked to another login method. Please use that instead."
+  //       );
+  //     } else if (err.code === "auth/popup-closed-by-user") {
+  //       // User closed popup — no toast needed
+  //     } else {
+  //       toast.error("Google sign-in failed. Try again.");
+  //     }
+  //   } finally {
+  //     setLoading(false); 
+  //   }
+  // };
 
   return (
     <div className="mt-4">

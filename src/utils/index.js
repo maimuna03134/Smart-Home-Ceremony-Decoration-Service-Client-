@@ -12,7 +12,7 @@ const imageResponse = await axios.post(
   formData
 );
 
- return imageResponse.data.data.url;
+return imageResponse.data.data.display_url;
     // console.log(data.data.display_url);
 //   return data?.data?.url;
 };

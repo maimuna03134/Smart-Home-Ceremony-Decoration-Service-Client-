@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
@@ -8,6 +7,7 @@ import Button from "../shared/button/Button";
 import Loader from "../shared/loader/Loader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { imageUpload } from "../../utils";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -25,34 +25,42 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleRegistration = async (data) => {
-    setLoading(true);
- const profileImg = data.photo[0];
-    try {
-     
+ const handleRegistration = async (data) => {
+   setLoading(true);
 
-      // Create user
-      await createUser(data.email, data.password);
+ 
+   const { name, email, password, image } = data;
+
+ 
+   if (!image || image.length === 0) {
+     toast.error("Please select a profile image");
+     setLoading(false);
+     return;
+   }
+
+   const imageFile = image[0]; 
+
+   try {
     
+     await createUser(email, password);
 
-      const imageUrl = await imageUpload(profileImg);
+   
+     const imageUrl = await imageUpload(imageFile);
+     console.log("Uploaded image URL:", imageUrl); 
 
-      // Update profile
-      await updateProfileInfo({
-        displayName: data.name,
-        photoURL: imageUrl,
-      });
+  
+     await updateProfileInfo(name, imageUrl);
 
-      console.log("Profile updated successfully");
-      reset();
-      navigate(location.state || "/");
-    } catch (error) {
-      console.error("Registration failed:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+     toast.success("Registration Successful!");
+     reset();
+     navigate(location.state || "/");
+   } catch (error) {
+     console.error("Registration error:", error);
+     toast.error(error.message || "Registration failed");
+   } finally {
+     setLoading(false);
+   }
+ };
   const handleTogglePasswordShow = (e) => {
     e.preventDefault();
     setShowPass(!showPass);
@@ -71,6 +79,7 @@ const Register = () => {
         <div className="card-body">
           <form onSubmit={handleSubmit(handleRegistration)}>
             <fieldset className="fieldset">
+              {/* name filed */}
               <div>
                 <label htmlFor="email" className="label">
                   Name
@@ -102,18 +111,24 @@ const Register = () => {
 
                 <input
                   type="file"
-                  {...register("image", { required: "Name is required" })}
+                  accept="image/*"
+                  {...register("image", {
+                    required: "Profile image is required",
+                  })}
                   className="block w-full text-sm text-gray-500
-      file:mr-4 file:py-2 file:px-4
-      file:rounded-md file:border-0
-      file:text-sm file:font-semibold
-      file:bg-lime-50 file:text-primary
-      hover:file:bg-orange-100
-      bg-gray-100 border border-dashed border-orange-300 rounded-md cursor-pointer
-      focus:outline-none focus:ring-2 focus:ring-primary/55 focus:border-primary/40
-      py-2"
-                  placeholder="Your Photo"
+    file:mr-4 file:py-2 file:px-4
+    file:rounded-md file:border-0
+    file:text-sm file:font-semibold
+    file:bg-orange-50 file:text-primary
+    hover:file:bg-orange-100
+    bg-gray-100 border border-dashed border-orange-300 rounded-md cursor-pointer
+    py-2"
                 />
+                {errors.image && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.image.message}
+                  </p>
+                )}
               </div>
 
               {/* email filed */}

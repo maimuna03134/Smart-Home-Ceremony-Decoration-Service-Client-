@@ -41,11 +41,11 @@ const AuthProvider = ({ children }) => {
   };
 
   // update user profile
-  const updateProfileInfo = (updateData) => {
-    if (!auth.currentUser) {
-      return Promise.reject(new Error("No user is logged in"));
-    }
-    return updateProfile(auth.currentUser, updateData);
+  const updateProfileInfo = (name, photo) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    });
   };
 
   // logged out
