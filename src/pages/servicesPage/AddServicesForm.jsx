@@ -255,60 +255,87 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../../utils";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import Loader from "../shared/loader/Loader";
+import ErrorPage from "../shared/errorPage/ErrorPage";
 
 const AddServicesForm = () => {
   const { user } = useAuth();
+
+  // useMutation hook useCase (POST || PUT || PATCH || DELETE)
+  const {
+    isPending,
+    isError,
+    mutateAsync,
+    reset: mutationReset,
+  } = useMutation({
+    mutationFn: async (payload) =>
+      await axios.post(`${import.meta.env.VITE_API_URL}/services`, payload),
+    onSuccess: (data) => {
+      console.log(data);
+      // show toast
+      toast.success("Plant Added successfully");
+      // navigate to my inventory page
+      mutationReset();
+      // Query key invalidate
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+    onMutate: (payload) => {
+      console.log("I will post this data--->", payload);
+    },
+    onSettled: (data, error) => {
+      console.log("I am from onSettled--->", data);
+      if (error) console.log(error);
+    },
+    retry: 3,
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
-//   console.log(errors);
+  //   console.log(errors);
 
   const onSubmit = async (data) => {
     const { name, description, quantity, price, category, image } = data;
-    const imageFile = image[0];
-
-   
-
-   
+      const imageFile = image[0];
       
+    try {
+      const imageUrl = await imageUpload(imageFile);
 
-      
-      try {
-        const imageUrl = await imageUpload(imageFile);
-        // console.log("Uploaded image URL:", imageUrl);
-
-        const serviceData = {
-          name,
-          category,
-          description,
-          price: Number(price),
-          quantity: Number(quantity),
-          image: imageUrl,
-          createdAt: new Date().toISOString(),
-          seller: {
-            image: user?.photoURL,
-              name: user?.displayName,
-            email:user?.email
-          },
+      const serviceData = {
+        name,
+        category,
+        description,
+        price: Number(price),
+        quantity: Number(quantity),
+        image: imageUrl,
+        createdAt: new Date().toISOString(),
+        seller: {
+          image: user?.photoURL,
+          name: user?.displayName,
+          email: user?.email,
+        },
         };
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/services`,
-        serviceData
-      );
-
-      console.log("Service Data:", data);
-      
-      reset();
+         await mutateAsync(serviceData);
+         reset();
+   
 
       
-        
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  };
+    };
+    
+  if (isPending) return <Loader />;
+    if (isError) return <ErrorPage />;
+    
+
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
       <form onSubmit={handleSubmit(onSubmit)}>
