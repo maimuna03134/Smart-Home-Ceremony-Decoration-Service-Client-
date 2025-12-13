@@ -1,6 +1,6 @@
 import React from 'react';
-// import ServiceCard from '../../components/cards/ServiceCard';
-// import ServiceDetails from '../servicesPage/ServiceDetails';
+import ServiceCard from '../../components/cards/ServiceCard';
+import ServiceDetails from '../servicesPage/ServiceDetails';
 // import ManageServices from '../manageServices/ManageServices';
 
 const Home = () => {
@@ -8,9 +8,9 @@ const Home = () => {
         <div>
             Hi👋, I'm home
             <br />
-            {/* <ServiceCard />
+            <ServiceCard />
             <ServiceDetails />
-            <ManageServices/> */}
+            {/* <ManageServices/> */}
             
         </div>
     );

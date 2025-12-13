@@ -14,7 +14,6 @@ import {
 import { useNavigate } from "react-router";
 import MyContainer from "../../components/container/MyContainer";
 
-
 const initialServices = [
   {
     id: 1,
@@ -142,7 +141,7 @@ const ManageServices = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50 py-12 px-4">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-purple-50 py-12 px-4">
       <MyContainer>
         {/* Header */}
         <div className="text-center mb-10">
@@ -181,7 +180,7 @@ const ManageServices = () => {
             {/* Add Button */}
             <button
               onClick={() => navigate("/add-service")}
-              className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-2xl hover:from-purple-700 hover:to-pink-700 transition shadow-lg"
+              className="flex items-center gap-3 px-8 py-4 bg-linear-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-2xl hover:from-purple-700 hover:to-pink-700 transition shadow-lg"
             >
               <MdAdd className="text-3xl" />
               Add New Service

@@ -1,12 +1,15 @@
 import { Link } from "react-router";
 
-const Card = () => {
+const Card = (service) => {
+  const {name,price}=service
+  console.log(service)
   return (
     <Link
-      to={`/service/1`}
-      className="col-span-1 cursor-pointer group shadow-xl p-3 rounded-xl"
+      to={`/services/1`}
+      className="col-span-1 cursor-pointer group shadow-xl rounded-xl max-w-md mx-auto p-3"
     >
       <div className="flex flex-col gap-2 w-full">
+        {/* Image */}
         <div
           className="
               aspect-square
@@ -17,29 +20,52 @@ const Card = () => {
             "
         >
           <img
+            src="https://www.bing.com/th/id/OIP.-R0RrcfyXBRrtMmIxgSXywHaE8?w=253&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2"
+            alt="4BHK Modern Interior"
             className="
                 object-cover 
                 h-full 
                 w-full 
                 group-hover:scale-110 
-                transition
-              "
-            src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=600"
-            alt="Plant Image"
+                transition"
           />
           <div
             className="
               absolute
               top-3
-              right-3
-            "
-          ></div>
+              right-3"
+          >
+            <span className="bg-gray-800 hover:bg-white text-white hover:text-gray-800 px-3 py-2 rounded-full text-xs font-bold shadow-lg transition-all duration-300">
+              category
+            </span>
+          </div>
         </div>
-        <div className="font-semibold text-lg">Money Plant</div>
-        <div className="font-semibold text-lg">Category: Indoor</div>
-        <div className="font-semibold text-lg">Quantity: 10</div>
-        <div className="flex flex-row items-center gap-1">
-          <div className="font-semibold"> Price: 15$</div>
+        <div className="p-3 pt-3">
+          {/* service name */}
+          <h2 className="text-lg font-bold text-primary ">{name}</h2>
+
+          {/* category */}
+          {/* description */}
+          <p className="text-sm text-gray-600 font-base mt-1">
+            Living Room, Dining Room, Foyer, ...
+          </p>
+
+          <div className="flex items-center px-1  justify-between gap-6 mt-2 text-gray-700">
+            {/* unit */}
+            <div>
+              <p className="text-base text-gray-700 hover:text-primary font-semibold mt-1">
+                4-BHK
+              </p>
+            </div>
+            {/* pricing */}
+            <div>
+              <p className="text-base text-rose-600 font-semibold mt-1">
+                {price}
+              </p>
+            </div>
+          </div>
+
+        
         </div>
       </div>
     </Link>

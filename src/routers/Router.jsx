@@ -12,6 +12,7 @@ import About from "../pages/other/About";
 import Services from "../pages/servicesPage/Services";
 import Profile from "../pages/dashboard/common/Profile";
 import AddServices from "../pages/servicesPage/AddServices";
+import ServiceDetails from "../pages/servicesPage/ServiceDetails";
 
 export const router = createBrowserRouter([
   {
@@ -37,12 +38,16 @@ export const router = createBrowserRouter([
         element: <Services />,
       },
       {
+        path: "services/:id",
+        element: <ServiceDetails />,
+      },
+      {
         path: "add-service",
         element: <AddServices />,
       },
       {
         path: "profile",
-        element: <Profile/>,
+        element: <Profile />,
       },
       //   {
       //     path: "/services",
