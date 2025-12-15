@@ -1,11 +1,11 @@
 import { Link } from "react-router";
 
-const Card = (service) => {
-  const {name,price}=service
-  console.log(service)
+const Card = ({ service }) => {
+  const { _id, name, price } = service || {};
+  console.log(service);
   return (
     <Link
-      to={`/services/1`}
+      to={`/service/${_id}`}
       className="col-span-1 cursor-pointer group shadow-xl rounded-xl max-w-md mx-auto p-3"
     >
       <div className="flex flex-col gap-2 w-full">
@@ -64,8 +64,6 @@ const Card = (service) => {
               </p>
             </div>
           </div>
-
-        
         </div>
       </div>
     </Link>

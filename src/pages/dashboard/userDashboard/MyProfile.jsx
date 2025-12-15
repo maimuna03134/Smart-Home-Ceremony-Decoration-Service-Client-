@@ -2,7 +2,7 @@ import React from 'react';
 import useAuth from '../../../hooks/useAuth';
 import coverImg from '../../../assets/coverImage.jpg'
 
-const Profile = () => {
+const MyProfile = () => {
     const { user } = useAuth();
 
     return (
@@ -59,4 +59,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default MyProfile;

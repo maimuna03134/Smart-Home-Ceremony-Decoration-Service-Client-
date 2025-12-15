@@ -10,9 +10,10 @@ import ErrorPage from "../pages/shared/errorPage/ErrorPage";
 import Contact from "../pages/other/Contact";
 import About from "../pages/other/About";
 import Services from "../pages/servicesPage/Services";
-import Profile from "../pages/dashboard/common/Profile";
 import AddServices from "../pages/servicesPage/AddServices";
 import ServiceDetails from "../pages/servicesPage/ServiceDetails";
+import MyProfile from "../pages/dashboard/userDashboard/MyProfile";
+import MyBookings from "../pages/dashboard/userDashboard/bookingCollections/MyBookings";
 
 export const router = createBrowserRouter([
   {
@@ -38,17 +39,14 @@ export const router = createBrowserRouter([
         element: <Services />,
       },
       {
-        path: "services/:id",
+        path: "service/:id",
         element: <ServiceDetails />,
       },
       {
         path: "add-service",
         element: <AddServices />,
       },
-      {
-        path: "profile",
-        element: <Profile />,
-      },
+
       //   {
       //     path: "/services",
       //     element: <Coverage />,
@@ -89,5 +87,15 @@ export const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashBoardLayout />,
+    children: [
+      {
+        path: "/dashboard/my-bookings",
+        element: <MyBookings />,
+      },
+      {
+        path: "/dashboard/profile",
+        element: <MyProfile />,
+      },
+    ],
   },
 ]);

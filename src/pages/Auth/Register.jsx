@@ -190,19 +190,7 @@ const Register = () => {
               </span>
             </p>
 
-            <div>
-              <button
-                type="submit"
-                className="shared-style"
-              >
-                {loading ? (
-                  <Loader/>
-                ) : (
-                  "Continue"
-                )}
-              </button>
-            </div>
-
+            
           </form>
         </div>
       </div>

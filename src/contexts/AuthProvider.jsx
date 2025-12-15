@@ -42,17 +42,26 @@ const AuthProvider = ({ children }) => {
   };
 
   // update user profile
-  const updateProfileInfo = (name, photo) => {
-    return updateProfile(auth.currentUser, {
-      displayName: name,
-      photoURL: photo,
-    });
-  };
+   const updateProfileInfo = (name, photo) => {
+     setLoading(true);
+     return updateProfile(auth.currentUser, {
+       displayName: name,
+       photoURL: photo,
+     }).then(() => {
+       setUser({
+         ...auth.currentUser,
+         displayName: name,
+         photoURL: photo,
+       });
+       setLoading(false);
+     });
+   };
 
   // logged out
-  const logOut = () => {
-    return signOut(auth);
-  };
+ const logOut = async () => {
+   setLoading(true);
+   return signOut(auth);
+ };
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {

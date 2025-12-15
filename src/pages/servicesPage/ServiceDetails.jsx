@@ -1,7 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import MyContainer from "../../components/container/MyContainer";
+import { useNavigate, useParams } from "react-router";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "../shared/loader/Loader";
+import toast from "react-hot-toast";
+import BookingModal from "../../components/modal/BookingModal";
+import useAuth from "../../hooks/useAuth";
+import { Star, Users } from "lucide-react";
 
 const ServiceDetails = () => {
+  const { user } = useAuth();
+  const { id } = useParams();
+  console.log(id);
+  const navigate = useNavigate();
+  const [showBookingModal, setShowBookingModal] = useState(false);
+
+  const { data: service = {}, isLoading } = useQuery({
+    queryKey: ["service", id],
+    queryFn: async () => {
+      const result = await axios(
+        `${import.meta.env.VITE_API_URL}/services/${id}`
+      );
+      return result.data;
+    },
+  });
+
+  const handleBookNow = () => {
+    if (!user) {
+      toast.error("Please login to book a service");
+      navigate("/auth/login", { state: { from: `/services/${id}` } });
+      return;
+    }
+    setShowBookingModal(true);
+  };
+
+  if (isLoading) return <Loader />;
+
+  if (!service) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <AlertCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Service Not Found
+          </h2>
+          <button
+            onClick={() => navigate("/services")}
+            className="btn btn-primary mt-4"
+          >
+            Back to Services
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const { image, name, description, category, quantity, price, seller } =
+    service;
   return (
     <>
       <div className="min-h-screen bg-linear-to-br from-pink-50 via-purple-50 to-indigo-100 py-12 px-4">
@@ -16,7 +72,7 @@ const ServiceDetails = () => {
                     <img
                       className="object-cover hover:scale-110 
                 transition w-full h-[600px]"
-                      src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1200&q=90"
+                      src={image}
                       alt="Service"
                     />
                   </div>
@@ -27,48 +83,50 @@ const ServiceDetails = () => {
               <div className="md:gap-10 flex-1">
                 {/* Category Badge */}
                 <span className="inline-block px-5 py-2 bg-linear-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full text-sm font-bold uppercase tracking-wider mb-4">
-                  Wedding
+                  {category}
                 </span>
 
                 {/* Service Title */}
                 <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-2 leading-tight">
-                  Luxury Royal Wedding Setup
+                  {name}
                 </h1>
 
                 <p className="text-lg text-gray-500 mb-6">
-                  Category: Wedding Decoration
+                  Category: {category}
                 </p>
+
+                {/* Rating & Stats */}
+                <div className="flex items-center gap-6 mb-6">
+                  <div className="flex items-center gap-1">
+                    <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
+                    <span className="text-lg font-semibold text-gray-900">
+                      4.8
+                    </span>
+                    <span className="text-gray-500 text-sm ml-1">
+                      (289 reviews)
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Users className="w-5 h-5" />
+                    <span className="text-sm">145 bookings</span>
+                  </div>
+                </div>
 
                 {/* Description */}
                 <div className="text-lg font-light text-neutral-500">
-                  Transform your special day into a magical experience with our
-                  premium decoration service. We use high-quality materials,
-                  creative designs, and professional execution to make your
-                  event unforgettable.
-                </div>
-
-                {/* Rating & Reviews */}
-                <div className="flex items-center gap-8 text-gray-600 my-6">
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">⭐</span>
-                    <span className="text-xl font-bold">4.9</span>
-                    <span className="text-sm">(342 reviews)</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">👥</span>
-                    <span className="text-lg font-medium">128+ Bookings</span>
-                  </div>
+                  {description}
                 </div>
 
                 {/* Designer Info */}
                 <div className="text-xl font-semibold flex flex-row items-center gap-2 my-6">
-                  <div>Designer: Sarah Wilson</div>
+                  <div>Designer: {seller?.name}</div>
                   <img
                     className="rounded-full"
                     height="30"
                     width="30"
-                    alt="Designer"
-                    src="https://ui-avatars.com/api/?name=Sarah+Wilson&background=8B5CF6&color=fff"
+                    alt="Avatar"
+                    referrerPolicy="no-referrer"
+                    src={seller?.image}
                   />
                 </div>
 
@@ -87,14 +145,38 @@ const ServiceDetails = () => {
                     </span>
                   </p>
                 </div>
+                {/* Action Buttons */}
+                {/* <div className="flex gap-4">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleBookNow}
+                  disabled={!service.availability}
+                  className="flex-1 bg-linear-to-r from-purple-600 to-pink-600 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {service.availability ? 'Book This Service' : 'Currently Unavailable'}
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => navigate('/services')}
+                  className="px-6 py-4 border-2 border-purple-600 text-purple-600 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-300"
+                >
+                  <Calendar className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </div> */}
 
                 {/* Price & Book Button */}
                 <div className="flex justify-between items-center my-6">
                   <p className="font-bold text-3xl text-gray-500">
-                    Price: <span className="text-purple-600">৳800,000</span>
+                    Price: <span className="text-purple-600">৳ {price}</span>
                   </p>
                   <div>
-                    <button className="px-8 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white text-lg font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <button
+                      onClick={handleBookNow}
+                      className="px-8 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white text-lg font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                    >
                       Book Now
                     </button>
                   </div>
@@ -104,7 +186,9 @@ const ServiceDetails = () => {
                 <div className="grid grid-cols-2 gap-4 my-6">
                   <div className="bg-linear-to-br from-purple-50 to-indigo-50 rounded-xl p-4 border border-purple-200">
                     <p className="text-sm text-gray-600 mb-1">Unit</p>
-                    <p className="font-semibold text-gray-900">per event</p>
+                    <p className="font-semibold text-gray-900">
+                      {quantity} per event
+                    </p>
                   </div>
                   <div className="bg-linear-to-br from-pink-50 to-rose-50 rounded-xl p-4 border border-pink-200">
                     <p className="text-sm text-gray-600 mb-1">Setup Time</p>
@@ -172,6 +256,14 @@ const ServiceDetails = () => {
               </p>
             </div>
           </div>
+
+          {/* Booking Modal */}
+          {showBookingModal && (
+            <BookingModal
+              service={service}
+              onClose={() => setShowBookingModal(false)}
+            />
+          )}
         </MyContainer>
       </div>
     </>

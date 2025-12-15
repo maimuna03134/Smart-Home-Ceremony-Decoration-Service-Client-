@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-// import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../../utils";
 import axios from "axios";

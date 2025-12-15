@@ -46,13 +46,8 @@ const Navbar = () => {
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-1">
               {navLinks.map((link) => (
-                <MyLinks
-                  key={link.path}
-                  to={link.path}
-                  
-                >
+                <MyLinks key={link.path} to={link.path}>
                   {link.name}
-                 
                 </MyLinks>
               ))}
             </div>
@@ -67,11 +62,17 @@ const Navbar = () => {
                     className="flex items-center border border-gray-200 space-x-2 p-1 pr-3 rounded-full hover:shadow-md transition-all duration-200"
                   >
                     <AiOutlineMenu className="ml-2" />
-                    <img
-                      src={user?.photoURL || avatarImg}
-                      alt="Profile"
-                      className="w-8 h-8 rounded-full object-cover"
-                    />
+                    {user.photoURL ? (
+                      <img
+                        src={user?.photoURL || avatarImg}
+                        alt="Profile"
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-primary font-semibold">
+                        {user.name ? user.name[0].toUpperCase() : "U"}
+                      </div>
+                    )}
                   </button>
 
                   {/* Dropdown */}
@@ -92,7 +93,7 @@ const Navbar = () => {
                         </div>
 
                         <Link
-                          to="/profile"
+                          to="/dashboard/profile"
                           className="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
                           onClick={() => setIsProfileOpen(false)}
                         >
@@ -122,7 +123,7 @@ const Navbar = () => {
                 </div>
               )}
 
-              {/* Login Button (Mobile Only) */}
+              {/* Mobile Only */}
               {!user && (
                 <div className="hidden md:block">
                   <Link
@@ -177,7 +178,7 @@ const Navbar = () => {
                 {user ? (
                   <>
                     <Link
-                      to="/profile"
+                      to="/dashboard/profile"
                       className="flex items-center space-x-3 px-4 py-3 text-primary hover:bg-orange-100 rounded-lg"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
