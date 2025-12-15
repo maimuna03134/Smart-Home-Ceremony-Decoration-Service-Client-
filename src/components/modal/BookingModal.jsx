@@ -5,9 +5,6 @@ import {
   X,
   Calendar,
   MapPin,
-  User,
-  Mail,
-  Phone,
   DollarSign,
 } from "lucide-react";
 import toast from "react-hot-toast";
@@ -51,6 +48,8 @@ const BookingModal = ({ service, onClose }) => {
     setLoading(true);
 
     try {
+      // console.log("User email:", user.email);
+      // console.log("Service ID:", service._id);
       const bookingData = {
         serviceId: service._id,
         serviceName: service.name,
@@ -66,11 +65,13 @@ const BookingModal = ({ service, onClose }) => {
         paymentStatus: "Unpaid",
         createdAt: new Date().toISOString(),
       };
+      // console.log(bookingData)
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/bookings`,
-        bookingData
-      );
+     const response = await axios.post(
+       `${import.meta.env.VITE_API_URL}/bookings`,
+       bookingData
+     );
+      console.log(response.data)
 
       if (response.data.insertedId) {
         toast.success("Booking created successfully!");

@@ -11,9 +11,10 @@ import Contact from "../pages/other/Contact";
 import About from "../pages/other/About";
 import Services from "../pages/servicesPage/Services";
 import AddServices from "../pages/servicesPage/AddServices";
-import ServiceDetails from "../pages/servicesPage/ServiceDetails";
 import MyProfile from "../pages/dashboard/userDashboard/MyProfile";
 import MyBookings from "../pages/dashboard/userDashboard/bookingCollections/MyBookings";
+import PaymentSuccess from "../pages/dashboard/userDashboard/payment/PaymentSuccess";
+import ServiceDetails from "../pages/servicesPage/ServiceDetails";
 
 export const router = createBrowserRouter([
   {
@@ -95,6 +96,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/profile",
         element: <MyProfile />,
+      },
+      {
+        path: "/dashboard/payment-success/:bookingId",
+        element: <PaymentSuccess />,
       },
     ],
   },

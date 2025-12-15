@@ -14,6 +14,7 @@ import {
   XCircle,
 } from "lucide-react";
 import MyContainer from "../../../../components/container/MyContainer";
+import { LuTrash2 } from "react-icons/lu";
 
 const MyBookings = () => {
   const { user } = useAuth();
@@ -24,13 +25,13 @@ const MyBookings = () => {
   const {
     data: bookings = [],
     isLoading,
-    refetch,
+
   } = useQuery({
     queryKey: ["myBookings", user?.email],
     queryFn: async () => {
       // const token = localStorage.getItem("access-token");
       const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/bookings/user/${user.email}`
+        `${import.meta.env.VITE_API_URL}/bookings`
         //   {
         //     headers: {
         //       Authorization: `Bearer ${token}`,
@@ -74,7 +75,9 @@ const MyBookings = () => {
   };
 
   const handlePayment = (booking) => {
-    navigate(`/dashboard/payment/${booking._id}`, { state: { booking } });
+    navigate(`/dashboard/payment-success/${booking._id}`, {
+      state: { booking },
+    });
   };
 
   if (isLoading) return <Loader />;
@@ -243,7 +246,7 @@ const MyBookings = () => {
                                 className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition disabled:opacity-50"
                                 title="Cancel Booking"
                               >
-                                <Trash2 className="w-5 h-5" />
+                                <LuTrash2 className="w-5 h-5" />
                               </button>
                             )}
                         </div>
@@ -287,7 +290,7 @@ const MyBookings = () => {
                       </span>
                     </div>
                     <div className="flex items-start gap-2 text-sm">
-                      <MapPin className="w-4 h-4 text-pink-600 mt-0.5 flex-shrink-0" />
+                      <MapPin className="w-4 h-4 text-pink-600 mt-0.5 shrink-0" />
                       <span className="text-gray-600">{booking.location}</span>
                     </div>
                   </div>
@@ -354,6 +357,9 @@ const MyBookings = () => {
           </div>
         )}
       </MyContainer>
+      <button onClick={() => navigate(-1)} className="shared-style">
+        Back
+      </button>
     </div>
   );
 };

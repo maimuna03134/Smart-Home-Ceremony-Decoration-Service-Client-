@@ -63,15 +63,15 @@ const ServiceDetails = () => {
       <div className="min-h-screen bg-linear-to-br from-pink-50 via-purple-50 to-indigo-100 py-12 px-4">
         <MyContainer>
           {/* Main Card */}
-          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden  lg:p-12">
-            <div className="mx-auto flex flex-col lg:flex-row justify-between w-full gap-12">
+          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden  lg:p-12 px-6 md:px-4 py-6 md:py-4">
+            <div className="mx-auto flex flex-col lg:flex-row justify-between w-full gap-6 md:gap-12">
               {/* Left Side - Image */}
               <div className="flex flex-col gap-6 flex-1">
                 <div>
                   <div className="w-full overflow-hidden rounded-xl">
                     <img
                       className="object-cover hover:scale-110 
-                transition w-full h-[600px]"
+                transition w-full md:h-[600px]"
                       src={image}
                       alt="Service"
                     />
@@ -80,7 +80,7 @@ const ServiceDetails = () => {
               </div>
 
               {/* Right Side - Service Details */}
-              <div className="md:gap-10 flex-1">
+              <div className="md:gap-10 flex-1 ">
                 {/* Category Badge */}
                 <span className="inline-block px-5 py-2 bg-linear-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full text-sm font-bold uppercase tracking-wider mb-4">
                   {category}
@@ -168,7 +168,7 @@ const ServiceDetails = () => {
             </div> */}
 
                 {/* Price & Book Button */}
-                <div className="flex justify-between items-center my-6">
+                <div className="flex flex-col md:flex-row gap-4 justify-between md:items-center my-6">
                   <p className="font-bold text-3xl text-gray-500">
                     Price: <span className="text-purple-600">৳ {price}</span>
                   </p>
