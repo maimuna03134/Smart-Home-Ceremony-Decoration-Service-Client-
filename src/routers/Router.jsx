@@ -13,8 +13,9 @@ import Services from "../pages/servicesPage/Services";
 import AddServices from "../pages/servicesPage/AddServices";
 import MyProfile from "../pages/dashboard/userDashboard/MyProfile";
 import MyBookings from "../pages/dashboard/userDashboard/bookingCollections/MyBookings";
-import PaymentSuccess from "../pages/dashboard/userDashboard/payment/PaymentSuccess";
 import ServiceDetails from "../pages/servicesPage/ServiceDetails";
+import PaymentHistory from "../pages/dashboard/userDashboard/payment/PaymentHistory";
+import PaymentSuccess from "../pages/dashboard/userDashboard/payment/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
       {
         path: "service/:id",
         element: <ServiceDetails />,
+      },
+      {
+        path: "/payment-success",
+        element: <PaymentSuccess />,
       },
       {
         path: "add-service",
@@ -98,8 +103,8 @@ export const router = createBrowserRouter([
         element: <MyProfile />,
       },
       {
-        path: "/dashboard/payment-success/:bookingId",
-        element: <PaymentSuccess />,
+        path: "/dashboard/payment-history",
+        element: <PaymentHistory />,
       },
     ],
   },

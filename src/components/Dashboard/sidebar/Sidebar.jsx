@@ -73,7 +73,7 @@ const Sidebar = ({ user, onLogout, onClose }) => {
         },
         { path: "/dashboard/profile", label: "My Profile", icon: <LuUsers /> },
         {
-          path: "/dashboard/payment-success",
+          path: "/dashboard/payment-history",
           label: "Payment History",
           icon: <LuDollarSign />,
         },

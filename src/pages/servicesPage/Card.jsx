@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 
 const Card = ({ service }) => {
-  const { _id, name, price } = service || {};
+  const { _id, name, price, image } = service || {};
   console.log(service);
   return (
     <Link
@@ -20,7 +20,7 @@ const Card = ({ service }) => {
             "
         >
           <img
-            src="https://www.bing.com/th/id/OIP.-R0RrcfyXBRrtMmIxgSXywHaE8?w=253&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2"
+            src={image}
             alt="4BHK Modern Interior"
             className="
                 object-cover 

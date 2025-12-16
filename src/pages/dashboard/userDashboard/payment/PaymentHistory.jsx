@@ -1,11 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const PaymentHistory = () => {
-  return (
-    <div>
-      
-    </div>
-  );
+  return <div>Payment history here</div>;
 };
 
 export default PaymentHistory;

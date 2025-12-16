@@ -15,23 +15,22 @@ import {
 } from "lucide-react";
 import MyContainer from "../../../../components/container/MyContainer";
 import { LuTrash2 } from "react-icons/lu";
+import PaymentModal from "../../../../components/modal/PaymentModal";
 
 const MyBookings = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [deletingId, setDeletingId] = useState(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
-  const {
-    data: bookings = [],
-    isLoading,
-
-  } = useQuery({
-    queryKey: ["myBookings", user?.email],
+  const { data: bookings = [], isLoading } = useQuery({
+    queryKey: ["booking", user?.email],
     queryFn: async () => {
       // const token = localStorage.getItem("access-token");
       const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/bookings`
+        `${import.meta.env.VITE_API_URL}/bookings/user/${user.email}`
         //   {
         //     headers: {
         //       Authorization: `Bearer ${token}`,
@@ -58,7 +57,7 @@ const MyBookings = () => {
     },
     onSuccess: () => {
       toast.success("Booking cancelled successfully!");
-      queryClient.invalidateQueries(["myBookings"]);
+      queryClient.invalidateQueries(["booking", user?.email]);
       setDeletingId(null);
     },
     onError: (error) => {
@@ -67,6 +66,16 @@ const MyBookings = () => {
     },
   });
 
+  const openPaymentModal = (booking) => {
+    setSelectedBooking(booking);
+    setIsPaymentModalOpen(true);
+  };
+
+  const closePaymentModal = () => {
+    setIsPaymentModalOpen(false);
+    setSelectedBooking(null);
+  };
+
   const handleCancelBooking = (bookingId) => {
     if (window.confirm("Are you sure you want to cancel this booking?")) {
       setDeletingId(bookingId);
@@ -74,11 +83,11 @@ const MyBookings = () => {
     }
   };
 
-  const handlePayment = (booking) => {
-    navigate(`/dashboard/payment-success/${booking._id}`, {
-      state: { booking },
-    });
-  };
+  //   const handlePayment = (booking) => {
+  //     navigate(`/dashboard/payment-success/${booking._id}`, {
+  //       state: { booking },
+  //     });
+  //   };
 
   if (isLoading) return <Loader />;
 
@@ -200,7 +209,7 @@ const MyBookings = () => {
                               : "bg-yellow-100 text-yellow-700"
                           }`}
                         >
-                          {booking.status}
+                          {booking.status || "Pending"}
                         </span>
                       </td>
 
@@ -231,7 +240,7 @@ const MyBookings = () => {
                           {booking.paymentStatus === "Unpaid" &&
                             booking.status !== "Cancelled" && (
                               <button
-                                onClick={() => handlePayment(booking)}
+                                onClick={() => openPaymentModal(booking)}
                                 className="p-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition"
                                 title="Pay Now"
                               >
@@ -258,46 +267,49 @@ const MyBookings = () => {
             </div>
 
             {/* Mobile Card View */}
-            <div className="lg:hidden divide-y divide-gray-200">
+            <div className="lg:hidden space-y-6">
               {bookings.map((booking) => (
-                <div key={booking._id} className="p-4">
-                  <div className="flex gap-3 mb-3">
+                <div
+                  key={booking._id}
+                  className="bg-white rounded-2xl shadow-xl p-6"
+                >
+                  <div className="flex gap-4 mb-5">
                     <img
                       src={booking.serviceImage}
                       alt={booking.serviceName}
-                      className="w-20 h-20 object-cover rounded-lg"
+                      className="w-24 h-24 object-cover rounded-xl"
                     />
                     <div className="flex-1">
-                      <h3 className="font-bold text-gray-900 mb-1">
+                      <h3 className="text-xl font-bold text-gray-900">
                         {booking.serviceName}
                       </h3>
-                      <p className="text-sm text-gray-500 mb-1">
+                      <p className="text-sm text-gray-500">
                         {booking.serviceCategory}
                       </p>
-                      <p className="text-lg font-bold text-purple-600">
-                        ৳ {booking.servicePrice}
+                      <p className="text-2xl font-bold text-purple-600 mt-2">
+                        ৳ {booking.servicePrice?.toLocaleString()}
                       </p>
                     </div>
                   </div>
 
-                  <div className="space-y-2 mb-3">
-                    <div className="flex items-center gap-2 text-sm">
-                      <Calendar className="w-4 h-4 text-purple-600" />
+                  <div className="space-y-3 text-sm mb-6">
+                    <div className="flex items-center gap-3">
+                      <Calendar className="w-5 h-5 text-purple-600" />
                       <span>
                         {new Date(booking.bookingDate).toLocaleDateString(
                           "en-GB"
                         )}
                       </span>
                     </div>
-                    <div className="flex items-start gap-2 text-sm">
-                      <MapPin className="w-4 h-4 text-pink-600 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-3">
+                      <MapPin className="w-5 h-5 text-pink-600 mt-0.5" />
                       <span className="text-gray-600">{booking.location}</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-6">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      className={`px-4 py-2 rounded-full text-sm font-semibold ${
                         booking.status === "Completed"
                           ? "bg-green-100 text-green-700"
                           : booking.status === "In Progress"
@@ -307,46 +319,43 @@ const MyBookings = () => {
                           : "bg-yellow-100 text-yellow-700"
                       }`}
                     >
-                      {booking.status}
+                      {booking.status || "Pending"}
                     </span>
-                    <div className="flex items-center gap-2">
-                      {booking.paymentStatus === "Paid" ? (
-                        <>
-                          <CheckCircle2 className="w-5 h-5 text-green-500" />
-                          <span className="text-sm font-semibold text-green-600">
-                            Paid
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <XCircle className="w-5 h-5 text-red-500" />
-                          <span className="text-sm font-semibold text-red-600">
-                            Unpaid
-                          </span>
-                        </>
-                      )}
-                    </div>
+
+                    {booking.paymentStatus === "Paid" ? (
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-6 h-6 text-green-500" />
+                        <span className="font-bold text-green-600">Paid</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <XCircle className="w-6 h-6 text-red-500" />
+                        <span className="font-bold text-red-600">Unpaid</span>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="flex gap-2">
+                  {/* Buttons  */}
+                  <div className="grid grid-cols-2 gap-3">
                     {booking.paymentStatus === "Unpaid" &&
                       booking.status !== "Cancelled" && (
                         <button
-                          onClick={() => handlePayment(booking)}
-                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition font-semibold"
+                          onClick={() => openPaymentModal(booking)}
+                          className="flex items-center justify-center gap-2 py-4 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold transition"
                         >
-                          <CreditCard className="w-4 h-4" />
+                          <CreditCard className="w-6 h-6" />
                           Pay Now
                         </button>
                       )}
+
                     {booking.status !== "Cancelled" &&
                       booking.paymentStatus === "Unpaid" && (
                         <button
                           onClick={() => handleCancelBooking(booking._id)}
                           disabled={deletingId === booking._id}
-                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition font-semibold disabled:opacity-50"
+                          className="flex items-center justify-center gap-2 py-4 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition disabled:opacity-50"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-6 h-6" />
                           Cancel
                         </button>
                       )}
@@ -356,10 +365,20 @@ const MyBookings = () => {
             </div>
           </div>
         )}
+        <div className="mt-8 text-center">
+          <button
+            onClick={() => navigate("/services")}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold transition"
+          >
+            ← Back
+          </button>
+        </div>
       </MyContainer>
-      <button onClick={() => navigate(-1)} className="shared-style">
-        Back
-      </button>
+      <PaymentModal
+        isOpen={isPaymentModalOpen}
+        closeModal={closePaymentModal}
+        booking={selectedBooking}
+      />
     </div>
   );
 };
