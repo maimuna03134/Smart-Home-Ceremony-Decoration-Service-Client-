@@ -64,10 +64,10 @@ const AddServicesForm = () => {
         quantity: Number(quantity),
         image: imageUrl,
         createdAt: new Date().toISOString(),
-        seller: {
-          image: user?.photoURL,
+        decorator: {
           name: user?.displayName,
           email: user?.email,
+          image: user?.photoURL,
         },
       };
       await mutateAsync(serviceData);

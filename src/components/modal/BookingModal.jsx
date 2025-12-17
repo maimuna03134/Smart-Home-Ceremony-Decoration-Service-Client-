@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
-import {
-  X,
-  Calendar,
-  MapPin,
-  DollarSign,
-} from "lucide-react";
+import { X, Calendar, MapPin, DollarSign } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router";
@@ -67,11 +62,11 @@ const BookingModal = ({ service, onClose }) => {
       };
       // console.log(bookingData)
 
-     const response = await axios.post(
-       `${import.meta.env.VITE_API_URL}/bookings`,
-       bookingData
-     );
-      console.log(response.data)
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/bookings`,
+        bookingData
+      );
+      console.log(response.data);
 
       if (response.data.insertedId) {
         toast.success("Booking created successfully!");

@@ -82,11 +82,12 @@ const Sidebar = ({ user, onLogout, onClose }) => {
   };
 
   return (
+   
     <motion.aside
       initial={{ x: -300 }}
       animate={{ x: 0 }}
       exit={{ x: -300 }}
-      className="w-64 bg-white shadow-xl flex flex-col"
+      className="w-64 bg-white shadow-xl flex flex-col "
     >
       {/* Logo */}
       <div className="p-6 border-b border-gray-200">
@@ -105,6 +106,12 @@ const Sidebar = ({ user, onLogout, onClose }) => {
             key={index}
             to={item.path}
             end={item.path === "/dashboard"}
+            onClick={() => {
+              // ✅ Close sidebar on mobile after clicking nav item
+              if (onClose && window.innerWidth < 1024) {
+                onClose();
+              }
+            }}
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                 isActive
