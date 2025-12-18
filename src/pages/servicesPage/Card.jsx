@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 
 const Card = ({ service }) => {
-  const { _id, name, price, image } = service || {};
+  const { _id, name, price, image,unit,category } = service || {};
   console.log(service);
   return (
     <Link
@@ -21,7 +21,7 @@ const Card = ({ service }) => {
         >
           <img
             src={image}
-            alt="4BHK Modern Interior"
+            alt={name}
             className="
                 object-cover 
                 h-full 
@@ -29,6 +29,7 @@ const Card = ({ service }) => {
                 group-hover:scale-110 
                 transition"
           />
+          {/* category */}
           <div
             className="
               absolute
@@ -36,7 +37,7 @@ const Card = ({ service }) => {
               right-3"
           >
             <span className="bg-gray-800 hover:bg-white text-white hover:text-gray-800 px-3 py-2 rounded-full text-xs font-bold shadow-lg transition-all duration-300">
-              category
+             { category}
             </span>
           </div>
         </div>
@@ -44,7 +45,6 @@ const Card = ({ service }) => {
           {/* service name */}
           <h2 className="text-lg font-bold text-primary ">{name}</h2>
 
-          {/* category */}
           {/* description */}
           <p className="text-sm text-gray-600 font-base mt-1">
             Living Room, Dining Room, Foyer, ...
@@ -54,7 +54,7 @@ const Card = ({ service }) => {
             {/* unit */}
             <div>
               <p className="text-base text-gray-700 hover:text-primary font-semibold mt-1">
-                4-BHK
+                {unit}
               </p>
             </div>
             {/* pricing */}

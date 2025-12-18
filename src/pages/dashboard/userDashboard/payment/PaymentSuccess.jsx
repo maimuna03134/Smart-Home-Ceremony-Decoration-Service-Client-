@@ -25,7 +25,7 @@
 //         </p>
 //         <Link
 //           to="/dashboard/my-bookings"
-//           className="inline-block bg-lime-500 text-white font-semibold py-2 px-4 rounded hover:bg-lime-600 transition duration-300"
+//           className="inline-block bg-primary text-white font-semibold py-2 px-4 rounded hover:bg-lime-600 transition duration-300"
 //         >
 //           Go to My Bookings
 //         </Link>
@@ -43,9 +43,8 @@
 
 // const PaymentSuccess = () => {
 //   const [searchParams] = useSearchParams();
-  
+
 //   const sessionId = searchParams.get("session_id");
-  
 
 //   console.log(sessionId);
 
@@ -78,8 +77,6 @@
 
 // export default PaymentSuccess;
 
-
-
 import React, { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router";
 import axios from "axios";
@@ -92,13 +89,12 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
     if (sessionId) {
-      
       axios
         .patch(`${import.meta.env.VITE_API_URL}/payment-success`, {
-          sessionId: sessionId, 
+          sessionId: sessionId,
         })
         .then((res) => {
-          console.log( res.data);
+          console.log(res.data);
           if (res.data.success) {
             console.log("Payment verified successfully!");
           } else {

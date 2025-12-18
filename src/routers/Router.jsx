@@ -20,6 +20,10 @@ import DashBoard from "../layouts/dashboard/DashBoard";
 import ManageBookings from "../pages/dashboard/adminDashboard/ManageBookings/ManageBookings";
 import UpdateProjectStatus from "../pages/dashboard/decoratorDashboard/updateProject/UpdateProjectStatus";
 import MyProject from "../pages/dashboard/decoratorDashboard/project/MyProject";
+import AdminDashboard from "../pages/dashboard/adminDashboard/AdminDashboard";
+import ManageUsers from "../pages/dashboard/adminDashboard/manageUsers/ManageUsers";
+import AnalyticsCharts from "../pages/dashboard/adminDashboard/AnalyticsCharts/AnalyticsCharts";
+import ManageServices from "../pages/dashboard/adminDashboard/ManageServices/ManageServices";
 
 
 export const router = createBrowserRouter([
@@ -96,12 +100,20 @@ export const router = createBrowserRouter([
     element: <DashBoard />,
     children: [
       {
+        path: "/dashboard/admin",
+        element: <AdminDashboard />,
+      },
+      {
         path: "/dashboard/my-bookings",
         element: <MyBookings />,
       },
       {
         path: "/dashboard/manage-bookings",
         element: <ManageBookings />,
+      },
+      {
+        path: "/dashboard/manage-services",
+        element: <ManageServices />,
       },
       {
         path: "/dashboard/my-project",
@@ -122,6 +134,18 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/add-service",
         element: <AddServices />,
+      },
+      {
+        path: "/dashboard/add-service",
+        element: <AddServices />,
+      },
+      {
+        path: "/dashboard/users",
+        element: <ManageUsers />,
+      },
+      {
+        path: "/dashboard/analytics",
+        element: <AnalyticsCharts />,
       },
     ],
   },

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../../utils";
@@ -7,11 +7,21 @@ import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import Loader from "../../pages/shared/loader/Loader";
 import ErrorPage from "../../pages/shared/errorPage/ErrorPage";
+import { useNavigate } from "react-router";
 
 const AddServicesForm = () => {
   const { user } = useAuth();
+  const navigate = useNavigate()
 
-  // useMutation hook useCase (POST || PUT || PATCH || DELETE)
+  const [formData, setFormData] = useState({
+    name: "",
+    price: "",
+    unit: "",
+    category: "",
+    description: "",
+    image: "",
+  });
+
   const {
     isPending,
     isError,
@@ -22,11 +32,11 @@ const AddServicesForm = () => {
       await axios.post(`${import.meta.env.VITE_API_URL}/services`, payload),
     onSuccess: (data) => {
       console.log(data);
-      // show toast
+     
       toast.success("Plant Added successfully");
-      // navigate to my inventory page
       mutationReset();
-      // Query key invalidate
+      
+      navigate("/services");
     },
     onError: (error) => {
       console.log(error);
@@ -35,7 +45,7 @@ const AddServicesForm = () => {
       console.log("I will post this data--->", payload);
     },
     onSettled: (data, error) => {
-      console.log("I am from onSettled--->", data);
+      // console.log("I am from onSettled--->", data);
       if (error) console.log(error);
     },
     retry: 3,
@@ -77,6 +87,13 @@ const AddServicesForm = () => {
     }
   };
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   if (isPending) return <Loader />;
   if (isError) return <ErrorPage />;
 
@@ -91,7 +108,7 @@ const AddServicesForm = () => {
                 Name
               </label>
               <input
-                className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                className="w-full px-4 py-3 text-gray-800 border border-orange-300 focus:outline-orange-500 rounded-md bg-white"
                 name="name"
                 id="name"
                 type="text"
@@ -110,14 +127,17 @@ const AddServicesForm = () => {
                 Category *
               </label>
               <select
-                class="w-full px-4 py-3 border border-lime-300 rounded-lg focus:outline-lime-500"
+                class="w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500"
                 {...register("category", { required: "Category is required" })}
               >
-                <option value="">Select Category</option>
-                <option value="Indoor">Indoor</option>
-                <option value="Outdoor">Outdoor</option>
-                <option value="Succulent">Succulent</option>
-                <option value="Flowering">Flowering</option>
+                <option value="">Select category</option>
+                <option value="Wedding">Wedding</option>
+                <option value="Home">Home</option>
+                <option value="Office">Office</option>
+                <option value="Seminar">Seminar</option>
+                <option value="Meeting">Meeting</option>
+                <option value="Birthday">Birthday</option>
+                <option value="Corporate">Corporate</option>
               </select>
               {errors.category && (
                 <p className="text-red-500 text-xs mt-1">
@@ -133,7 +153,7 @@ const AddServicesForm = () => {
               <textarea
                 rows="5"
                 placeholder="Describe the service..."
-                class="w-full px-4 py-3 border border-lime-300 rounded-lg focus:outline-lime-500 resize-none"
+                class="w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500 resize-none"
                 {...register("description", {
                   required: "Description is required",
                 })}
@@ -156,7 +176,7 @@ const AddServicesForm = () => {
                 <input
                   type="number"
                   placeholder="Price"
-                  class="w-full px-4 py-3 border  border-lime-300 rounded-lg focus:outline-lime-500"
+                  class="w-full px-4 py-3 border  border-orange-300 rounded-lg focus:outline-orange-500"
                   {...register("price", { required: "Price is required" })}
                 />
                 {errors.price && (
@@ -167,23 +187,24 @@ const AddServicesForm = () => {
               </div>
 
               {/* Quantity */}
+
               <div>
                 <label className="block text-gray-700 font-medium mb-2">
-                  Quantity *
+                  Unit *
                 </label>
-                <input
-                  type="number"
-                  placeholder="Quantity"
-                  class="w-full px-4 py-3 border border-lime-300 rounded-lg focus:outline-lime-500"
-                  {...register("quantity", {
-                    required: "Quantity is required",
-                  })}
-                />
-                {errors.quantity && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.quantity.message}
-                  </p>
-                )}
+                <select
+                  name="unit"
+                  value={formData.unit}
+                  onChange={handleChange}
+                  className=" w-full px-4 py-3 text-gray-800 border border-orange-300 focus:outline-orange-500 rounded-md bg-white"
+                >
+                  <option value="">Select unit</option>
+                  <option value="per event">per event</option>
+                  <option value="per sq-ft">per sq-ft</option>
+                  <option value="per floor">per floor</option>
+                  <option value="per hour">per hour</option>
+                  <option value="per day">per day</option>
+                </select>
               </div>
             </div>
             {/* Image */}
@@ -194,8 +215,6 @@ const AddServicesForm = () => {
                     <input
                       className="text-sm cursor-pointer w-36 hidden"
                       type="file"
-                      //   name="image"
-                      //   id="image"
                       accept="image/*"
                       hidden
                       {...register("image", {
@@ -207,7 +226,7 @@ const AddServicesForm = () => {
                         {errors.image.message}
                       </p>
                     )}
-                    <div className="bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500">
+                    <div className="bg-primary text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-primary">
                       Upload
                     </div>
                   </label>
@@ -218,7 +237,7 @@ const AddServicesForm = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 "
+              className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-primary "
             >
               Save & Continue
             </button>
