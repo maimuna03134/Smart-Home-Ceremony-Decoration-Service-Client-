@@ -7,6 +7,7 @@ import Button from "../shared/button/Button";
 import toast from "react-hot-toast";
 import Loader from "../shared/loader/Loader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { saveOrUpdateUser } from "../../utils";
 
 const Login = () => {
     const { signIn, loading, setLoading } = useAuth();
@@ -30,7 +31,16 @@ const Login = () => {
   
 
     try {
-      await signIn(data.email, data.password);
+      const { user } = await signIn(data.email, data.password);
+       
+ 
+       await saveOrUpdateUser({
+         name: user?.displayName,
+         email: user?.email,
+         image: user?.photoURL,
+       });
+      
+      
       toast.success("Login successful!");
       reset();
       navigate(location.state?.from || "/", { replace: true });

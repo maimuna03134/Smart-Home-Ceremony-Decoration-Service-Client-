@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import Button from "../shared/button/Button";
 import { FcGoogle } from "react-icons/fc";
 import { useLocation, useNavigate } from "react-router";
+import { saveOrUpdateUser } from "../../utils";
 
 const SocialLogin = () => {
   const [loading, setLoading] = useState(false);
@@ -19,6 +20,8 @@ const SocialLogin = () => {
 
       const result = await signInWithGoogle();
       const user = result.user;
+
+       await saveOrUpdateUser({ name:user.displayName, email:user.email, image: user.photoURL });
 
       toast.success(`Welcome ${user.displayName || "back"}!`);
       navigate(from, { replace: true });

@@ -1,0 +1,139 @@
+import React from "react";
+import { FiHome } from "react-icons/fi";
+import { LuProjector, LuSettings } from "react-icons/lu";
+import { TbLayoutSidebarRightExpandFilled } from "react-icons/tb";
+import { Link, Outlet } from "react-router";
+import { BsFillMenuButtonFill } from "react-icons/bs";
+import { FaRegCreditCard } from "react-icons/fa6";
+import { MdAdminPanelSettings } from "react-icons/md";
+import { IoBagAdd } from "react-icons/io5";
+import { FaUserAlt } from "react-icons/fa";
+
+const DashBoard = () => {
+  return (
+    <div className="drawer lg:drawer-open">
+      <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content">
+        {/* Navbar */}
+        <nav className="navbar w-full bg-base-300">
+          <label
+            htmlFor="my-drawer-4"
+            aria-label="open sidebar"
+            className="btn btn-square btn-ghost"
+          >
+            {/* Sidebar toggle icon */}
+            <TbLayoutSidebarRightExpandFilled />
+          </label>
+          <div className="px-4">Navbar Title</div>
+        </nav>
+        {/* Page content here */}
+        <Outlet></Outlet>
+        <div className="p-4">Page Content</div>
+      </div>
+
+      <div className="drawer-side is-drawer-close:overflow-visible">
+        <label
+          htmlFor="my-drawer-4"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+        ></label>
+        <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
+          {/* Sidebar content here */}
+          <ul className="menu w-full grow">
+            {/* List item */}
+            <li>
+              <Link
+                to="/"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Homepage"
+              >
+                {/* Home icon */}
+                <FiHome />
+                <span className="is-drawer-close:hidden">Homepage</span>
+              </Link>
+            </li>
+
+            {/* List item */}
+
+            <li>
+              <Link
+                to="/dashboard/profile"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Settings"
+              >
+                <FaUserAlt />
+                <span className="is-drawer-close:hidden">My Profile</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/my-bookings"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Settings"
+              >
+                <BsFillMenuButtonFill />
+                <span className="is-drawer-close:hidden">My Bookings</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/add-service"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Settings"
+              >
+                {/* Settings icon */}
+                <IoBagAdd />
+                <span className="is-drawer-close:hidden">Add Service</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/manage-bookings"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Settings"
+              >
+                {/* Settings icon */}
+                <MdAdminPanelSettings />
+                <span className="is-drawer-close:hidden">Manage Bookings</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/payment-history"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Settings"
+              >
+                {/* Settings icon */}
+                <FaRegCreditCard />
+                <span className="is-drawer-close:hidden">Payment History</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/my-project"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Settings"
+              >
+                {/* Settings icon */}
+                <LuProjector />
+                <span className="is-drawer-close:hidden">My Project</span>
+              </Link>
+            </li>
+            <li>
+              <button
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Settings"
+              >
+                {/* Settings icon */}
+                <LuSettings />
+                <span className="is-drawer-close:hidden">Settings</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DashBoard;

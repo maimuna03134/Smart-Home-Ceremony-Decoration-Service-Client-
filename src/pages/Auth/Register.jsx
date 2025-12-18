@@ -6,11 +6,11 @@ import SocialLogin from "./SocialLogin";
 import Button from "../shared/button/Button";
 import Loader from "../shared/loader/Loader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { imageUpload } from "../../utils";
+import { imageUpload, saveOrUpdateUser } from "../../utils";
 import toast from "react-hot-toast";
 
 const Register = () => {
-  const { createUser, updateProfileInfo , loading} = useAuth();
+  const { createUser, updateProfileInfo, loading } = useAuth();
   const [showPass, setShowPass] = useState(false);
 
   const {
@@ -19,8 +19,6 @@ const Register = () => {
     formState: { errors },
     reset,
   } = useForm();
-
-  
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,10 +34,12 @@ const Register = () => {
     const imageFile = image[0];
 
     try {
-      await createUser(email, password);
-
       const imageUrl = await imageUpload(imageFile);
       console.log("Uploaded image URL:", imageUrl);
+
+      await createUser(email, password);
+
+      await saveOrUpdateUser({ name, email, image: imageUrl });
 
       await updateProfileInfo(name, imageUrl);
 
@@ -47,9 +47,9 @@ const Register = () => {
       reset();
       navigate(location.state || "/");
     } catch (error) {
-      console.error("Registration error:", error);
+      toast.error("Registration error:", error);
       toast.error(error.message || "Registration failed");
-    } 
+    }
   };
   const handleTogglePasswordShow = (e) => {
     e.preventDefault();
@@ -189,8 +189,6 @@ const Register = () => {
                 </Link>
               </span>
             </p>
-
-            
           </form>
         </div>
       </div>

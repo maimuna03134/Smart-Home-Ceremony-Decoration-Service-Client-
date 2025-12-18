@@ -1,158 +1,96 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { NavLink } from "react-router";
-import {
-  LuLayoutDashboard,
-  LuPackage,
-  LuCalendar,
-  LuDollarSign,
-  LuUsers,
-  LuLogOut,
-  LuPalette,
-} from "react-icons/lu";
-import { IoBarChart } from "react-icons/io5";
+import React, { useState } from "react";
+import useAuth from "../../../hooks/useAuth";
+import Logo from "../../logo/Logo";
+import { AiOutlineBars } from "react-icons/ai";
+import AdminDashboard from "../../../pages/dashboard/adminDashboard/AdminDashboard";
+import DecoratorDashboard from "../../../pages/dashboard/decoratorDashboard/DecoratorDashboard";
+import UserDashBoard from "../../../pages/dashboard/userDashboard/UserDashBoard";
 
-const Sidebar = ({ user, onLogout, onClose }) => {
+
+
+
+const Sidebar = () => {
   // Navigation items based on user role
-  const getNavItems = () => {
-    if (user?.role === "admin") {
-      return [
-        { path: "/dashboard", label: "Dashboard", icon: <LuLayoutDashboard /> },
-        {
-          path: "/dashboard/services",
-          label: "Manage Services",
-          icon: <LuPackage />,
-        },
-        {
-          path: "/dashboard/bookings",
-          label: "All Bookings",
-          icon: <LuCalendar />,
-        },
-        {
-          path: "/dashboard/decorators",
-          label: "Decorators",
-          icon: <LuUsers />,
-        },
-        {
-          path: "/dashboard/analytics",
-          label: "Analytics",
-          icon: <IoBarChart />,
-        },
-        {
-          path: "/dashboard/revenue",
-          label: "Revenue",
-          icon: <LuDollarSign />,
-        },
-      ];
-    } else if (user?.role === "decorator") {
-      return [
-        { path: "/dashboard", label: "Dashboard", icon: <LuLayoutDashboard /> },
-        {
-          path: "/dashboard/my-projects",
-          label: "My Projects",
-          icon: <LuPalette />,
-        },
-        {
-          path: "/dashboard/schedule",
-          label: "Schedule",
-          icon: <LuCalendar />,
-        },
-        {
-          path: "/dashboard/earnings",
-          label: "Earnings",
-          icon: <LuDollarSign />,
-        },
-      ];
-    } else {
-      return [
-        { path: "/dashboard", label: "Dashboard", icon: <LuLayoutDashboard /> },
-        {
-          path: "/dashboard/my-bookings",
-          label: "My Bookings",
-          icon: <LuCalendar />,
-        },
-        { path: "/dashboard/profile", label: "My Profile", icon: <LuUsers /> },
-        {
-          path: "/dashboard/payment-history",
-          label: "Payment History",
-          icon: <LuDollarSign />,
-        },
-      ];
-    }
-  };
+    const { logOut } = useAuth()
+  const [isActive, setActive] = useState(false)
+
+  // Sidebar Responsive Handler
+  const handleToggle = () => {
+    setActive(!isActive)
+  }
 
   return (
-   
-    <motion.aside
-      initial={{ x: -300 }}
-      animate={{ x: 0 }}
-      exit={{ x: -300 }}
-      className="w-64 bg-white shadow-xl flex flex-col "
-    >
-      {/* Logo */}
-      <div className="p-6 border-b border-gray-200">
-        <h1 className="text-2xl font-bold bg-linear-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-          StyleDecor
-        </h1>
-        <p className="text-xs text-gray-500 mt-1 capitalize">
-          {user?.role || "user"} Dashboard
-        </p>
-      </div>
-
-      {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-        {getNavItems().map((item, index) => (
-          <NavLink
-            key={index}
-            to={item.path}
-            end={item.path === "/dashboard"}
-            onClick={() => {
-              // ✅ Close sidebar on mobile after clicking nav item
-              if (onClose && window.innerWidth < 1024) {
-                onClose();
-              }
-            }}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                isActive
-                  ? "bg-linear-to-r from-purple-600 to-pink-600 text-white shadow-lg"
-                  : "text-gray-700 hover:bg-gray-100"
-              }`
-            }
-          >
-            {React.cloneElement(item.icon, { className: "w-5 h-5" })}
-            <span className="font-medium">{item.label}</span>
-          </NavLink>
-        ))}
-      </nav>
-
-      {/* User Profile */}
-      <div className="p-4 border-t border-gray-200">
-        <div className="flex items-center gap-3 mb-3">
-          <img
-            src={
-              user?.photoURL ||
-              `https://ui-avatars.com/api/?name=${user?.displayName}&background=8B5CF6&color=fff`
-            }
-            alt="User"
-            className="w-10 h-10 rounded-full"
-          />
-          <div className="flex-1 min-w-0">
-            <p className="font-semibold text-gray-900 truncate">
-              {user?.displayName}
-            </p>
-            <p className="text-xs text-gray-500 truncate">{user?.email}</p>
-          </div>
+    <>
+      {/* Small Screen Navbar, only visible till md breakpoint */}
+      <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden'>
+        <div>
+          <Logo/>
         </div>
+
         <button
-          onClick={onLogout}
-          className="w-full flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+          onClick={handleToggle}
+          className='mobile-menu-button p-4 focus:outline-none focus:bg-gray-200'
         >
-          <LuLogOut className="w-4 h-4" />
-          <span className="font-medium">Logout</span>
+          <AiOutlineBars className='h-5 w-5' />
         </button>
       </div>
-    </motion.aside>
+
+      {/* Sidebar */}
+      <div
+        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
+          isActive && '-translate-x-full'
+        }  md:translate-x-0  transition duration-200 ease-in-out`}
+      >
+        <div className='flex flex-col h-full'>
+          {/* Top Content */}
+          <div>
+            {/* Logo */}
+            <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-lime-100 mx-auto'>
+              <Logo/>
+            </div>
+          </div>
+
+          {/* Middle Content */}
+          <div className='flex flex-col justify-between flex-1 mt-6'>
+            {/*  Menu Items */}
+            <nav>
+              {/* Common Menu */}
+              {/* <MenuItem
+                icon={BsGraphUp}
+                label='Statistics'
+                address='/dashboard'
+              /> */}
+              <AdminDashboard/>
+              {/* Role-Based Menu */}
+              {/* <CustomerMenu />
+              <SellerMenu />
+              <AdminMenu /> */}
+              <DecoratorDashboard />
+              <UserDashBoard/>
+            </nav>
+          </div>
+
+          {/* Bottom Content */}
+          <div>
+            <hr />
+
+            {/* <MenuItem
+              icon={FcSettings}
+              label='Profile'
+              address='/dashboard/profile'
+            /> */}
+            <button
+              onClick={logOut}
+              className='flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
+            >
+              {/* <GrLogout className='w-5 h-5' /> */}
+
+              <span className='mx-4 font-medium'>Logout</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      </>
   );
 };
 

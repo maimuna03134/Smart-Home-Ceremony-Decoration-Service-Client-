@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { X, Calendar, MapPin, DollarSign } from "lucide-react";
+/* eslint-disable no-unused-vars */
+import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
+import { X, Calendar, MapPin, DollarSign } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
-const BookingModal = ({ isOpen, closeModal, service }) => {
+const BookingModal = ({ service, onClose }) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ const BookingModal = ({ isOpen, closeModal, service }) => {
     bookingDate: "",
     location: "",
   });
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -25,6 +25,7 @@ const BookingModal = ({ isOpen, closeModal, service }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!formData.bookingDate || !formData.location) {
       toast.error("Please fill all fields");
@@ -34,13 +35,17 @@ const BookingModal = ({ isOpen, closeModal, service }) => {
     const selectedDate = new Date(formData.bookingDate);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
     if (selectedDate < today) {
       toast.error("Please select a future date");
       return;
     }
 
     setLoading(true);
+
     try {
+      // console.log("User email:", user.email);
+      // console.log("Service ID:", service._id);
       const bookingData = {
         serviceId: service._id,
         serviceName: service.name,
@@ -55,16 +60,23 @@ const BookingModal = ({ isOpen, closeModal, service }) => {
         status: "Pending",
         paymentStatus: "Unpaid",
         createdAt: new Date().toISOString(),
+        decorator: {
+          name: user?.displayName,
+          email: user?.email,
+          image: user?.photoURL,
+        },
       };
+      // console.log(bookingData)
 
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/bookings`,
         bookingData
       );
+      console.log(response.data);
 
       if (response.data.insertedId) {
         toast.success("Booking created successfully!");
-        closeModal();
+        onClose();
         navigate("/dashboard/my-bookings");
       }
     } catch (error) {
@@ -75,49 +87,51 @@ const BookingModal = ({ isOpen, closeModal, service }) => {
     }
   };
 
-  if (!service) return null;
-
   return (
-    <Dialog
-      open={isOpen}
-      as="div"
-      className="relative z-50 focus:outline-none"
-      onClose={closeModal}
-    >
-      <div className="fixed inset-0 z-10 w-screen overflow-y-auto bg-black/50 backdrop-blur-sm">
-        <div className="flex min-h-full items-center justify-center p-4">
-          <DialogPanel className="w-full max-w-lg bg-white p-6 shadow-2xl rounded-2xl transform transition-all">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-6">
-              <DialogTitle
-                as="h3"
-                className="text-2xl font-bold text-gray-900 flex items-center gap-2"
-              >
-                <Calendar className="w-6 h-6 text-purple-600" />
-                Book Your Service
-              </DialogTitle>
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        >
+          {/* Header */}
+          <div className="sticky top-0 bg-linear-to-r from-purple-600 to-pink-600 text-white p-6 rounded-t-2xl">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold mb-1">Book Your Service</h2>
+                <p className="text-purple-100">{service.service_name}</p>
+              </div>
               <button
-                onClick={closeModal}
-                className="p-2 hover:bg-gray-100 rounded-lg transition"
+                onClick={onClose}
+                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
               >
-                <X className="w-5 h-5 text-gray-500" />
+                <X className="w-6 h-6" />
               </button>
             </div>
+          </div>
 
+          {/* Content */}
+          <div className="p-6">
             {/* Service Info */}
             <div className="bg-linear-to-br from-purple-50 to-pink-50 rounded-xl p-4 mb-6 border border-purple-200">
-              <div className="flex gap-3">
+              <div className="flex gap-4">
                 <img
                   src={service.image}
                   alt={service.name}
-                  className="w-20 h-20 object-cover rounded-lg"
+                  className="w-24 h-24 object-cover rounded-lg"
                 />
                 <div className="flex-1">
-                  <h4 className="font-bold text-gray-900">{service.name}</h4>
-                  <p className="text-sm text-gray-600">{service.category}</p>
-                  <p className="text-lg font-bold text-purple-600 mt-1 flex items-center gap-1">
-                    <DollarSign className="w-5 h-5" />৳ {service.price}
+                  <h3 className="text-xl font-bold text-gray-900 mb-1">
+                    {service.name}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-2">
+                    {service.category}
                   </p>
+                  <div className="flex items-center gap-2 text-purple-600 font-bold text-lg">
+                    <DollarSign className="w-5 h-5" />৳ {service.price}
+                  </div>
                 </div>
               </div>
             </div>
@@ -127,17 +141,19 @@ const BookingModal = ({ isOpen, closeModal, service }) => {
               <h4 className="font-semibold text-gray-900 mb-3">
                 Your Information
               </h4>
-              <div className="flex items-center gap-3">
-                <img
-                  src={user.photoURL}
-                  alt={user.displayName}
-                  className="w-12 h-12 rounded-full"
-                />
-                <div>
-                  <p className="font-medium text-gray-900">
-                    {user.displayName}
-                  </p>
-                  <p className="text-sm text-gray-600">{user.email}</p>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <img
+                    src={user.photoURL}
+                    alt={user.displayName}
+                    className="w-10 h-10 rounded-full"
+                  />
+                  <div>
+                    <p className="font-medium text-gray-900">
+                      {user.displayName}
+                    </p>
+                    <p className="text-sm text-gray-600">{user.email}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -178,13 +194,12 @@ const BookingModal = ({ isOpen, closeModal, service }) => {
                 />
               </div>
 
-              {/* Action Buttons */}
+              {/* Submit Button */}
               <div className="flex gap-3 pt-4">
                 <button
                   type="button"
-                  onClick={closeModal}
-                  disabled={loading}
-                  className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition disabled:opacity-50"
+                  onClick={onClose}
+                  className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition"
                 >
                   Cancel
                 </button>
@@ -197,10 +212,10 @@ const BookingModal = ({ isOpen, closeModal, service }) => {
                 </button>
               </div>
             </form>
-          </DialogPanel>
-        </div>
+          </div>
+        </motion.div>
       </div>
-    </Dialog>
+    </AnimatePresence>
   );
 };
 

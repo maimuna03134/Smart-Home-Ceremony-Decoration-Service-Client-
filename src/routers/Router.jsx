@@ -16,6 +16,10 @@ import MyBookings from "../pages/dashboard/userDashboard/bookingCollections/MyBo
 import ServiceDetails from "../pages/servicesPage/ServiceDetails";
 import PaymentHistory from "../pages/dashboard/userDashboard/payment/PaymentHistory";
 import PaymentSuccess from "../pages/dashboard/userDashboard/payment/PaymentSuccess";
+import DashBoard from "../layouts/dashboard/DashBoard";
+import ManageBookings from "../pages/dashboard/adminDashboard/ManageBookings/ManageBookings";
+import UpdateProjectStatus from "../pages/dashboard/decoratorDashboard/updateProject/UpdateProjectStatus";
+import MyProject from "../pages/dashboard/decoratorDashboard/project/MyProject";
 
 
 export const router = createBrowserRouter([
@@ -48,10 +52,6 @@ export const router = createBrowserRouter([
       {
         path: "/payment-success",
         element: <PaymentSuccess />,
-      },
-      {
-        path: "add-service",
-        element: <AddServices />,
       },
 
       //   {
@@ -93,11 +93,23 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashBoardLayout />,
+    element: <DashBoard />,
     children: [
       {
         path: "/dashboard/my-bookings",
         element: <MyBookings />,
+      },
+      {
+        path: "/dashboard/manage-bookings",
+        element: <ManageBookings />,
+      },
+      {
+        path: "/dashboard/my-project",
+        element: <MyProject />,
+      },
+      {
+        path: "/dashboard/update-project",
+        element: <UpdateProjectStatus />,
       },
       {
         path: "/dashboard/profile",
@@ -106,6 +118,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/payment-history",
         element: <PaymentHistory />,
+      },
+      {
+        path: "/dashboard/add-service",
+        element: <AddServices />,
       },
     ],
   },

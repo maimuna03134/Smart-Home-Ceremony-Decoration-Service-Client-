@@ -56,7 +56,7 @@ const ServiceDetails = () => {
     );
   }
 
-  const { image, name, description, category, quantity, price, seller } =
+  const { image, name, description, category, quantity, price, decorator } =
     service;
   return (
     <>
@@ -119,14 +119,14 @@ const ServiceDetails = () => {
 
                 {/* Designer Info */}
                 <div className="text-xl font-semibold flex flex-row items-center gap-2 my-6">
-                  <div>Designer: {seller?.name}</div>
+                  <div>Designer: {decorator?.name}</div>
                   <img
                     className="rounded-full"
                     height="30"
                     width="30"
                     alt="Avatar"
                     referrerPolicy="no-referrer"
-                    src={seller?.image}
+                    src={decorator?.image}
                   />
                 </div>
 
