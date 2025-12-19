@@ -145,27 +145,8 @@ const ServiceDetails = () => {
                     </span>
                   </p>
                 </div>
-                {/* Action Buttons */}
-                {/* <div className="flex gap-4">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleBookNow}
-                  disabled={!service.availability}
-                  className="flex-1 bg-linear-to-r from-purple-600 to-pink-600 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {service.availability ? 'Book This Service' : 'Currently Unavailable'}
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => navigate('/services')}
-                  className="px-6 py-4 border-2 border-purple-600 text-purple-600 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-300"
-                >
-                  <Calendar className="w-5 h-5" />
-                </motion.button>
-              </div>
-            </div> */}
+            
+                
 
                 {/* Price & Book Button */}
                 <div className="flex flex-col md:flex-row gap-4 justify-between md:items-center my-6">

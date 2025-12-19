@@ -12,11 +12,10 @@ const ManageBookings = () => {
       const { data: bookings = [], isLoading } = useQuery({
         queryKey: ["bookings", user?.email],
         queryFn: async () => {
-          const result = await axios(
-            `${import.meta.env.VITE_API_URL}/manage-booking/user/${
-              user?.email
-            }`
-          );
+         const result = await axios.get(
+           `${import.meta.env.VITE_API_URL}/bookings`
+         );
+
           return result.data;
         },
       });
@@ -90,12 +89,11 @@ console.log(bookings)
                   {/* Payment */}
                   <td className="px-5 py-5 text-center">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold
-                ${
-                  booking.paymentStatus === "paid"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-800"
-                }`}
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        booking.paymentStatus.toLowerCase() === "paid"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
                     >
                       {booking.paymentStatus}
                     </span>
@@ -117,12 +115,9 @@ console.log(bookings)
                   {/* Actions */}
                   <td className="px-5 py-5 text-center">
                     <div className="flex justify-center gap-2">
-                      <button className="px-3 py-2 text-sm bg-red-100 text-red-700 rounded-md">
-                        Cancel
-                      </button>
                       <button
                         onClick={() => navigate("/dashboard/my-bookings")}
-                        className="px-3 py-2 bg-purple-600 text-white rounded-md text-sm"
+                        className="px-3 py-2 bg-primary text-white rounded-md text-sm"
                       >
                         View
                       </button>

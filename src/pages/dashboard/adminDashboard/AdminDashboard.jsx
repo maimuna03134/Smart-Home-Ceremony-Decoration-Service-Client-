@@ -1,7 +1,7 @@
 // import { useQuery } from '@tanstack/react-query';
 // import axios from 'axios';
 import React from 'react';
-import { FaCalendarCheck, FaChartLine, FaDollarSign, FaPaintBrush, FaTools, FaUsers } from 'react-icons/fa';
+import { FaCalendarCheck, FaChartLine, FaDollarSign, FaPaintBrush, FaTools, FaUsers, FaUserTag } from 'react-icons/fa';
 
 const AdminDashboard = () => {
     // const { data: stats, isLoading } = useQuery({
@@ -171,6 +171,13 @@ const AdminDashboard = () => {
             >
               <FaUsers className="mr-2" />
               Manage Users
+            </button>
+            <button
+              onClick={() => (window.location.href = "/dashboard/decorator")}
+              className="btn btn-outline hover:btn-primary"
+            >
+              <FaUserTag className="mr-2" />
+              Decorator Request
             </button>
             <button
               onClick={() => (window.location.href = "/dashboard/analytics")}

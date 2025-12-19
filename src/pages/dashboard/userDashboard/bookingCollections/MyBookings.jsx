@@ -3,15 +3,15 @@ import { useQuery } from "@tanstack/react-query";
 
 import Swal from "sweetalert2";
 import { FiEdit } from "react-icons/fi";
-import { FaMagnifyingGlass, FaTrashCan } from "react-icons/fa6";
+import {  FaTrashCan } from "react-icons/fa6";
 import useAuth from "../../../../hooks/useAuth";
-import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+
 import UpdateBookingModal from "../../../../components/modal/UpdateBookingModal";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 const MyBookings = () => {
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
@@ -23,7 +23,10 @@ const MyBookings = () => {
   } = useQuery({
     queryKey: ["my-bookings", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/my-booking/user/${user?.email}`);
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/my-booking/user/${user?.email}`
+      );
+      
       return res.data;
     },
     enabled: !!user?.email,
@@ -42,7 +45,10 @@ const MyBookings = () => {
       },
     };
 
-    const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/create-checkout-session`,
+      paymentInfo
+    );
 
     console.log(res.data.url);
     window.location.assign(res.data.url); // Stripe page-এ redirect
@@ -59,16 +65,18 @@ const MyBookings = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/bookings/${id}`).then((res) => {
-          if (res.data.deletedCount > 0) {
-            refetch();
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your booking has been cancelled.",
-              icon: "success",
-            });
-          }
-        });
+        axios
+          .delete(`${import.meta.env.VITE_API_URL}/bookings/${id}`)
+          .then((res) => {
+            if (res.data.deletedCount > 0) {
+              refetch();
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your booking has been cancelled.",
+                icon: "success",
+              });
+            }
+          });
       }
     });
   };

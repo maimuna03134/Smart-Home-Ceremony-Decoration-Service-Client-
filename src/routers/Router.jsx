@@ -5,7 +5,6 @@ import AuthLayouts from "../layouts/authLayout/AuthLayouts";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
-import DashBoardLayout from "../layouts/dashboard/DashBoardLayout";
 import ErrorPage from "../pages/shared/errorPage/ErrorPage";
 import Contact from "../pages/other/Contact";
 import About from "../pages/other/About";
@@ -24,6 +23,9 @@ import AdminDashboard from "../pages/dashboard/adminDashboard/AdminDashboard";
 import ManageUsers from "../pages/dashboard/adminDashboard/manageUsers/ManageUsers";
 import AnalyticsCharts from "../pages/dashboard/adminDashboard/AnalyticsCharts/AnalyticsCharts";
 import ManageServices from "../pages/dashboard/adminDashboard/ManageServices/ManageServices";
+import PrivateRouter from "./PrivateRouter";
+import BecomeDecorator from "../pages/dashboard/userDashboard/BecomeDecorator";
+import ManageDecorators from "../pages/dashboard/adminDashboard/ManageDecorators/ManageDecorators";
 
 
 export const router = createBrowserRouter([
@@ -57,6 +59,14 @@ export const router = createBrowserRouter([
         path: "/payment-success",
         element: <PaymentSuccess />,
       },
+      {
+        path: "/become-decorator",
+        element: (
+          <PrivateRouter>
+            <BecomeDecorator />
+          </PrivateRouter>
+        ),
+      },
 
       //   {
       //     path: "/services",
@@ -66,14 +76,6 @@ export const router = createBrowserRouter([
       //     path: "/coverage",
       //     element: <Coverage />,
       //     loader: () => fetch("/serviceCenters.json").then((res) => res.json()),
-      //   },
-      //   {
-      //     path: "/rider",
-      //     element: (
-      //       <PrivateRouter>
-      //         <Rider />
-      //       </PrivateRouter>
-      //     ),
       //   },
     ],
   },
@@ -97,7 +99,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashBoard />,
+    element: (
+      <PrivateRouter>
+        <DashBoard />
+      </PrivateRouter>
+    ),
     children: [
       {
         path: "/dashboard/admin",
@@ -136,9 +142,10 @@ export const router = createBrowserRouter([
         element: <AddServices />,
       },
       {
-        path: "/dashboard/add-service",
-        element: <AddServices />,
+        path: "/dashboard/decorator",
+        element: <ManageDecorators />,
       },
+
       {
         path: "/dashboard/users",
         element: <ManageUsers />,

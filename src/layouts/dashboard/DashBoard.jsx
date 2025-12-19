@@ -7,9 +7,10 @@ import { BsFillMenuButtonFill } from "react-icons/bs";
 import { FaRegCreditCard } from "react-icons/fa6";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { IoBagAdd } from "react-icons/io5";
-import { FaUserAlt } from "react-icons/fa";
+import { FaUserAlt, FaUsers, FaUserTag } from "react-icons/fa";
 import useRole from "../../hooks/useRole";
 import Loader from "../../pages/shared/loader/Loader";
+
 
 const DashBoard = () => {
   const [role, isRoleLoading] = useRole();
@@ -30,11 +31,10 @@ if(isRoleLoading) return <Loader/>
             {/* Sidebar toggle icon */}
             <TbLayoutSidebarRightExpandFilled />
           </label>
-          <div className="px-4">Navbar Title</div>
+          <div className="px-4">StyleDecor Dashboard</div>
         </nav>
         {/* Page content here */}
         <Outlet></Outlet>
-        <div className="p-4">Page Content</div>
       </div>
 
       <div className="drawer-side is-drawer-close:overflow-visible">
@@ -104,19 +104,6 @@ if(isRoleLoading) return <Loader/>
               <>
                 <li>
                   <Link
-                    to="/dashboard/manage-bookings"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Settings"
-                  >
-                    <MdAdminPanelSettings />
-                    <span className="is-drawer-close:hidden">
-                      Manage Bookings
-                    </span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
                     to="/dashboard/my-project"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Settings"
@@ -141,6 +128,43 @@ if(isRoleLoading) return <Loader/>
                     <span className="is-drawer-close:hidden">Add Service</span>
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to="/dashboard/users"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Settings"
+                  >
+                    <FaUsers />
+                    <span className="is-drawer-close:hidden">
+                      {" "}
+                      Manage Users
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard/manage-bookings"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Settings"
+                  >
+                    <MdAdminPanelSettings />
+                    <span className="is-drawer-close:hidden">
+                      Manage Bookings
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard/decorator"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Settings"
+                  >
+                    <FaUserTag />
+                    <span className="is-drawer-close:hidden">
+                      Decorator Request
+                    </span>
+                  </Link>
+                </li>
               </>
             )}
 
@@ -149,7 +173,6 @@ if(isRoleLoading) return <Loader/>
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Settings"
               >
-              
                 <LuSettings />
                 <span className="is-drawer-close:hidden">Settings</span>
               </button>

@@ -6,6 +6,7 @@ import { MdDashboard, MdMiscellaneousServices } from "react-icons/md";
 import { FaEnvelope, FaInfoCircle, FaUser } from "react-icons/fa";
 import { IoLogOut, IoLogIn } from "react-icons/io5";
 import { GoHomeFill } from "react-icons/go";
+import { GrUserAdmin } from "react-icons/gr";
 import avatarImg from "../../assets/placeholder.jpg";
 import useAuth from "../../hooks/useAuth";
 import Logo from "../../components/logo/Logo";
@@ -33,6 +34,7 @@ const Navbar = () => {
     { name: "Services", path: "/services", icon: MdMiscellaneousServices },
     { name: "About", path: "/about", icon: FaInfoCircle },
     { name: "Contact", path: "/contact", icon: FaEnvelope },
+    { name: "Be a Decorator", path: "/become-decorator", icon: GrUserAdmin },
   ];
 
   return (
