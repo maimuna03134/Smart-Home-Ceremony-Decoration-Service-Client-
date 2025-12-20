@@ -48,10 +48,11 @@ const BookingModal = ({ service, onClose }) => {
       // console.log("Service ID:", service._id);
       const bookingData = {
         serviceId: service._id,
-        serviceName: service.name, 
-        serviceImage: service.image, 
-        servicePrice: service.price, 
+        serviceName: service.name,
+        serviceImage: service.image,
+        servicePrice: service.price,
         serviceCategory: service.category,
+        serviceUnit: service.unit,
         userName: user.displayName,
         userEmail: user.email,
         userPhoto: user.photoURL,
@@ -66,7 +67,7 @@ const BookingModal = ({ service, onClose }) => {
           image: user?.photoURL,
         },
       };
-      console.log(bookingData)
+      console.log(bookingData);
 
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/bookings`,

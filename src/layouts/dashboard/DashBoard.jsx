@@ -7,9 +7,11 @@ import { BsFillMenuButtonFill } from "react-icons/bs";
 import { FaRegCreditCard } from "react-icons/fa6";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { IoBagAdd } from "react-icons/io5";
-import { FaUserAlt, FaUsers, FaUserTag } from "react-icons/fa";
+import { FaMoneyBillWave, FaUserAlt, FaUsers, FaUserTag } from "react-icons/fa";
 import useRole from "../../hooks/useRole";
 import Loader from "../../pages/shared/loader/Loader";
+import { AiTwotoneSchedule } from "react-icons/ai";
+import { GrDocumentUpdate } from "react-icons/gr";
 
 
 const DashBoard = () => {
@@ -106,10 +108,49 @@ if(isRoleLoading) return <Loader/>
                   <Link
                     to="/dashboard/my-project"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Settings"
+                    data-tip="My Project"
                   >
                     <LuProjector />
                     <span className="is-drawer-close:hidden">My Project</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard/today-schedule"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Today's Schedule"
+                  >
+                    <AiTwotoneSchedule />
+                    <span className="is-drawer-close:hidden">
+                      Today's Schedule
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard/update-project"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Update Project Status
+"
+                  >
+                    <GrDocumentUpdate />
+                    <span className="is-drawer-close:hidden">
+                      Update Project Status
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard/decorator-earning"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Earnings Summary
+
+"
+                  >
+                    <FaMoneyBillWave />
+                    <span className="is-drawer-close:hidden">
+                      Earnings Summary
+                    </span>
                   </Link>
                 </li>
               </>

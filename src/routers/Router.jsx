@@ -17,8 +17,7 @@ import PaymentHistory from "../pages/dashboard/userDashboard/payment/PaymentHist
 import PaymentSuccess from "../pages/dashboard/userDashboard/payment/PaymentSuccess";
 import DashBoard from "../layouts/dashboard/DashBoard";
 import ManageBookings from "../pages/dashboard/adminDashboard/ManageBookings/ManageBookings";
-import UpdateProjectStatus from "../pages/dashboard/decoratorDashboard/updateProject/UpdateProjectStatus";
-import MyProject from "../pages/dashboard/decoratorDashboard/project/MyProject";
+import UpdateProjectStatus from "../pages/dashboard/decoratorDashboard/updateProject/DecoratorUpdateStatus";
 import AdminDashboard from "../pages/dashboard/adminDashboard/AdminDashboard";
 import ManageUsers from "../pages/dashboard/adminDashboard/manageUsers/ManageUsers";
 import AnalyticsCharts from "../pages/dashboard/adminDashboard/AnalyticsCharts/AnalyticsCharts";
@@ -27,6 +26,10 @@ import PrivateRouter from "./PrivateRouter";
 import BecomeDecorator from "../pages/dashboard/userDashboard/BecomeDecorator";
 import ManageDecorators from "../pages/dashboard/adminDashboard/ManageDecorators/ManageDecorators";
 import AssignDecorator from "../pages/dashboard/adminDashboard/AssignDecorator";
+import DecoratorAssignedProjects from "../pages/dashboard/decoratorDashboard/decoratorProject/DecoratorAssignedProjects";
+import DecoratorTodaysSchedule from "../pages/dashboard/decoratorDashboard/todaysSchedule/DecoratorTodaysSchedule";
+import DecoratorUpdateStatus from "../pages/dashboard/decoratorDashboard/updateProject/DecoratorUpdateStatus";
+import DecoratorEarnings from "../pages/dashboard/decoratorDashboard/decoratorEarning/DecoratorEarnings";
 
 
 export const router = createBrowserRouter([
@@ -124,11 +127,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/my-project",
-        element: <MyProject />,
+        element: <DecoratorAssignedProjects />,
+      },
+      {
+        path: "/dashboard/today-schedule",
+        element: <DecoratorTodaysSchedule />,
       },
       {
         path: "/dashboard/update-project",
-        element: <UpdateProjectStatus />,
+        element: <DecoratorUpdateStatus />,
+      },
+      {
+        path: "/dashboard/decorator-earning",
+        element: <DecoratorEarnings />,
       },
       {
         path: "/dashboard/profile",
