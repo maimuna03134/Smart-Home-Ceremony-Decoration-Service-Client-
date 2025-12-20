@@ -26,6 +26,7 @@ import ManageServices from "../pages/dashboard/adminDashboard/ManageServices/Man
 import PrivateRouter from "./PrivateRouter";
 import BecomeDecorator from "../pages/dashboard/userDashboard/BecomeDecorator";
 import ManageDecorators from "../pages/dashboard/adminDashboard/ManageDecorators/ManageDecorators";
+import AssignDecorator from "../pages/dashboard/adminDashboard/AssignDecorator";
 
 
 export const router = createBrowserRouter([
@@ -144,6 +145,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/decorator",
         element: <ManageDecorators />,
+      },
+      {
+        path: "/dashboard/assign-decorator",
+        element: <AssignDecorator />,
       },
 
       {

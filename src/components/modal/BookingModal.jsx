@@ -48,9 +48,9 @@ const BookingModal = ({ service, onClose }) => {
       // console.log("Service ID:", service._id);
       const bookingData = {
         serviceId: service._id,
-        serviceName: service.name,
-        serviceImage: service.image,
-        servicePrice: service.price,
+        serviceName: service.name, 
+        serviceImage: service.image, 
+        servicePrice: service.price, 
         serviceCategory: service.category,
         userName: user.displayName,
         userEmail: user.email,
@@ -66,7 +66,7 @@ const BookingModal = ({ service, onClose }) => {
           image: user?.photoURL,
         },
       };
-      // console.log(bookingData)
+      console.log(bookingData)
 
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/bookings`,
@@ -101,7 +101,7 @@ const BookingModal = ({ service, onClose }) => {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold mb-1">Book Your Service</h2>
-                <p className="text-purple-100">{service.service_name}</p>
+                <p className="text-purple-100">{service.name}</p>
               </div>
               <button
                 onClick={onClose}
@@ -119,7 +119,7 @@ const BookingModal = ({ service, onClose }) => {
               <div className="flex gap-4">
                 <img
                   src={service.image}
-                  alt={service.name}
+                  alt={service.serviceName}
                   className="w-24 h-24 object-cover rounded-lg"
                 />
                 <div className="flex-1">
@@ -129,7 +129,7 @@ const BookingModal = ({ service, onClose }) => {
                   <p className="text-sm text-gray-600 mb-2">
                     {service.category}
                   </p>
-                  <div className="flex items-center gap-2 text-purple-600 font-bold text-lg">
+                  <div className="flex items-center gap-2 text-primary font-bold text-lg">
                     <DollarSign className="w-5 h-5" />৳ {service.price}
                   </div>
                 </div>

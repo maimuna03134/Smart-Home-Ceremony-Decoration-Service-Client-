@@ -33,10 +33,22 @@ const MyBookings = () => {
   });
 
   const handlePayment = async (booking) => {
+    if (
+      !booking.servicePrice ||
+      !booking.serviceImage ||
+      !booking.userEmail ||
+      !booking.serviceName
+    ) {
+      return Swal.fire({
+        icon: "error",
+        title: "Incomplete booking info",
+        text: "Booking data is missing required fields. Please contact admin.",
+      });
+    }
     const paymentInfo = {
       bookingId: booking._id,
       serviceName: booking.serviceName,
-      serviceCategory: booking.serviceCategory,
+      serviceCategory: booking.serviceCategory || "No category",
       serviceImage: booking.serviceImage,
       servicePrice: booking.servicePrice,
       customer: {
@@ -51,7 +63,7 @@ const MyBookings = () => {
     );
 
     console.log(res.data.url);
-    window.location.assign(res.data.url); // Stripe page-এ redirect
+    window.location.assign(res.data.url); 
   };
 
   const handleBookingDelete = (id) => {

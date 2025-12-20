@@ -165,6 +165,18 @@ if(isRoleLoading) return <Loader/>
                     </span>
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to="/dashboard/assign-decorator"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Settings"
+                  >
+                    <FaUserTag />
+                    <span className="is-drawer-close:hidden">
+                      Assign Decorator
+                    </span>
+                  </Link>
+                </li>
               </>
             )}
 
