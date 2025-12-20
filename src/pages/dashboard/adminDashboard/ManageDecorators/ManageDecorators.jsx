@@ -27,7 +27,12 @@ const ManageDecorators = () => {
   return (
     <div className="container mx-auto px-4 sm:px-8">
       <div className="py-8">
-        <h2 className="text-3xl text-primary font-semibold">Decorator Pending Approval : {requests.length}</h2>
+        <h2 className="text-3xl text-primary font-semibold text-center">
+          Decorators List
+        </h2>
+        <h2 className="text-xl text-gray-800 ">
+          Total Decorators : {requests.length}
+        </h2>
 
         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
           <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
