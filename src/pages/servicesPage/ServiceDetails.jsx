@@ -26,12 +26,35 @@ const ServiceDetails = () => {
     },
   });
 
+  const { data: userBooking, refetch: refetchUserBooking } = useQuery({
+    queryKey: ["userBooking", user?.email, id],
+    enabled: !!user?.email && !!id,
+    queryFn: async () => {
+      const result = await axios.get(
+        `${import.meta.env.VITE_API_URL}/bookings/check`,
+        {
+          params: {
+            userEmail: user.email,
+            serviceId: id,
+          },
+        }
+      );
+      return result.data;
+    },
+  });
+
   const handleBookNow = () => {
     if (!user) {
       toast.error("Please login to book a service");
       navigate("/auth/login", { state: { from: `/services/${id}` } });
       return;
     }
+
+    if (userBooking?.hasBooked) {
+      toast.error("You have already booked this service!");
+      return;
+    }
+
     setShowBookingModal(true);
   };
 
@@ -56,8 +79,11 @@ const ServiceDetails = () => {
     );
   }
 
-  const { image, name, description, category, quantity, price, decorator } =
-    service;
+  const { image, name, description, category, quantity, price, decorator } = service;
+
+  const isBookingDisabled = userBooking?.hasBooked;
+
+
   return (
     <>
       <div className="min-h-screen bg-linear-to-br from-pink-50 via-purple-50 to-indigo-100 py-12 px-4">
@@ -145,8 +171,6 @@ const ServiceDetails = () => {
                     </span>
                   </p>
                 </div>
-            
-                
 
                 {/* Price & Book Button */}
                 <div className="flex flex-col md:flex-row gap-4 justify-between md:items-center my-6">
@@ -156,12 +180,33 @@ const ServiceDetails = () => {
                   <div>
                     <button
                       onClick={handleBookNow}
-                      className="px-8 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white text-lg font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                      disabled={isBookingDisabled}
+                      className={`px-8 py-3 text-lg font-bold rounded-xl shadow-lg transition-all duration-300 ${
+                        isBookingDisabled
+                          ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                          : "bg-linear-to-r from-purple-600 to-pink-600 text-white hover:shadow-xl transform hover:-translate-y-1"
+                      }`}
                     >
-                      Book Now
+                      {isBookingDisabled ? "Already Booked" : "Book Now"}
                     </button>
                   </div>
                 </div>
+
+                {isBookingDisabled && (
+                  <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg">
+                    <p className="text-yellow-800 text-sm">
+                      You have already booked this service. To book again,
+                      please delete your previous booking from 
+                      <span
+                        onClick={() => navigate("/dashboard/my-bookings")}
+                        className="font-semibold underline cursor-pointer hover:text-yellow-900 ml-1"
+                      >
+                        My Bookings
+                      </span>
+                      .
+                    </p>
+                  </div>
+                )}
 
                 {/* Additional Info */}
                 <div className="grid grid-cols-2 gap-4 my-6">
@@ -242,7 +287,10 @@ const ServiceDetails = () => {
           {showBookingModal && (
             <BookingModal
               service={service}
-              onClose={() => setShowBookingModal(false)}
+              onClose={() => {
+                setShowBookingModal(false);
+                refetchUserBooking();
+              }}
             />
           )}
         </MyContainer>

@@ -17,10 +17,8 @@ import PaymentHistory from "../pages/dashboard/userDashboard/payment/PaymentHist
 import PaymentSuccess from "../pages/dashboard/userDashboard/payment/PaymentSuccess";
 import DashBoard from "../layouts/dashboard/DashBoard";
 import ManageBookings from "../pages/dashboard/adminDashboard/ManageBookings/ManageBookings";
-import UpdateProjectStatus from "../pages/dashboard/decoratorDashboard/updateProject/DecoratorUpdateStatus";
 import AdminDashboard from "../pages/dashboard/adminDashboard/AdminDashboard";
 import ManageUsers from "../pages/dashboard/adminDashboard/manageUsers/ManageUsers";
-import AnalyticsCharts from "../pages/dashboard/adminDashboard/AnalyticsCharts/AnalyticsCharts";
 import ManageServices from "../pages/dashboard/adminDashboard/ManageServices/ManageServices";
 import PrivateRouter from "./PrivateRouter";
 import BecomeDecorator from "../pages/dashboard/userDashboard/BecomeDecorator";
@@ -30,6 +28,8 @@ import DecoratorAssignedProjects from "../pages/dashboard/decoratorDashboard/dec
 import DecoratorTodaysSchedule from "../pages/dashboard/decoratorDashboard/todaysSchedule/DecoratorTodaysSchedule";
 import DecoratorUpdateStatus from "../pages/dashboard/decoratorDashboard/updateProject/DecoratorUpdateStatus";
 import DecoratorEarnings from "../pages/dashboard/decoratorDashboard/decoratorEarning/DecoratorEarnings";
+import AdminAnalytics from "../pages/dashboard/adminDashboard/AnalyticsCharts/AdminAnalytics";
+import DefaultDashboardRedirect from "../layouts/dashboard/DefaultDashboardRedirect";
 
 
 export const router = createBrowserRouter([
@@ -110,6 +110,10 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
+        index: true,
+        element: <DefaultDashboardRedirect />,
+      },
+      {
         path: "/dashboard/admin",
         element: <AdminDashboard />,
       },
@@ -168,7 +172,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/analytics",
-        element: <AnalyticsCharts />,
+        element: <AdminAnalytics />,
       },
     ],
   },

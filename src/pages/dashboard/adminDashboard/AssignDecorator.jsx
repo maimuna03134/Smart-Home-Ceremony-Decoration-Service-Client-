@@ -1,12 +1,14 @@
 import { useState, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 const AssignDecorator = () => {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [selectedDecorator, setSelectedDecorator] = useState(null);
+  const [isAssigning, setIsAssigning] = useState(false);
   const decoratorModalRef = useRef();
+  const queryClient = useQueryClient();
 
   // Fetch paid bookings awaiting decorator assignment
   const { data: bookings = [], refetch: bookingsRefetch } = useQuery({
@@ -37,10 +39,11 @@ const AssignDecorator = () => {
 
   const openAssignDecoratorModal = (booking) => {
     setSelectedBooking(booking);
-    setSelectedDecorator(null); 
+    setSelectedDecorator(null);
     decoratorModalRef.current.showModal();
   };
-  const handleAssignDecorator = () => {
+
+  const handleAssignDecorator = async () => {
     if (!selectedDecorator) {
       Swal.fire({
         icon: "warning",
@@ -50,6 +53,8 @@ const AssignDecorator = () => {
       return;
     }
 
+    setIsAssigning(true);
+
     const decorator = selectedDecorator;
     const decoratorAssignInfo = {
       decoratorId: decorator._id,
@@ -58,34 +63,50 @@ const AssignDecorator = () => {
       bookingId: selectedBooking._id,
     };
 
-    axios
-      .patch(
+    try {
+      const res = await axios.patch(
         `${import.meta.env.VITE_API_URL}/booking/${selectedBooking._id}`,
         decoratorAssignInfo
-      )
-      .then((res) => {
-        if (res.data.modifiedCount) {
-          decoratorModalRef.current.close();
-          bookingsRefetch();
-          setSelectedBooking(null);
-          setSelectedDecorator(null);
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: `Decorator has been assigned.`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error assigning decorator:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Failed to assign decorator. Please try again.",
+      );
+
+      if (res.data.modifiedCount > 0 || res.data.success || res.status === 200) {
+        
+        queryClient.setQueryData(["bookings", "paid"], (oldData) => {
+          return oldData?.filter((booking) => booking._id !== selectedBooking._id) || [];
         });
+
+   
+        decoratorModalRef.current?.close();
+
+        setSelectedBooking(null);
+        setSelectedDecorator(null);
+
+   
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Decorator assigned successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        bookingsRefetch();
+      } else {
+        throw new Error("Update failed");
+      }
+    } catch (error) {
+      console.error("Error assigning decorator:", error);
+      
+      queryClient.invalidateQueries(["bookings", "paid"]);
+      
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response?.data?.message || "Failed to assign decorator. Please try again.",
       });
+    } finally {
+      setIsAssigning(false);
+    }
   };
 
   return (
@@ -206,14 +227,19 @@ const AssignDecorator = () => {
           <div className="modal-action">
             <button
               onClick={handleAssignDecorator}
-              disabled={!selectedDecorator}
+              disabled={!selectedDecorator || isAssigning}
               className="btn btn-primary"
             >
-              Assign
+              {isAssigning ? "Assigning..." : "Assign"}
             </button>
             <button
-              onClick={() => decoratorModalRef.current.close()}
+              onClick={() => {
+                decoratorModalRef.current.close();
+                setSelectedBooking(null);
+                setSelectedDecorator(null);
+              }}
               className="btn"
+              disabled={isAssigning}
             >
               Cancel
             </button>
@@ -223,5 +249,4 @@ const AssignDecorator = () => {
     </div>
   );
 };
-
 export default AssignDecorator;

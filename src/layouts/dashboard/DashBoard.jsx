@@ -5,13 +5,16 @@ import { TbLayoutSidebarRightExpandFilled } from "react-icons/tb";
 import { Link, Outlet } from "react-router";
 import { BsFillMenuButtonFill } from "react-icons/bs";
 import { FaRegCreditCard } from "react-icons/fa6";
-import { MdAdminPanelSettings } from "react-icons/md";
+import { MdAdminPanelSettings, MdOutlineAssignmentInd } from "react-icons/md";
 import { IoBagAdd } from "react-icons/io5";
-import { FaMoneyBillWave, FaUserAlt, FaUsers, FaUserTag } from "react-icons/fa";
+import { FaChartBar, FaMoneyBillWave, FaUserAlt, FaUsers, FaUserTag } from "react-icons/fa";
 import useRole from "../../hooks/useRole";
 import Loader from "../../pages/shared/loader/Loader";
 import { AiTwotoneSchedule } from "react-icons/ai";
-import { GrDocumentUpdate } from "react-icons/gr";
+import { GrDocumentUpdate, GrOverview, GrServices, GrUserAdmin } from "react-icons/gr";
+import AdminDashboard from "../../pages/dashboard/adminDashboard/AdminDashboard";
+import DecoratorEarnings from "../../pages/dashboard/decoratorDashboard/decoratorEarning/DecoratorEarnings";
+import MyProfile from "../../pages/dashboard/userDashboard/MyProfile";
 
 
 const DashBoard = () => {
@@ -37,6 +40,9 @@ if(isRoleLoading) return <Loader/>
         </nav>
         {/* Page content here */}
         <Outlet></Outlet>
+        {/* {role === "admin" && <AdminDashboard />}
+        {role === "decorator" && <DecoratorEarnings />}
+        {role === "customer" && <MyProfile />} */}
       </div>
 
       <div className="drawer-side is-drawer-close:overflow-visible">
@@ -68,7 +74,7 @@ if(isRoleLoading) return <Loader/>
                   <Link
                     to="/dashboard/profile"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Settings"
+                    data-tip="My Profile"
                   >
                     <FaUserAlt />
                     <span className="is-drawer-close:hidden">My Profile</span>
@@ -79,7 +85,7 @@ if(isRoleLoading) return <Loader/>
                   <Link
                     to="/dashboard/my-bookings"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Settings"
+                    data-tip="My Bookings"
                   >
                     <BsFillMenuButtonFill />
                     <span className="is-drawer-close:hidden">My Bookings</span>
@@ -90,7 +96,7 @@ if(isRoleLoading) return <Loader/>
                   <Link
                     to="/dashboard/payment-history"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Settings"
+                    data-tip="Payment History"
                   >
                     <FaRegCreditCard />
                     <span className="is-drawer-close:hidden">
@@ -104,6 +110,18 @@ if(isRoleLoading) return <Loader/>
             {/* ===== DECORATOR ===== */}
             {role === "decorator" && (
               <>
+                <li>
+                  <Link
+                    to="/dashboard/my-project"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My Project"
+                  >
+                    <GrOverview />
+                    <span className="is-drawer-close:hidden">
+                      Decorator dashboard
+                    </span>
+                  </Link>
+                </li>
                 <li>
                   <Link
                     to="/dashboard/my-project"
@@ -159,23 +177,25 @@ if(isRoleLoading) return <Loader/>
             {/* ===== ADMIN ===== */}
             {role === "admin" && (
               <>
-                {/* <li>
+                <li>
                   <Link
-                    to="/dashboard/add-service"
+                    to="/dashboard/admin"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Settings"
+                    data-tip="Overview"
                   >
-                    <IoBagAdd />
-                    <span className="is-drawer-close:hidden">Add Service</span>
+                    <GrUserAdmin />
+                    <span className="is-drawer-close:hidden">
+                      Admin Dashboard
+                    </span>
                   </Link>
-                </li> */}
+                </li>
                 <li>
                   <Link
                     to="/dashboard/manage-services"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Settings"
+                    data-tip="Manage Services"
                   >
-                    <FaUsers />
+                    <GrServices />
                     <span className="is-drawer-close:hidden">
                       {" "}
                       Manage Services
@@ -186,7 +206,7 @@ if(isRoleLoading) return <Loader/>
                   <Link
                     to="/dashboard/manage-bookings"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Settings"
+                    data-tip="Manage Bookings"
                   >
                     <MdAdminPanelSettings />
                     <span className="is-drawer-close:hidden">
@@ -198,7 +218,7 @@ if(isRoleLoading) return <Loader/>
                   <Link
                     to="/dashboard/decorator"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Settings"
+                    data-tip="Manage Decorator"
                   >
                     <FaUserTag />
                     <span className="is-drawer-close:hidden">
@@ -210,11 +230,23 @@ if(isRoleLoading) return <Loader/>
                   <Link
                     to="/dashboard/assign-decorator"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Settings"
+                    data-tip="Assign Decorator"
                   >
-                    <FaUserTag />
+                    <MdOutlineAssignmentInd />
                     <span className="is-drawer-close:hidden">
                       Assign Decorator
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard/analytics"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Analytics Charts"
+                  >
+                    <FaChartBar />
+                    <span className="is-drawer-close:hidden">
+                      Analytics Charts
                     </span>
                   </Link>
                 </li>
