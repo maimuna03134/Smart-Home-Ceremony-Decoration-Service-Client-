@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 
 const Card = ({ service }) => {
-  const { _id, name, price, image,unit,category } = service || {};
+  const { _id, name, price, image, unit, category } = service || {};
   console.log(service);
   return (
     <Link
@@ -37,7 +37,7 @@ const Card = ({ service }) => {
               right-3"
           >
             <span className="bg-gray-800 hover:bg-white text-white hover:text-gray-800 px-3 py-2 rounded-full text-xs font-bold shadow-lg transition-all duration-300">
-             { category}
+              {category}
             </span>
           </div>
         </div>

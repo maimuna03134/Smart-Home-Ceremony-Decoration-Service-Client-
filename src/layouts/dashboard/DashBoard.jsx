@@ -118,7 +118,7 @@ if(isRoleLoading) return <Loader/>
             {/* ===== ADMIN ===== */}
             {role === "admin" && (
               <>
-                <li>
+                {/* <li>
                   <Link
                     to="/dashboard/add-service"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
@@ -127,17 +127,17 @@ if(isRoleLoading) return <Loader/>
                     <IoBagAdd />
                     <span className="is-drawer-close:hidden">Add Service</span>
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
-                    to="/dashboard/users"
+                    to="/dashboard/manage-services"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Settings"
                   >
                     <FaUsers />
                     <span className="is-drawer-close:hidden">
                       {" "}
-                      Manage Users
+                      Manage Services
                     </span>
                   </Link>
                 </li>
@@ -161,7 +161,7 @@ if(isRoleLoading) return <Loader/>
                   >
                     <FaUserTag />
                     <span className="is-drawer-close:hidden">
-                      Decorator Request
+                      Manage Decorator
                     </span>
                   </Link>
                 </li>

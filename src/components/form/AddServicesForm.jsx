@@ -11,16 +11,8 @@ import { useNavigate } from "react-router";
 
 const AddServicesForm = () => {
   const { user } = useAuth();
-  const navigate = useNavigate()
-
-  const [formData, setFormData] = useState({
-    name: "",
-    price: "",
-    unit: "",
-    category: "",
-    description: "",
-    image: "",
-  });
+  const navigate = useNavigate();
+  const [imagePreview, setImagePreview] = useState(null);
 
   const {
     isPending,
@@ -32,20 +24,18 @@ const AddServicesForm = () => {
       await axios.post(`${import.meta.env.VITE_API_URL}/services`, payload),
     onSuccess: (data) => {
       console.log(data);
-     
-      toast.success("Plant Added successfully");
+      toast.success("Service Added successfully");
       mutationReset();
-      
       navigate("/services");
     },
     onError: (error) => {
       console.log(error);
+      toast.error("Failed to add service");
     },
     onMutate: (payload) => {
       console.log("I will post this data--->", payload);
     },
     onSettled: (data, error) => {
-      // console.log("I am from onSettled--->", data);
       if (error) console.log(error);
     },
     retry: 3,
@@ -56,22 +46,45 @@ const AddServicesForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm();
-  //   console.log(errors);
+
+  // Handle image selection and preview
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+
+      // Set value for react-hook-form
+      setValue("image", e.target.files);
+    }
+  };
 
   const onSubmit = async (data) => {
-    const { name, description, quantity, price, category, image } = data;
+    const { name, description, price, category, unit, image } = data;
     const imageFile = image[0];
 
+    if (!imageFile) {
+      toast.error("Please select an image");
+      return;
+    }
+
     try {
+      toast.loading("Uploading image...");
       const imageUrl = await imageUpload(imageFile);
+      toast.dismiss();
 
       const serviceData = {
         name,
         category,
         description,
         price: Number(price),
-        quantity: Number(quantity),
+        unit,
         image: imageUrl,
         createdAt: new Date().toISOString(),
         decorator: {
@@ -80,18 +93,14 @@ const AddServicesForm = () => {
           image: user?.photoURL,
         },
       };
+
       await mutateAsync(serviceData);
       reset();
+      setImagePreview(null);
     } catch (error) {
       console.error(error);
+      toast.error("Failed to upload image");
     }
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
   };
 
   if (isPending) return <Loader />;
@@ -105,14 +114,14 @@ const AddServicesForm = () => {
             {/* Name */}
             <div className="space-y-1 text-sm">
               <label htmlFor="name" className="block text-gray-600">
-                Name
+                Name *
               </label>
               <input
                 className="w-full px-4 py-3 text-gray-800 border border-orange-300 focus:outline-orange-500 rounded-md bg-white"
                 name="name"
                 id="name"
                 type="text"
-                placeholder="Plant Name"
+                placeholder="Service Name"
                 {...register("name", { required: "Name is required" })}
               />
               {errors.name && (
@@ -121,13 +130,14 @@ const AddServicesForm = () => {
                 </p>
               )}
             </div>
+
             {/* Category */}
             <div>
               <label className="block text-gray-700 font-medium mb-2">
                 Category *
               </label>
               <select
-                class="w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500"
+                className="w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500"
                 {...register("category", { required: "Category is required" })}
               >
                 <option value="">Select category</option>
@@ -145,6 +155,7 @@ const AddServicesForm = () => {
                 </p>
               )}
             </div>
+
             {/* Description */}
             <div>
               <label className="block text-gray-700 font-medium mb-2">
@@ -153,7 +164,7 @@ const AddServicesForm = () => {
               <textarea
                 rows="5"
                 placeholder="Describe the service..."
-                class="w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500 resize-none"
+                className="w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500 resize-none"
                 {...register("description", {
                   required: "Description is required",
                 })}
@@ -165,18 +176,19 @@ const AddServicesForm = () => {
               )}
             </div>
           </div>
+
           <div className="space-y-6 flex flex-col">
-            {/* Price & Quantity */}
+            {/* Price & Unit */}
             <div className="flex justify-between gap-2">
               {/* Price */}
-              <div>
+              <div className="flex-1">
                 <label className="block text-gray-700 font-medium mb-2">
                   Price *
                 </label>
                 <input
                   type="number"
                   placeholder="Price"
-                  class="w-full px-4 py-3 border  border-orange-300 rounded-lg focus:outline-orange-500"
+                  className="w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500"
                   {...register("price", { required: "Price is required" })}
                 />
                 {errors.price && (
@@ -186,17 +198,14 @@ const AddServicesForm = () => {
                 )}
               </div>
 
-              {/* Quantity */}
-
-              <div>
+              {/* Unit */}
+              <div className="flex-1">
                 <label className="block text-gray-700 font-medium mb-2">
                   Unit *
                 </label>
                 <select
-                  name="unit"
-                  value={formData.unit}
-                  onChange={handleChange}
-                  className=" w-full px-4 py-3 text-gray-800 border border-orange-300 focus:outline-orange-500 rounded-md bg-white"
+                  className="w-full px-4 py-3 text-gray-800 border border-orange-300 focus:outline-orange-500 rounded-md bg-white"
+                  {...register("unit", { required: "Unit is required" })}
                 >
                   <option value="">Select unit</option>
                   <option value="per event">per event</option>
@@ -205,39 +214,59 @@ const AddServicesForm = () => {
                   <option value="per hour">per hour</option>
                   <option value="per day">per day</option>
                 </select>
+                {errors.unit && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.unit.message}
+                  </p>
+                )}
               </div>
             </div>
-            {/* Image */}
-            <div className=" p-4  w-full  m-auto rounded-lg grow">
+
+            {/* Image Upload with Preview */}
+            <div className="p-4 w-full m-auto rounded-lg grow">
+              <label className="block text-gray-700 font-medium mb-2">
+                Service Image *
+              </label>
+
+              {/* Image Preview */}
+              {imagePreview && (
+                <div className="mb-3">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-full h-48 object-cover rounded-lg border-2 border-orange-300"
+                  />
+                </div>
+              )}
+
+              {/* File Upload */}
               <div className="file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg">
                 <div className="flex flex-col w-max mx-auto text-center">
-                  <label>
+                  <label className="cursor-pointer">
                     <input
-                      className="text-sm cursor-pointer w-36 hidden"
+                      className="hidden"
                       type="file"
                       accept="image/*"
-                      hidden
-                      {...register("image", {
-                        required: "Image is required",
-                      })}
+                      onChange={handleImageChange}
                     />
-                    {errors.image && (
-                      <p className="text-xs text-red-500 mt-1">
-                        {errors.image.message}
-                      </p>
-                    )}
-                    <div className="bg-primary text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-primary">
-                      Upload
+                    <div className="bg-primary text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:opacity-90">
+                      {imagePreview ? "Change Image" : "Upload Image"}
                     </div>
                   </label>
                 </div>
               </div>
+
+              {errors.image && (
+                <p className="text-xs text-red-500 mt-2">
+                  {errors.image.message}
+                </p>
+              )}
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-primary "
+              className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-primary hover:opacity-90"
             >
               Save & Continue
             </button>
