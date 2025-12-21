@@ -15,30 +15,37 @@ const ManageBookings = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 6;
 
   // Sorting state
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
 
+  const [paymentFilter, setPaymentFilter] = useState("all");
+  
   const {
     data: response = { bookings: [], total: 0, totalPages: 0 },
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["bookings", user?.email, currentPage, sortBy, sortOrder],
+    queryKey: [
+      "bookings",
+      user?.email,
+      currentPage,
+      sortBy,
+      sortOrder,
+      paymentFilter,
+    ],
     queryFn: async () => {
-      const result = await axiosSecure.get(
-        "/bookings",
-        {
-          params: {
-            page: currentPage,
-            limit: itemsPerPage,
-            sortBy,
-            sortOrder,
-          },
-        }
-      );
+      const result = await axiosSecure.get("/bookings", {
+        params: {
+          page: currentPage,
+          limit: itemsPerPage,
+          sortBy,
+          sortOrder,
+          paymentStatus: paymentFilter !== "all" ? paymentFilter : undefined,
+        },
+      });
       return result.data;
     },
   });
@@ -73,6 +80,11 @@ const ManageBookings = () => {
   const goToPage = (page) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handlePaymentFilterChange = (filter) => {
+    setPaymentFilter(filter);
+    setCurrentPage(1); 
   };
 
   const goToPrevious = () => {
@@ -144,6 +156,44 @@ const ManageBookings = () => {
         </p>
       </div>
 
+      <div className="mb-4 space-y-4">
+        {/* Payment Filter */}
+        <div className="bg-white p-4 rounded-lg shadow">
+          <span className="font-medium text-gray-700 mr-4">Filter by Payment:</span>
+          <div className="inline-flex gap-2">
+            <button
+              onClick={() => handlePaymentFilterChange("all")}
+              className={`px-4 py-2 rounded-lg transition font-medium ${
+                paymentFilter === "all"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              All ({response.total || 0})
+            </button>
+            <button
+              onClick={() => handlePaymentFilterChange("Paid")}
+              className={`px-4 py-2 rounded-lg transition font-medium ${
+                paymentFilter === "Paid"
+                  ? "bg-green-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              Paid
+            </button>
+            <button
+              onClick={() => handlePaymentFilterChange("Unpaid")}
+              className={`px-4 py-2 rounded-lg transition font-medium ${
+                paymentFilter === "Unpaid"
+                  ? "bg-red-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              Unpaid
+            </button>
+          </div>
+        </div>
+
       {/* Sorting Controls */}
       <div className="mb-4 flex gap-4 items-center bg-white p-4 rounded-lg shadow">
         <span className="font-medium text-gray-700">Sort by:</span>
@@ -205,7 +255,7 @@ const ManageBookings = () => {
             ) : (
               bookings.map((booking, index) => (
                 <tr key={booking._id} className="hover:bg-gray-50">
-                  {/* Sl */}
+                 
                   <td className="px-5 py-5 text-center border-b">
                     <p className="font-medium">
                       {(currentPage - 1) * itemsPerPage + index + 1}
@@ -491,7 +541,8 @@ const ManageBookings = () => {
             </button>
           </div>
         </div>
-      </dialog>
+        </dialog>
+        </div>
     </div>
   );
 };
