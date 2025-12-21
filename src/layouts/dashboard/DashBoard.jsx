@@ -40,9 +40,7 @@ if(isRoleLoading) return <Loader/>
         </nav>
         {/* Page content here */}
         <Outlet></Outlet>
-        {/* {role === "admin" && <AdminDashboard />}
-        {role === "decorator" && <DecoratorEarnings />}
-        {role === "customer" && <MyProfile />} */}
+        
       </div>
 
       <div className="drawer-side is-drawer-close:overflow-visible">
@@ -68,7 +66,7 @@ if(isRoleLoading) return <Loader/>
             </li>
 
             {/* ===== USER ===== */}
-            {role === "customer" && (
+            {role === "user" && (
               <>
                 <li>
                   <Link

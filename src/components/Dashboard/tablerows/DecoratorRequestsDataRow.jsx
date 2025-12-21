@@ -1,19 +1,21 @@
-import axios from "axios";
+
 import { FaUserCheck, FaBan, FaUserPlus } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { IoPersonRemoveSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const DecoratorRequestsDataRow = ({ req, refetch }) => {
+  const axiosSecure = useAxiosSecure();
   const updateDecoratorStatus = (decorator, status) => {
     const updateInfo = {
       status: status,
       email: decorator.email,
     };
 
-    axios
+    axiosSecure
       .patch(
-        `${import.meta.env.VITE_API_URL}/decorators/${decorator._id}`,
+        `/decorators/${decorator._id}`,
         updateInfo
       )
       .then((res) => {
@@ -75,8 +77,8 @@ const DecoratorRequestsDataRow = ({ req, refetch }) => {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
-          .delete(`${import.meta.env.VITE_API_URL}/decorators/${decorator._id}`)
+        axiosSecure
+          .delete(`/decorators/${decorator._id}`)
           .then((res) => {
             if (res.data.deletedCount > 0) {
               refetch();

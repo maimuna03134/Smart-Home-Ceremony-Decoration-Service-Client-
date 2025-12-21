@@ -4,11 +4,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
 import { X, Calendar, MapPin, DollarSign } from "lucide-react";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { useNavigate } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const BookingModal = ({ service, onClose }) => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure()
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -69,10 +70,7 @@ const BookingModal = ({ service, onClose }) => {
       };
       console.log(bookingData);
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/bookings`,
-        bookingData
-      );
+      const response = await axiosSecure.post(`/bookings`, bookingData);
       console.log(response.data);
 
       if (response.data.insertedId) {

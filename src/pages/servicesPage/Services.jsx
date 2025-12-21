@@ -10,11 +10,9 @@ const Services = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-
-  // Debounced search term for API calls
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  
 
-  // Debounce search input
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchTerm);
@@ -143,7 +141,10 @@ const Services = () => {
           {/* Reset Button */}
           <div className="flex items-end">
             <button
-              onClick={handleResetFilters}
+              onClick={(e) => {
+                e.preventDefault();
+                handleResetFilters();
+              }}
               className="w-full px-4 py-2 bg-gray-200 hover:bg-gray-300 
                             text-gray-700 rounded-lg transition font-medium"
             >
@@ -223,7 +224,10 @@ const Services = () => {
             >
               Category: {selectedCategory}
               <button
-                onClick={() => setSelectedCategory("all")}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleResetFilters();
+                }}
                 className="hover:text-green-900"
               >
                 ✕
@@ -236,9 +240,10 @@ const Services = () => {
               className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full 
                         text-sm flex items-center gap-2"
             >
-              Price: {minPrice || "0"} - {maxPrice || "∞"}
+              Price: ৳ {minPrice || "0"} - ৳ {maxPrice || "∞"}
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   setMinPrice("");
                   setMaxPrice("");
                 }}
@@ -271,7 +276,10 @@ const Services = () => {
             Try adjusting your filters or search terms
           </p>
           <button
-            onClick={handleResetFilters}
+            onClick={(e) => {
+              e.preventDefault();
+              handleResetFilters();
+            }}
             className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white 
                         rounded-lg transition"
           >

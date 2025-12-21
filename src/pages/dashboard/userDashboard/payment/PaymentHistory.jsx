@@ -1,19 +1,21 @@
 import React from "react";
 import useAuth from "../../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
 import Loader from "../../../shared/loader/Loader";
 import MyContainer from "../../../../components/container/MyContainer";
 import { Calendar, CreditCard, DollarSign } from "lucide-react";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const PaymentHistory = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const { data: payments = [], isLoading } = useQuery({
     queryKey: ["payments", user?.email],
     queryFn: async () => {
-      const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/payments/user/${user.email}`
+      const result = await axiosSecure.get(
+        `/payments/user/${user.email}`
       );
       return result.data;
     },

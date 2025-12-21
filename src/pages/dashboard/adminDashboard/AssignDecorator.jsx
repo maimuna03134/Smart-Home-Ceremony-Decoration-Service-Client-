@@ -2,8 +2,10 @@ import { useState, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AssignDecorator = () => {
+  const axiosSecure = useAxiosSecure();
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [selectedDecorator, setSelectedDecorator] = useState(null);
   const [isAssigning, setIsAssigning] = useState(false);
@@ -64,8 +66,8 @@ const AssignDecorator = () => {
     };
 
     try {
-      const res = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/booking/${selectedBooking._id}`,
+      const res = await axiosSecure.patch(
+        `/booking/${selectedBooking._id}`,
         decoratorAssignInfo
       );
 

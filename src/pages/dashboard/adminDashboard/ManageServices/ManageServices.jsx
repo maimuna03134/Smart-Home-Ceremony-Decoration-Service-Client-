@@ -5,14 +5,15 @@ import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router";
 import useAuth from "../../../../hooks/useAuth";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
 import Swal from "sweetalert2";
 import { imageUpload } from "../../../../utils"; 
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const ManageServices = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-
+const axiosSecure = useAxiosSecure();
   // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingService, setEditingService] = useState(null);
@@ -36,7 +37,7 @@ const ManageServices = () => {
   } = useQuery({
     queryKey: ["admin-services"],
     queryFn: async () => {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/services`);
+      const res = await axiosSecure.get("/services");
       return res.data;
     },
   });
@@ -44,7 +45,7 @@ const ManageServices = () => {
   // Update service mutation
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }) => {
-      await axios.put(`${import.meta.env.VITE_API_URL}/services/${id}`, data);
+      await axiosSecure.patch(`/services/${id}`, data);
     },
     onSuccess: () => {
       refetch();
@@ -69,7 +70,8 @@ const ManageServices = () => {
   // Delete service mutation
   const deleteMutation = useMutation({
     mutationFn: async (id) => {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/services/${id}`);
+      await axiosSecure.delete(`/services/${id}`
+      );
     },
     onSuccess: () => {
       refetch();

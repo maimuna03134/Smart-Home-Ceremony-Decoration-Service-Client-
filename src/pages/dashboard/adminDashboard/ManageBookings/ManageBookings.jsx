@@ -1,31 +1,87 @@
 import React, { useState, useRef } from "react";
-// import { useNavigate } from "react-router";
 import useAuth from "../../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
 import Loader from "../../../shared/loader/Loader";
 import Swal from "sweetalert2";
-import { FaEye, FaBan } from "react-icons/fa";
+import { FaEye, FaBan, FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const ManageBookings = () => {
-  // const navigate = useNavigate();
   const { user } = useAuth();
+  const axiosSecure=useAxiosSecure()
   const [selectedBooking, setSelectedBooking] = useState(null);
   const detailsModalRef = useRef();
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  // Sorting state
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState("desc");
+
   const {
-    data: bookings = [],
+    data: response = { bookings: [], total: 0, totalPages: 0 },
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["bookings", user?.email],
+    queryKey: ["bookings", user?.email, currentPage, sortBy, sortOrder],
     queryFn: async () => {
-      const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/bookings`
+      const result = await axiosSecure.get(
+        "/bookings",
+        {
+          params: {
+            page: currentPage,
+            limit: itemsPerPage,
+            sortBy,
+            sortOrder,
+          },
+        }
       );
       return result.data;
     },
   });
+
+  const bookings = response.bookings || [];
+  const totalPages = response.totalPages || 1;
+
+  // Handle sorting
+  const handleSort = (field) => {
+    if (sortBy === field) {
+    
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      
+      setSortBy(field);
+      setSortOrder("desc");
+    }
+    setCurrentPage(1); 
+  };
+
+  // Get sort icon
+  const getSortIcon = (field) => {
+    if (sortBy !== field) return <FaSort className="inline ml-1" />;
+    return sortOrder === "asc" ? (
+      <FaSortUp className="inline ml-1" />
+    ) : (
+      <FaSortDown className="inline ml-1" />
+    );
+  };
+
+  // Pagination handlers
+  const goToPage = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const goToPrevious = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const goToNext = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
 
   // Open details modal
   const openDetailsModal = (booking) => {
@@ -46,9 +102,9 @@ const ManageBookings = () => {
       cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
+        axiosSecure
           .patch(
-            `${import.meta.env.VITE_API_URL}/bookings/${booking._id}/cancel`
+            `/bookings/${booking._id}/cancel`
           )
           .then((res) => {
             if (res.data.modifiedCount) {
@@ -82,8 +138,35 @@ const ManageBookings = () => {
         <h2 className="text-3xl font-bold text-primary">Manage Bookings</h2>
         <p className="text-gray-600 mt-1">
           Total bookings:{" "}
-          <span className="font-semibold">{bookings.length}</span>
+          <span className="font-semibold">{response.total || 0}</span>
+          {" | "}
+          Page {currentPage} of {totalPages}
         </p>
+      </div>
+
+      {/* Sorting Controls */}
+      <div className="mb-4 flex gap-4 items-center bg-white p-4 rounded-lg shadow">
+        <span className="font-medium text-gray-700">Sort by:</span>
+        <button
+          onClick={() => handleSort("createdAt")}
+          className={`px-4 py-2 rounded-lg transition ${
+            sortBy === "createdAt"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          }`}
+        >
+          Date {getSortIcon("createdAt")}
+        </button>
+        <button
+          onClick={() => handleSort("status")}
+          className={`px-4 py-2 rounded-lg transition ${
+            sortBy === "status"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          }`}
+        >
+          Status {getSortIcon("status")}
+        </button>
       </div>
 
       <div className="min-w-[1100px] shadow rounded-lg overflow-hidden">
@@ -110,106 +193,174 @@ const ManageBookings = () => {
           </thead>
 
           <tbody>
-            {bookings.map((booking, index) => (
-              <tr key={booking._id} className="hover:bg-gray-50">
-                {/* Sl */}
-                <td className="px-5 py-5 text-center border-b">
-                  <p className="font-medium">{index + 1}</p>
-                </td>
-
-                {/* User Info */}
-                <td className="px-5 py-5 border-b">
-                  <div className="flex flex-col items-center gap-2 text-center">
-                    <img
-                      src={booking.userPhoto}
-                      alt={booking.userName}
-                      className="w-10 h-10 rounded-full"
-                    />
-                    <div>
-                      <p className="font-medium">{booking.userName}</p>
-                      <p className="text-xs text-gray-500">
-                        {booking.userEmail}
-                      </p>
-                    </div>
-                  </div>
-                </td>
-
-                {/* Service */}
-                <td className="px-5 py-5 border-b">
-                  <div className="flex flex-col items-center gap-1 text-center">
-                    <img
-                      src={booking.serviceImage}
-                      alt={booking.serviceName}
-                      className="w-10 h-10 rounded-lg object-cover"
-                    />
-                    <p className="font-medium">{booking.serviceName}</p>
-                    <p className="text-xs text-gray-500">
-                      {booking.serviceCategory}
-                    </p>
-                  </div>
-                </td>
-
-                {/* Payment */}
-                <td className="px-5 py-5 text-center border-b">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      booking.paymentStatus?.toLowerCase() === "paid"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    {booking.paymentStatus}
-                  </span>
-                </td>
-
-                {/* Status */}
-                <td className="px-5 py-5 text-center border-b">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      booking.status === "completed"
-                        ? "bg-green-100 text-green-800"
-                        : booking.status === "cancelled" ||
-                          booking.status === "cancelled_by_admin"
-                        ? "bg-red-100 text-red-800"
-                        : booking.status === "decorator_assigned"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {booking.status?.replace(/_/g, " ") || "Pending"}
-                  </span>
-                </td>
-
-                {/* Actions */}
-                <td className="px-5 py-5 text-center border-b">
-                  <div className="flex justify-center gap-2">
-                    <button
-                      onClick={() => openDetailsModal(booking)}
-                      className="btn btn-sm btn-info"
-                      title="View Details"
-                    >
-                      <FaEye />
-                    </button>
-
-                    {/* Only show cancel button if not already cancelled/completed */}
-                    {booking.status !== "cancelled" &&
-                      booking.status !== "cancelled_by_admin" &&
-                      booking.status !== "completed" && (
-                        <button
-                          onClick={() => handleCancelBooking(booking)}
-                          className="btn btn-sm btn-error"
-                          title="Cancel Booking"
-                        >
-                          <FaBan />
-                        </button>
-                      )}
-                  </div>
+            {bookings.length === 0 ? (
+              <tr>
+                <td
+                  colSpan="6"
+                  className="px-5 py-10 text-center text-gray-500"
+                >
+                  No bookings found
                 </td>
               </tr>
-            ))}
+            ) : (
+              bookings.map((booking, index) => (
+                <tr key={booking._id} className="hover:bg-gray-50">
+                  {/* Sl */}
+                  <td className="px-5 py-5 text-center border-b">
+                    <p className="font-medium">
+                      {(currentPage - 1) * itemsPerPage + index + 1}
+                    </p>
+                  </td>
+
+                  {/* User Info */}
+                  <td className="px-5 py-5 border-b">
+                    <div className="flex flex-col items-center gap-2 text-center">
+                      <img
+                        src={booking.userPhoto}
+                        alt={booking.userName}
+                        className="w-10 h-10 rounded-full"
+                      />
+                      <div>
+                        <p className="font-medium">{booking.userName}</p>
+                        <p className="text-xs text-gray-500">
+                          {booking.userEmail}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* Service */}
+                  <td className="px-5 py-5 border-b">
+                    <div className="flex flex-col items-center gap-1 text-center">
+                      <img
+                        src={booking.serviceImage}
+                        alt={booking.serviceName}
+                        className="w-10 h-10 rounded-lg object-cover"
+                      />
+                      <p className="font-medium">{booking.serviceName}</p>
+                      <p className="text-xs text-gray-500">
+                        {booking.serviceCategory}
+                      </p>
+                    </div>
+                  </td>
+
+                  {/* Payment */}
+                  <td className="px-5 py-5 text-center border-b">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        booking.paymentStatus?.toLowerCase() === "paid"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      {booking.paymentStatus}
+                    </span>
+                  </td>
+
+                  {/* Status */}
+                  <td className="px-5 py-5 text-center border-b">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        booking.status === "completed"
+                          ? "bg-green-100 text-green-800"
+                          : booking.status === "cancelled" ||
+                            booking.status === "cancelled_by_admin"
+                          ? "bg-red-100 text-red-800"
+                          : booking.status === "decorator_assigned"
+                          ? "bg-blue-100 text-blue-800"
+                          : "bg-yellow-100 text-yellow-800"
+                      }`}
+                    >
+                      {booking.status?.replace(/_/g, " ") || "Pending"}
+                    </span>
+                  </td>
+
+                  {/* Actions */}
+                  <td className="px-5 py-5 text-center border-b">
+                    <div className="flex justify-center gap-2">
+                      <button
+                        onClick={() => openDetailsModal(booking)}
+                        className="btn btn-sm btn-info"
+                        title="View Details"
+                      >
+                        <FaEye />
+                      </button>
+
+                      {booking.status !== "cancelled" &&
+                        booking.status !== "cancelled_by_admin" &&
+                        booking.status !== "completed" && (
+                          <button
+                            onClick={() => handleCancelBooking(booking)}
+                            className="btn btn-sm btn-error"
+                            title="Cancel Booking"
+                          >
+                            <FaBan />
+                          </button>
+                        )}
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="mt-6 flex justify-center items-center gap-2">
+          <button
+            onClick={goToPrevious}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 
+            disabled:opacity-50 disabled:cursor-not-allowed transition"
+          >
+            Previous
+          </button>
+
+          <div className="flex gap-1">
+            {[...Array(totalPages)].map((_, index) => {
+              const page = index + 1;
+              // Show first page, last page, current page, and pages around current
+              if (
+                page === 1 ||
+                page === totalPages ||
+                (page >= currentPage - 1 && page <= currentPage + 1)
+              ) {
+                return (
+                  <button
+                    key={page}
+                    onClick={() => goToPage(page)}
+                    className={`px-4 py-2 rounded-lg transition ${
+                      currentPage === page
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                );
+              } else if (page === currentPage - 2 || page === currentPage + 2) {
+                return (
+                  <span key={page} className="px-2">
+                    ...
+                  </span>
+                );
+              }
+              return null;
+            })}
+          </div>
+
+          <button
+            onClick={goToNext}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 
+            disabled:opacity-50 disabled:cursor-not-allowed transition"
+          >
+            Next
+          </button>
+        </div>
+      )}
 
       {/* Details Modal */}
       <dialog ref={detailsModalRef} className="modal">

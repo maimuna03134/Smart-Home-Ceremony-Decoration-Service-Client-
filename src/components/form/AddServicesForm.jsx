@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../../utils";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import Loader from "../../pages/shared/loader/Loader";
 import ErrorPage from "../../pages/shared/errorPage/ErrorPage";
 import { useNavigate } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddServicesForm = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
 
@@ -21,7 +22,8 @@ const AddServicesForm = () => {
     reset: mutationReset,
   } = useMutation({
     mutationFn: async (payload) =>
-      await axios.post(`${import.meta.env.VITE_API_URL}/services`, payload),
+      await axiosSecure.post("/services",payload),
+      
     onSuccess: (data) => {
       console.log(data);
       toast.success("Service Added successfully");

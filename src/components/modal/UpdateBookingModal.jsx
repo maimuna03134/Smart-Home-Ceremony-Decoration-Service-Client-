@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { X, Calendar, MapPin, Edit } from "lucide-react";
-import axios from "axios";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
+  const axiosSecure = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     bookingDate: "",
@@ -52,8 +53,8 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
     setLoading(true);
 
     try {
-      const response = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/bookings/${booking._id}`,
+      const response = await axiosSecure.patch(
+        `/bookings/${booking._id}`,
         {
           bookingDate: formData.bookingDate,
           location: formData.location,

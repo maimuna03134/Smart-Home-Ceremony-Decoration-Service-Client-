@@ -19,6 +19,9 @@ const SocialLogin = () => {
       //User Registration using google
 
       const result = await signInWithGoogle();
+
+      const idToken = await result.user.getIdToken();
+    localStorage.setItem("token", idToken);
       const user = result.user;
 
        await saveOrUpdateUser({ name:user.displayName, email:user.email, image: user.photoURL });

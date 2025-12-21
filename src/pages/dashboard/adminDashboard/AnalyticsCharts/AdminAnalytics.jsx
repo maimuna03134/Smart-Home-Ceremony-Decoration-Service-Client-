@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
 import {
   BarChart,
   Bar,
@@ -23,6 +23,7 @@ import {
   FaServicestack,
 } from "react-icons/fa";
 import Loader from "../../../shared/loader/Loader";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const COLORS = [
   "#af5f44",
@@ -34,12 +35,12 @@ const COLORS = [
 ];
 
 const AdminAnalytics = () => {
-  // Fetch analytics data
+  const axiosSecure = useAxiosSecure()
   const { data: analytics = {}, isLoading } = useQuery({
     queryKey: ["admin-analytics"],
     queryFn: async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/admin/analytics`
+      const res = await axiosSecure.get(
+        `/admin/analytics`
       );
       return res.data;
     },
