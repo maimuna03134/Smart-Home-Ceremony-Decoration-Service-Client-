@@ -51,11 +51,11 @@ const AddServicesForm = () => {
     setValue,
   } = useForm();
 
-  // Handle image selection and preview
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Create preview
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -146,10 +146,10 @@ const AddServicesForm = () => {
                 <option value="Wedding">Wedding</option>
                 <option value="Home">Home</option>
                 <option value="Office">Office</option>
-                <option value="Seminar">Seminar</option>
-                <option value="Meeting">Meeting</option>
+                <option value="Office">Seminar</option>
+
                 <option value="Birthday">Birthday</option>
-                <option value="Corporate">Corporate</option>
+                <option value="Corporate">Meeting </option>
               </select>
               {errors.category && (
                 <p className="text-red-500 text-xs mt-1">

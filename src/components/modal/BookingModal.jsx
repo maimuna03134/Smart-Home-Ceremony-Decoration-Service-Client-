@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 /* eslint-disable no-unused-vars */
 import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
@@ -8,8 +8,8 @@ import { useNavigate } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const BookingModal = ({ service, onClose }) => {
-  const { user } = useAuth();
-  const axiosSecure = useAxiosSecure()
+  const { user, loading: authLoading } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -17,6 +17,16 @@ const BookingModal = ({ service, onClose }) => {
     bookingDate: "",
     location: "",
   });
+
+  // Check if user is logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      toast.error("Please login to book a service");
+      onClose();
+      navigate("/auth/login");
+    }
+  }, [user, authLoading, navigate, onClose]);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -26,10 +36,18 @@ const BookingModal = ({ service, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+
+    // Double check user is still logged in
+    if (!user) {
+      toast.error("Please login to book a service");
+      onClose();
+      navigate("/auth/login");
+      return;
+    }
 
     if (!formData.bookingDate || !formData.location) {
       toast.error("Please fill all fields");
+      setLoading(false);
       return;
     }
 
@@ -39,14 +57,16 @@ const BookingModal = ({ service, onClose }) => {
 
     if (selectedDate < today) {
       toast.error("Please select a future date");
+      setLoading(false);
       return;
     }
 
     setLoading(true);
 
     try {
-      // console.log("User email:", user.email);
-      // console.log("Service ID:", service._id);
+      console.log("User email:", user.email);
+      console.log("Service ID:", service._id);
+
       const bookingData = {
         serviceId: service._id,
         serviceName: service.name,
@@ -54,20 +74,21 @@ const BookingModal = ({ service, onClose }) => {
         servicePrice: service.price,
         serviceCategory: service.category,
         serviceUnit: service.unit,
-        userName: user.displayName,
+        userName: user.displayName || "Unknown",
         userEmail: user.email,
-        userPhoto: user.photoURL,
+        userPhoto: user.photoURL || "",
         bookingDate: formData.bookingDate,
         location: formData.location,
         status: "Pending",
         paymentStatus: "Unpaid",
         createdAt: new Date().toISOString(),
         decorator: {
-          name: user?.displayName,
-          email: user?.email,
-          image: user?.photoURL,
+          name: user?.displayName || "Unknown",
+          email: user?.email || "",
+          image: user?.photoURL || "",
         },
       };
+
       console.log(bookingData);
 
       const response = await axiosSecure.post(`/bookings`, bookingData);
@@ -86,6 +107,11 @@ const BookingModal = ({ service, onClose }) => {
     }
   };
 
+  // Don't render modal if user is not logged in
+  if (!user) {
+    return null;
+  }
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
@@ -96,11 +122,11 @@ const BookingModal = ({ service, onClose }) => {
           className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
         >
           {/* Header */}
-          <div className="sticky top-0 bg-linear-to-r from-purple-600 to-pink-600 text-white p-6 rounded-t-2xl">
+          <div className="sticky top-0 bg-linear-to-r from-primary to-orange-600 text-white p-6 rounded-t-2xl">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold mb-1">Book Your Service</h2>
-                <p className="text-purple-100">{service.name}</p>
+                <p className="text-orange-100">{service.name}</p>
               </div>
               <button
                 onClick={onClose}
@@ -114,11 +140,11 @@ const BookingModal = ({ service, onClose }) => {
           {/* Content */}
           <div className="p-6">
             {/* Service Info */}
-            <div className="bg-linear-to-br from-purple-50 to-pink-50 rounded-xl p-4 mb-6 border border-purple-200">
+            <div className="bg-linear-to-br from-orange-50 to-red-50 rounded-xl p-4 mb-6 border border-orange-200">
               <div className="flex gap-4">
                 <img
                   src={service.image}
-                  alt={service.serviceName}
+                  alt={service.name}
                   className="w-24 h-24 object-cover rounded-lg"
                 />
                 <div className="flex-1">
@@ -142,16 +168,23 @@ const BookingModal = ({ service, onClose }) => {
               </h4>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <img
-                    src={user.photoURL}
-                    alt={user.displayName}
-                    className="w-10 h-10 rounded-full"
-                  />
+                  {user?.photoURL && (
+                    <img
+                      src={user.photoURL}
+                      alt={user.displayName || "User"}
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                  )}
+                  {!user?.photoURL && (
+                    <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">
+                      {user?.displayName?.charAt(0) || "U"}
+                    </div>
+                  )}
                   <div>
                     <p className="font-medium text-gray-900">
-                      {user.displayName}
+                      {user?.displayName || "Unknown User"}
                     </p>
-                    <p className="text-sm text-gray-600">{user.email}</p>
+                    <p className="text-sm text-gray-600">{user?.email}</p>
                   </div>
                 </div>
               </div>
@@ -172,7 +205,7 @@ const BookingModal = ({ service, onClose }) => {
                   onChange={handleChange}
                   min={new Date().toISOString().split("T")[0]}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition"
                 />
               </div>
 
@@ -189,7 +222,7 @@ const BookingModal = ({ service, onClose }) => {
                   placeholder="Enter complete address where service is needed"
                   rows="3"
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition resize-none"
                 />
               </div>
 
@@ -205,7 +238,7 @@ const BookingModal = ({ service, onClose }) => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-6 py-3 bg-linear-to-r from-primary to-orange-600 text-white rounded-xl font-semibold hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? "Booking..." : "Confirm Booking"}
                 </button>

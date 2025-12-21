@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
 import {
   FaMoneyBillWave,
 
@@ -9,15 +9,17 @@ import {
 } from "react-icons/fa";
 import useAuth from "../../../../hooks/useAuth";
 import Loader from "../../../shared/loader/Loader";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const DecoratorEarnings = () => {
   const { user } = useAuth();
+  const axiosSecure=useAxiosSecure()
 
   const { data: earnings = {}, isLoading } = useQuery({
     queryKey: ["decorator-earnings", user?.email],
     queryFn: async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/decorator/earnings/${user?.email}`
+      const res = await axiosSecure.get(
+        `/decorator/earnings/${user?.email}`
       );
       return res.data;
     },

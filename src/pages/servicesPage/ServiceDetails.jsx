@@ -79,10 +79,10 @@ const ServiceDetails = () => {
     );
   }
 
-  const { image, name, description, category, quantity, price, decorator } = service;
+  const { image, name, description, category, quantity, price, decorator } =
+    service;
 
   const isBookingDisabled = userBooking?.hasBooked;
-
 
   return (
     <>
@@ -175,7 +175,7 @@ const ServiceDetails = () => {
                 {/* Price & Book Button */}
                 <div className="flex flex-col md:flex-row gap-4 justify-between md:items-center my-6">
                   <p className="font-bold text-3xl text-gray-500">
-                    Price: <span className="text-purple-600">৳ {price}</span>
+                    Price: <span className="text-primary">৳ {price}</span>
                   </p>
                   <div>
                     <button
@@ -184,7 +184,7 @@ const ServiceDetails = () => {
                       className={`px-8 py-3 text-lg font-bold rounded-xl shadow-lg transition-all duration-300 ${
                         isBookingDisabled
                           ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                          : "bg-linear-to-r from-purple-600 to-pink-600 text-white hover:shadow-xl transform hover:-translate-y-1"
+                          : "bg-linear-to-r from-primary to-orange-600 text-white hover:shadow-xl transform hover:-translate-y-1"
                       }`}
                     >
                       {isBookingDisabled ? "Already Booked" : "Book Now"}
@@ -196,7 +196,7 @@ const ServiceDetails = () => {
                   <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg">
                     <p className="text-yellow-800 text-sm">
                       You have already booked this service. To book again,
-                      please delete your previous booking from 
+                      please delete your previous booking from
                       <span
                         onClick={() => navigate("/dashboard/my-bookings")}
                         className="font-semibold underline cursor-pointer hover:text-yellow-900 ml-1"

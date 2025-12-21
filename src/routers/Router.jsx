@@ -17,8 +17,7 @@ import PaymentHistory from "../pages/dashboard/userDashboard/payment/PaymentHist
 import PaymentSuccess from "../pages/dashboard/userDashboard/payment/PaymentSuccess";
 import DashBoard from "../layouts/dashboard/DashBoard";
 import ManageBookings from "../pages/dashboard/adminDashboard/ManageBookings/ManageBookings";
-import AdminDashboard from "../pages/dashboard/adminDashboard/AdminDashboard";
-import ManageUsers from "../pages/dashboard/adminDashboard/manageUsers/ManageUsers";
+
 import ManageServices from "../pages/dashboard/adminDashboard/ManageServices/ManageServices";
 import PrivateRouter from "./PrivateRouter";
 import BecomeDecorator from "../pages/dashboard/userDashboard/BecomeDecorator";
@@ -30,14 +29,15 @@ import DecoratorUpdateStatus from "../pages/dashboard/decoratorDashboard/updateP
 import DecoratorEarnings from "../pages/dashboard/decoratorDashboard/decoratorEarning/DecoratorEarnings";
 import AdminAnalytics from "../pages/dashboard/adminDashboard/AnalyticsCharts/AdminAnalytics";
 import DefaultDashboardRedirect from "../layouts/dashboard/DefaultDashboardRedirect";
-
+import Loader from "../pages/shared/loader/Loader";
+import Coverage from "../pages/coverage/Coverage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     errorElement: <ErrorPage />,
-    hydrateFallbackElement: <p>Loading...</p>,
+    hydrateFallbackElement: <Loader />,
     children: [
       {
         index: true,
@@ -60,6 +60,10 @@ export const router = createBrowserRouter([
         element: <ServiceDetails />,
       },
       {
+        path: "/coverage",
+        element: <Coverage />,
+      },
+      {
         path: "/payment-success",
         element: <PaymentSuccess />,
       },
@@ -71,16 +75,6 @@ export const router = createBrowserRouter([
           </PrivateRouter>
         ),
       },
-
-      //   {
-      //     path: "/services",
-      //     element: <Coverage />,
-      //   },
-      //   {
-      //     path: "/coverage",
-      //     element: <Coverage />,
-      //     loader: () => fetch("/serviceCenters.json").then((res) => res.json()),
-      //   },
     ],
   },
   {
@@ -113,10 +107,7 @@ export const router = createBrowserRouter([
         index: true,
         element: <DefaultDashboardRedirect />,
       },
-      {
-        path: "/dashboard/admin",
-        element: <AdminDashboard />,
-      },
+
       {
         path: "/dashboard/my-bookings",
         element: <MyBookings />,
@@ -166,10 +157,6 @@ export const router = createBrowserRouter([
         element: <AssignDecorator />,
       },
 
-      {
-        path: "/dashboard/users",
-        element: <ManageUsers />,
-      },
       {
         path: "/dashboard/analytics",
         element: <AdminAnalytics />,

@@ -12,7 +12,7 @@ const AssignDecorator = () => {
   const decoratorModalRef = useRef();
   const queryClient = useQueryClient();
 
-  // Fetch paid bookings awaiting decorator assignment
+
   const { data: bookings = [], refetch: bookingsRefetch } = useQuery({
     queryKey: ["bookings", "paid"],
     queryFn: async () => {
@@ -25,7 +25,6 @@ const AssignDecorator = () => {
     },
   });
 
-  // Fetch available decorators based on selected booking's location
   const { data: availableDecorators = [] } = useQuery({
     queryKey: ["decorators", "available"],
     enabled: !!selectedBooking,
@@ -71,19 +70,23 @@ const AssignDecorator = () => {
         decoratorAssignInfo
       );
 
-      if (res.data.modifiedCount > 0 || res.data.success || res.status === 200) {
-        
+      if (
+        res.data.modifiedCount > 0 ||
+        res.data.success ||
+        res.status === 200
+      ) {
         queryClient.setQueryData(["bookings", "paid"], (oldData) => {
-          return oldData?.filter((booking) => booking._id !== selectedBooking._id) || [];
+          return (
+            oldData?.filter((booking) => booking._id !== selectedBooking._id) ||
+            []
+          );
         });
 
-   
         decoratorModalRef.current?.close();
 
         setSelectedBooking(null);
         setSelectedDecorator(null);
 
-   
         Swal.fire({
           position: "center",
           icon: "success",
@@ -98,13 +101,15 @@ const AssignDecorator = () => {
       }
     } catch (error) {
       console.error("Error assigning decorator:", error);
-      
+
       queryClient.invalidateQueries(["bookings", "paid"]);
-      
+
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: error.response?.data?.message || "Failed to assign decorator. Please try again.",
+        text:
+          error.response?.data?.message ||
+          "Failed to assign decorator. Please try again.",
       });
     } finally {
       setIsAssigning(false);
@@ -216,10 +221,14 @@ const AssignDecorator = () => {
                 <option value="" disabled>
                   Choose a decorator
                 </option>
+
                 {availableDecorators.map((decorator) => (
                   <option key={decorator._id} value={decorator._id}>
-                    {decorator.name} - {decorator.specialty} (Rating:{" "}
-                    {decorator.rating || "N/A"})
+                    {decorator.name} - {decorator.district}
+                    {decorator.specialties && decorator.specialties.length > 0
+                      ? ` (${decorator.specialties.join(", ")})`
+                      : ""}{" "}
+                    (Rating: {decorator.rating?.toFixed(1) || "N/A"})
                   </option>
                 ))}
               </select>

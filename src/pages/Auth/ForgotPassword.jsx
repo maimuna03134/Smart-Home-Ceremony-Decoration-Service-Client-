@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router";
 
 import toast from "react-hot-toast";
@@ -7,31 +7,29 @@ import { useForm } from "react-hook-form";
 import Button from "../shared/button/Button";
 
 const ForgotPassword = () => {
- 
   const { forgotPass } = useAuth();
 
   const location = useLocation();
 
-    const {
-      register,
-      handleSubmit,
-      setValue,
-      formState: { errors, isSubmitting },
-    } = useForm();
-    
-useEffect(() => {
-  if (location.state?.email) {
-    setValue("email", location.state.email);
-  }
-}, [location.state, setValue]);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm();
 
+  useEffect(() => {
+    if (location.state?.email) {
+      setValue("email", location.state.email);
+    }
+  }, [location.state, setValue]);
 
   const handleForgotPassword = async (data) => {
     try {
       await forgotPass(data.email);
       toast.success("Password reset email sent! Check your inbox.");
-     
-      window.open("https://mail.google.com", "_blank");
+
+      window.open("https:mail.google.com", "_blank");
     } catch (error) {
       toast.error(error.message || "Failed to send reset email");
     }
@@ -95,7 +93,6 @@ useEffect(() => {
             </p>
           </div>
         </form>
-
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-// src/pages/dashboard/DefaultDashboardRedirect.jsx
+
 import { useEffect } from "react";
 import useRole from "../../hooks/useRole";
 import { useNavigate } from "react-router";
@@ -13,7 +13,7 @@ const DefaultDashboardRedirect = () => {
     if (isRoleLoading) return;
 
     if (role === "admin") {
-      navigate("/dashboard/admin"); 
+      navigate("/dashboard/analytics"); 
     } else if (role === "decorator") {
       navigate("/dashboard/decorator-earning");
     } else {

@@ -14,9 +14,7 @@ const PaymentHistory = () => {
   const { data: payments = [], isLoading } = useQuery({
     queryKey: ["payments", user?.email],
     queryFn: async () => {
-      const result = await axiosSecure.get(
-        `/payments/user/${user.email}`
-      );
+      const result = await axiosSecure.get(`/payments/user/${user.email}`);
       return result.data;
     },
     enabled: !!user?.email,
@@ -43,7 +41,7 @@ const PaymentHistory = () => {
             </div>
             <div className="bg-linear-to-br from-purple-100 to-pink-100 rounded-xl p-4 border border-purple-200">
               <p className="text-sm text-gray-600 mb-1">Total Spent</p>
-              <p className="text-3xl font-bold text-purple-600">
+              <p className="text-3xl font-bold text-primary">
                 ৳ {totalSpent.toLocaleString()}
               </p>
             </div>
@@ -92,7 +90,7 @@ const PaymentHistory = () => {
           <div className="bg-white rounded-xl shadow-lg p-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-purple-100 rounded-xl">
-                <DollarSign className="w-8 h-8 text-purple-600" />
+                <DollarSign className="w-8 h-8 text-primary" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Average Payment</p>
@@ -123,7 +121,7 @@ const PaymentHistory = () => {
             {/* Desktop Table */}
             <div className="hidden lg:block overflow-x-auto">
               <table className="min-w-full">
-                <thead className="bg-linear-to-r from-purple-600 to-pink-600 text-white">
+                <thead className="bg-linear-to-r from-primary to-orange-600 text-white">
                   <tr>
                     <th className="text-left py-2 px-6 font-semibold">SL No</th>
                     <th className="text-left py-2 px-6 font-semibold">
@@ -152,7 +150,6 @@ const PaymentHistory = () => {
                       <td className="py-4 px-6 text-gray-700">{index + 1}</td>
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-3">
-                          
                           <div>
                             <p className="font-semibold text-gray-900">
                               {payment.serviceName}
@@ -161,7 +158,7 @@ const PaymentHistory = () => {
                         </div>
                       </td>
                       <td className="py-4 px-6">
-                        <span className="text-base font-bold text-purple-600">
+                        <span className="text-base font-bold text-primary">
                           ৳ {payment.price.toLocaleString()}
                         </span>
                       </td>
@@ -230,7 +227,7 @@ const PaymentHistory = () => {
                   <div className="space-y-2 mb-3">
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-gray-600">Amount:</span>
-                      <span className="text-lg font-bold text-purple-600">
+                      <span className="text-lg font-bold text-primary">
                         ৳ {payment.price.toLocaleString()}
                       </span>
                     </div>

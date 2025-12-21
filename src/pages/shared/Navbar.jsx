@@ -12,11 +12,28 @@ import useAuth from "../../hooks/useAuth";
 import Logo from "../../components/logo/Logo";
 import MyContainer from "../../components/container/MyContainer";
 import MyLinks from "../../components/links/MyLinks";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { FaMagnifyingGlassLocation } from "react-icons/fa6";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+
+  const { data: userRole } = useQuery({
+    queryKey: ["userRole", user?.email],
+    queryFn: async () => {
+      if (!user?.email) return null;
+      const result = await axios.get(
+        `${import.meta.env.VITE_API_URL}/user/role/${user.email}`
+      );
+      return result.data.role;
+    },
+    enabled: !!user?.email,
+  });
+
 
   const handleLogOut = () => {
     logOut()
@@ -34,7 +51,20 @@ const Navbar = () => {
     { name: "Services", path: "/services", icon: MdMiscellaneousServices },
     { name: "About", path: "/about", icon: FaInfoCircle },
     { name: "Contact", path: "/contact", icon: FaEnvelope },
-    { name: "Be a Decorator", path: "/become-decorator", icon: GrUserAdmin },
+    { name: "Coverage", path: "/coverage", icon: FaMagnifyingGlassLocation },
+  ];
+
+  const navRoleBased = [
+    ...navLinks,
+    ...(userRole === 'user' || userRole === 'customer' ?
+      [
+        {
+          name: "Be a Decorator",
+          path: "/become-decorator",
+          icon: GrUserAdmin,
+        },
+      ]
+      : []),
   ];
 
   return (
@@ -47,7 +77,7 @@ const Navbar = () => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-1">
-              {navLinks.map((link) => (
+              {navRoleBased.map((link) => (
                 <MyLinks key={link.path} to={link.path}>
                   {link.name}
                 </MyLinks>
@@ -162,7 +192,7 @@ const Navbar = () => {
             ></div>
             <div className="md:hidden border-t border-gray-200 bg-white relative z-50">
               <div className="px-4 py-3 space-y-1">
-                {navLinks.map((link) => {
+                {navRoleBased.map((link) => {
                   const Icon = link.icon;
                   return (
                     <Link

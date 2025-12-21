@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-
 import Swal from "sweetalert2";
 import { FiEdit } from "react-icons/fi";
-import {  FaTrashCan } from "react-icons/fa6";
+import { FaTrashCan, FaSort, FaSortUp, FaSortDown } from "react-icons/fa6";
 import useAuth from "../../../../hooks/useAuth";
-
 import UpdateBookingModal from "../../../../components/modal/UpdateBookingModal";
 import { useNavigate } from "react-router";
 import axios from "axios";
@@ -18,6 +16,9 @@ const MyBookings = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
 
+  const [sortBy, setSortBy] = useState("bookingDate");
+  const [sortOrder, setSortOrder] = useState("desc");
+
   const {
     data: bookings = [],
     isLoading,
@@ -26,12 +27,46 @@ const MyBookings = () => {
     queryKey: ["my-bookings", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/my-booking/user/${user?.email}`);
-    
-      
       return res.data;
     },
     enabled: !!user?.email,
   });
+
+  const sortedBookings = [...bookings].sort((a, b) => {
+    let aValue, bValue;
+
+    if (sortBy === "bookingDate" || sortBy === "createdAt") {
+      aValue = new Date(a[sortBy]);
+      bValue = new Date(b[sortBy]);
+    } else if (sortBy === "status") {
+      aValue = a.status || "Pending";
+      bValue = b.status || "Pending";
+    }
+
+    if (sortOrder === "asc") {
+      return aValue > bValue ? 1 : -1;
+    } else {
+      return aValue < bValue ? 1 : -1;
+    }
+  });
+
+  const handleSort = (field) => {
+    if (sortBy === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(field);
+      setSortOrder("desc");
+    }
+  };
+
+  const getSortIcon = (field) => {
+    if (sortBy !== field) return <FaSort className="inline ml-1" />;
+    return sortOrder === "asc" ? (
+      <FaSortUp className="inline ml-1" />
+    ) : (
+      <FaSortDown className="inline ml-1" />
+    );
+  };
 
   const handlePayment = async (booking) => {
     if (
@@ -63,8 +98,7 @@ const MyBookings = () => {
       paymentInfo
     );
 
-    console.log(res.data.url);
-    window.location.assign(res.data.url); 
+    window.location.assign(res.data.url);
   };
 
   const handleBookingDelete = (id) => {
@@ -120,7 +154,7 @@ const MyBookings = () => {
         <h2 className="text-3xl font-bold text-gray-800">My Bookings</h2>
         <p className="text-gray-600 mt-2">
           Total bookings:{" "}
-          <span className="font-bold text-purple-600">{bookings.length}</span>
+          <span className="font-bold text-primary">{bookings.length}</span>
         </p>
       </div>
 
@@ -138,125 +172,166 @@ const MyBookings = () => {
           </a>
         </div>
       ) : (
-        <div className="overflow-x-auto bg-white rounded-lg shadow-lg">
-          <table className="table table-zebra w-full">
-            {/* Head */}
-            <thead className="bg-linear-to-r from-purple-600 to-pink-600 text-white">
-              <tr>
-                <th>SL No</th>
-                <th>Service</th>
-                <th>Booking Date</th>
-                <th>Location</th>
-                <th>Price</th>
-                <th>Payment</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map((booking, index) => (
-                <tr key={booking._id} className="hover:bg-purple-50 transition">
-                  <th>{index + 1}</th>
-                  <td>
-                    <div className="flex items-center gap-4">
-                      <div className="avatar">
-                        <div className="mask mask-squircle w-10 h-10">
-                          <img
-                            src={booking.serviceImage}
-                            alt={booking.serviceName}
-                            className="object-cover"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-gray-900">
-                          {booking.serviceName}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {booking.serviceCategory}
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    {new Date(booking.bookingDate).toLocaleDateString("en-GB")}
-                  </td>
-                  <td>
-                    <div className="max-w-xs truncate" title={booking.location}>
-                      {booking.location}
-                    </div>
-                  </td>
-                  <td className="font-bold text-purple-600">
-                    ৳ {booking.servicePrice?.toLocaleString()}
-                  </td>
-                  <td>
-                    {booking.paymentStatus === "Paid" ? (
-                      <span className="badge badge-success text-white font-semibold">
-                        Paid
-                      </span>
-                    ) : (
-                      <button
-                        onClick={() => handlePayment(booking)}
-                        className="btn btn-sm btn-primary"
-                      >
-                        Pay
-                      </button>
-                    )}
-                  </td>
-                  <td>
-                    <span
-                      className={`badge ${
-                        booking.status === "Completed"
-                          ? "badge-success"
-                          : booking.status === "In Progress"
-                          ? "badge-info"
-                          : booking.status === "Cancelled"
-                          ? "badge-error"
-                          : "badge-warning"
-                      }`}
-                    >
-                      {booking.status || "Pending"}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="flex gap-3">
-                      {/* Update (only if unpaid and not cancelled) */}
-                      {booking.paymentStatus !== "Paid" &&
-                        booking.status !== "Cancelled" && (
-                          <button
-                            onClick={() => handleUpdate(booking)}
-                            className="btn btn-square btn-sm hover:bg-green-500 hover:text-white transition"
-                            title="Update Booking"
-                          >
-                            <FiEdit className="w-5 h-5" />
-                          </button>
-                        )}
+        <>
+          {/* Sorting Controls */}
+          <div className="mb-4 flex gap-4 items-center bg-white p-4 rounded-lg shadow">
+            <span className="font-medium text-gray-700">Sort by:</span>
+            <button
+              onClick={() => handleSort("bookingDate")}
+              className={`px-4 py-2 rounded-lg transition ${
+                sortBy === "bookingDate"
+                  ? "bg-purple-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              Date {getSortIcon("bookingDate")}
+            </button>
+            <button
+              onClick={() => handleSort("status")}
+              className={`px-4 py-2 rounded-lg transition ${
+                sortBy === "status"
+                  ? "bg-purple-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              Status {getSortIcon("status")}
+            </button>
+          </div>
 
-                      {/* Delete (only if unpaid and not cancelled) */}
-                      {booking.paymentStatus !== "Paid" &&
-                        booking.status !== "Cancelled" && (
-                          <button
-                            onClick={() => handleBookingDelete(booking._id)}
-                            className="btn btn-square btn-sm hover:bg-red-500 hover:text-white transition"
-                            title="Cancel Booking"
-                          >
-                            <FaTrashCan className="w-5 h-5" />
-                          </button>
-                        )}
-
-                      {booking.paymentStatus === "Paid" && (
-                        <span className="text-green-600 font-medium text-sm">
-                          No actions available
-                        </span>
-                      )}
-                    </div>
-                  </td>
+          <div className="overflow-x-auto bg-white rounded-lg shadow-lg">
+            <table className="table table-zebra w-full">
+              {/* Head */}
+              <thead className="bg-linear-to-r from-primary to-orange-600 text-white">
+                <tr>
+                  <th>SL No</th>
+                  <th>Service</th>
+                  <th>Booking Date</th>
+                  <th>Location</th>
+                  <th>Price</th>
+                  <th>Payment</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {sortedBookings.map((booking, index) => (
+                  <tr
+                    key={booking._id}
+                    className="hover:bg-purple-50 transition"
+                  >
+                    <th>{index + 1}</th>
+                    <td>
+                      <div className="flex items-center gap-4">
+                        <div className="avatar">
+                          <div className="mask mask-squircle w-10 h-10">
+                            <img
+                              src={booking.serviceImage}
+                              alt={booking.serviceName}
+                              className="object-cover"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-bold text-gray-900">
+                            {booking.serviceName}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {booking.serviceCategory}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      {new Date(booking.bookingDate).toLocaleDateString(
+                        "en-GB"
+                      )}
+                    </td>
+                    <td>
+                      <div
+                        className="max-w-xs truncate"
+                        title={booking.location}
+                      >
+                        {booking.location}
+                      </div>
+                    </td>
+                    <td className="font-bold text-primary">
+                      ৳ {booking.servicePrice?.toLocaleString()}
+                    </td>
+                    <td>
+                      {booking.paymentStatus === "Paid" ? (
+                        <span className="badge badge-success text-white font-semibold">
+                          Paid
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => handlePayment(booking)}
+                          className="btn btn-sm btn-primary"
+                        >
+                          Pay
+                        </button>
+                      )}
+                    </td>
+                    <td>
+                      <span
+                        className={`badge py-6 ${
+                          booking.status === "Completed" ||
+                          booking.status === "completed"
+                            ? "badge-success"
+                            : booking.status === "In Progress"
+                            ? "badge-info"
+                            : booking.status === "Cancelled" ||
+                              booking.status === "cancelled" ||
+                              booking.status === "cancelled_by_admin"
+                            ? "badge-error"
+                            : "badge-warning"
+                        }`}
+                      >
+                        {booking.status?.replace(/_/g, " ") || "Pending"}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="flex gap-3">
+                        {booking.paymentStatus !== "Paid" &&
+                          booking.status !== "Cancelled" &&
+                          booking.status !== "cancelled" &&
+                          booking.status !== "cancelled_by_admin" && (
+                            <button
+                              onClick={() => handleUpdate(booking)}
+                              className="btn btn-square btn-sm hover:bg-green-500 hover:text-white transition"
+                              title="Update Booking"
+                            >
+                              <FiEdit className="w-5 h-5" />
+                            </button>
+                          )}
+
+                        {booking.paymentStatus !== "Paid" &&
+                          booking.status !== "Cancelled" &&
+                          booking.status !== "cancelled" &&
+                          booking.status !== "cancelled_by_admin" && (
+                            <button
+                              onClick={() => handleBookingDelete(booking._id)}
+                              className="btn btn-square btn-sm hover:bg-red-500 hover:text-white transition"
+                              title="Cancel Booking"
+                            >
+                              <FaTrashCan className="w-5 h-5" />
+                            </button>
+                          )}
+
+                        {booking.paymentStatus === "Paid" && (
+                          <span className="text-green-600 font-medium text-sm">
+                            No actions available
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
+
       <div className="mt-8 text-center">
         <button
           onClick={() => navigate("/services")}

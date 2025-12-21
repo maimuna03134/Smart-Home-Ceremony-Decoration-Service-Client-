@@ -1,19 +1,21 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 
-import { FaClock, FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
+
+import { FaClock, FaMapMarkerAlt,  FaEnvelope } from "react-icons/fa";
 import useAuth from "../../../../hooks/useAuth";
 import Loader from "../../../shared/loader/Loader";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const DecoratorTodaysSchedule = () => {
   const { user } = useAuth();
+  const axiosSecure=useAxiosSecure()
 
   const { data: schedule = [], isLoading } = useQuery({
     queryKey: ["decorator-schedule", user?.email],
     queryFn: async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/decorator/todays-schedule/${
+      const res = await axiosSecure.get(
+        `/decorator/todays-schedule/${
           user?.email
         }`
       );

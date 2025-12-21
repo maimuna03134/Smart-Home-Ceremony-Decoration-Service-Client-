@@ -1,13 +1,14 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { FaCheckCircle, FaSpinner, FaClock } from "react-icons/fa";
 import useAuth from "../../../../hooks/useAuth";
 import Loader from "../../../shared/loader/Loader";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const DecoratorUpdateStatus = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const {
     data: projects = [],
@@ -16,8 +17,8 @@ const DecoratorUpdateStatus = () => {
   } = useQuery({
     queryKey: ["decorator-active-projects", user?.email],
     queryFn: async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/decorator/assigned-projects/${
+      const res = await axiosSecure.get(
+        `/decorator/assigned-projects/${
           user?.email
         }`
       );
@@ -62,11 +63,9 @@ const DecoratorUpdateStatus = () => {
       confirmButtonText: "Yes, update it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
+        axiosSecure
           .patch(
-            `${
-              import.meta.env.VITE_API_URL
-            }/decorator/update-status/${projectId}`,
+            `/decorator/update-status/${projectId}`,
             { status: nextStatus }
           )
           .then((res) => {

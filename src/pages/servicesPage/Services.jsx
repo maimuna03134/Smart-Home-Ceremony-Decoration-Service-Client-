@@ -21,7 +21,6 @@ const Services = () => {
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
-  // Fetch categories for filter
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
@@ -33,7 +32,6 @@ const Services = () => {
     },
   });
 
-  // Fetch services with filters
   const {
     data: services = [],
     isLoading,
@@ -62,7 +60,7 @@ const Services = () => {
     },
   });
 
-  // Reset all filters
+
   const handleResetFilters = () => {
     setSearchTerm("");
     setSelectedCategory("all");
@@ -70,7 +68,7 @@ const Services = () => {
     setMaxPrice("");
   };
 
-  // Apply price filter
+
   const handleApplyPriceFilter = () => {
     refetch();
   };

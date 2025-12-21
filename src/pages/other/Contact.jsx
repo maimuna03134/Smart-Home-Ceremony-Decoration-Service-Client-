@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import toast from "react-hot-toast";
 import MyContainer from "../../components/container/MyContainer";
+import Coverage from "../coverage/Coverage";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -286,26 +287,8 @@ const Contact = () => {
       </section>
 
       {/* Map Section */}
-      <section className="py-20 bg-linear-to-br from-purple-50 via-pink-50 to-amber-50">
-        <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-white rounded-2xl overflow-hidden shadow-2xl"
-            style={{ height: "400px" }}
-          >
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.0209831433237!2d90.4125!3d23.8103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDQ4JzM3LjEiTiA5MMKwMjQnNDUuMCJF!5e0!3m2!1sen!2sbd!4v1234567890123"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </motion.div>
-        </MyContainer>
+      <section>
+        <Coverage/>
       </section>
     </div>
   );

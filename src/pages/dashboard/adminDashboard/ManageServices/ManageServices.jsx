@@ -14,7 +14,7 @@ const ManageServices = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 const axiosSecure = useAxiosSecure();
-  // Modal states
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingService, setEditingService] = useState(null);
   const [imageFile, setImageFile] = useState(null);

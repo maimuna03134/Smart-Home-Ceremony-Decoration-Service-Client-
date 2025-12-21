@@ -6,13 +6,13 @@ import { Link, Outlet } from "react-router";
 import { BsFillMenuButtonFill } from "react-icons/bs";
 import { FaRegCreditCard } from "react-icons/fa6";
 import { MdAdminPanelSettings, MdOutlineAssignmentInd } from "react-icons/md";
-import { IoBagAdd } from "react-icons/io5";
+
 import { FaChartBar, FaMoneyBillWave, FaUserAlt, FaUsers, FaUserTag } from "react-icons/fa";
 import useRole from "../../hooks/useRole";
 import Loader from "../../pages/shared/loader/Loader";
 import { AiTwotoneSchedule } from "react-icons/ai";
 import { GrDocumentUpdate, GrOverview, GrServices, GrUserAdmin } from "react-icons/gr";
-import AdminDashboard from "../../pages/dashboard/adminDashboard/AdminDashboard";
+
 import DecoratorEarnings from "../../pages/dashboard/decoratorDashboard/decoratorEarning/DecoratorEarnings";
 import MyProfile from "../../pages/dashboard/userDashboard/MyProfile";
 
@@ -108,18 +108,7 @@ if(isRoleLoading) return <Loader/>
             {/* ===== DECORATOR ===== */}
             {role === "decorator" && (
               <>
-                <li>
-                  <Link
-                    to="/dashboard/my-project"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="My Project"
-                  >
-                    <GrOverview />
-                    <span className="is-drawer-close:hidden">
-                      Decorator dashboard
-                    </span>
-                  </Link>
-                </li>
+                
                 <li>
                   <Link
                     to="/dashboard/my-project"
@@ -175,18 +164,7 @@ if(isRoleLoading) return <Loader/>
             {/* ===== ADMIN ===== */}
             {role === "admin" && (
               <>
-                <li>
-                  <Link
-                    to="/dashboard/admin"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Overview"
-                  >
-                    <GrUserAdmin />
-                    <span className="is-drawer-close:hidden">
-                      Admin Dashboard
-                    </span>
-                  </Link>
-                </li>
+                
                 <li>
                   <Link
                     to="/dashboard/manage-services"

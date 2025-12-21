@@ -1,18 +1,19 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { FaMapMarkerAlt, FaCalendarAlt, FaUser } from "react-icons/fa";
 import useAuth from "../../../../hooks/useAuth";
 import Loader from "../../../shared/loader/Loader";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const DecoratorAssignedProjects = () => {
   const { user } = useAuth();
+  const axiosSecure=useAxiosSecure()
 
   const { data: projects = [], isLoading } = useQuery({
     queryKey: ["decorator-projects", user?.email],
     queryFn: async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/decorator/assigned-projects/${
+      const res = await axiosSecure.get(
+        `/decorator/assigned-projects/${
           user?.email
         }`
       );

@@ -151,10 +151,9 @@ const DecoratorRequestsDataRow = ({ req, refetch }) => {
         </span>
       </td>
 
-      {/* Action - Conditional buttons based on status */}
       <td className="px-5 py-5 border-b bg-white text-sm">
         <div className="flex gap-2">
-          {/* For Pending Decorators */}
+
           {req?.status === "pending" && (
             <>
               <button
@@ -174,7 +173,6 @@ const DecoratorRequestsDataRow = ({ req, refetch }) => {
             </>
           )}
 
-          {/* For Approved Decorators */}
           {req?.status === "approved" && (
             <button
               onClick={() => handleDisable(req)}
@@ -184,8 +182,6 @@ const DecoratorRequestsDataRow = ({ req, refetch }) => {
               <FaBan />
             </button>
           )}
-
-          {/* For Disabled Decorators */}
           {req?.status === "disabled" && (
             <button
               onClick={() => handleEnable(req)}
@@ -196,7 +192,6 @@ const DecoratorRequestsDataRow = ({ req, refetch }) => {
             </button>
           )}
 
-          {/* Delete button (available for all) */}
           <button
             onClick={() => handleDeleteDecorator(req)}
             className="btn btn-sm btn-error"

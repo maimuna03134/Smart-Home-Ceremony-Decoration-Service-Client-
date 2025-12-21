@@ -40,7 +40,6 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
       return;
     }
 
-    // Check if booking date is in the future
     const selectedDate = new Date(formData.bookingDate);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -53,13 +52,10 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
     setLoading(true);
 
     try {
-      const response = await axiosSecure.patch(
-        `/bookings/${booking._id}`,
-        {
-          bookingDate: formData.bookingDate,
-          location: formData.location,
-        }
-      );
+      const response = await axiosSecure.patch(`/bookings/${booking._id}`, {
+        bookingDate: formData.bookingDate,
+        location: formData.location,
+      });
 
       if (response.data.modifiedCount > 0) {
         toast.success("Booking updated successfully!");
@@ -90,7 +86,7 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
                 as="h3"
                 className="text-2xl font-bold text-gray-900 flex items-center gap-2"
               >
-                <Edit className="w-6 h-6 text-purple-600" />
+                <Edit className="w-6 h-6 text-primary" />
                 Update Booking
               </DialogTitle>
               <button
@@ -116,7 +112,7 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
                   <p className="text-sm text-gray-600">
                     {booking.serviceCategory}
                   </p>
-                  <p className="text-lg font-bold text-purple-600 mt-1">
+                  <p className="text-lg font-bold text-primary mt-1">
                     ৳ {booking.servicePrice}
                   </p>
                 </div>
@@ -130,13 +126,13 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
               </h4>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center gap-2 text-gray-700">
-                  <Calendar className="w-4 h-4 text-purple-600" />
+                  <Calendar className="w-4 h-4 text-primary" />
                   <span>
                     {new Date(booking.bookingDate).toLocaleDateString("en-GB")}
                   </span>
                 </div>
                 <div className="flex items-start gap-2 text-gray-700">
-                  <MapPin className="w-4 h-4 text-pink-600 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-orange-600 mt-0.5" />
                   <span>{booking.location}</span>
                 </div>
               </div>
@@ -199,7 +195,7 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-6 py-3 bg-linear-to-r from-primary to-orange-600 text-white rounded-xl font-semibold hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? "Updating..." : "Update Booking"}
                 </button>

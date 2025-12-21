@@ -195,7 +195,7 @@ const BecomeDecorator = () => {
               <p className="text-sm text-gray-600 mb-2">
                 Or add your own specialty:
               </p>
-              <div className="flex gap-2">
+              <div className="flex flex-col md:flex-row gap-2">
                 <input
                   type="text"
                   placeholder="Enter custom specialty"
@@ -203,7 +203,7 @@ const BecomeDecorator = () => {
                   onChange={(e) => setCustomSpecialty(e.target.value)}
                   className="flex-1 border border-gray-300 rounded-lg px-4 py-2 
                   focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  onKeyPress={(e) => {
+                  onKeyUp={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
                       addCustomSpecialty();
