@@ -14,7 +14,7 @@ const useRole = () => {
     queryKey: ["role", user?.email],
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/user/role/${user?.email}`
+        `https://smart-home-and-ceremony-decoration.vercel.app/user/role/${user?.email}`
       );
       
       return res.data?.role || "user";

@@ -12,7 +12,7 @@ const FeaturedServices = () => {
     queryKey: ["featured-services"],
     queryFn: async () => {
       const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/services`
+        `https://smart-home-and-ceremony-decoration.vercel.app/services`
       );
 
       return result.data.slice(0, 3);

@@ -11,7 +11,6 @@ const Services = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,9 +24,9 @@ const Services = () => {
     queryKey: ["categories"],
     queryFn: async () => {
       const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/services/categories/all`
+        `https://smart-home-and-ceremony-decoration.vercel.app/services/categories/all`
       );
-      console.log('categories from apis:',result.data )
+      console.log("categories from apis:", result.data);
       return result.data;
     },
   });
@@ -54,12 +53,11 @@ const Services = () => {
       if (maxPrice) params.append("maxPrice", maxPrice);
 
       const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/services?${params.toString()}`
+        `https://smart-home-and-ceremony-decoration.vercel.app/services?${params.toString()}`
       );
       return result.data;
     },
   });
-
 
   const handleResetFilters = () => {
     setSearchTerm("");
@@ -67,7 +65,6 @@ const Services = () => {
     setMinPrice("");
     setMaxPrice("");
   };
-
 
   const handleApplyPriceFilter = () => {
     refetch();

@@ -94,7 +94,7 @@ const MyBookings = () => {
     };
 
     const res = await axios.post(
-      `${import.meta.env.VITE_API_URL}/create-checkout-session`,
+      `https://smart-home-and-ceremony-decoration.vercel.app/create-checkout-session`,
       paymentInfo
     );
 

@@ -1,4 +1,3 @@
-
 import useAuth from "../../../../hooks/useAuth";
 import DecoratorRequestsDataRow from "../../../../components/Dashboard/tablerows/DecoratorRequestsDataRow";
 import axios from "axios";
@@ -6,24 +5,23 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "../../../shared/loader/Loader";
 
 const ManageDecorators = () => {
+  const { user } = useAuth();
+  const {
+    data: requests = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["decorator-requests", user?.email],
+    queryFn: async () => {
+      const result = await axios.get(
+        `https://smart-home-and-ceremony-decoration.vercel.app/decorators`
+      );
+      return result.data;
+    },
+  });
+  console.log(requests);
 
-     const { user } = useAuth();
-     const {
-       data: requests = [],
-         isLoading,
-       refetch
-     } = useQuery({
-       queryKey: ["decorator-requests", user?.email],
-       queryFn: async () => {
-         const result = await axios.get(
-           `${import.meta.env.VITE_API_URL}/decorators`
-         )
-         return result.data;
-       },
-     });
-     console.log(requests);
-
-     if (isLoading) return <Loader/>;
+  if (isLoading) return <Loader />;
   return (
     <div className="container mx-auto px-4 sm:px-8">
       <div className="py-8">

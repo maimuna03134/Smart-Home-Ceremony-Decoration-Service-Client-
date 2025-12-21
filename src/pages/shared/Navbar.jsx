@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router"
+import { Link } from "react-router";
 import toast from "react-hot-toast";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { MdDashboard, MdMiscellaneousServices } from "react-icons/md";
@@ -21,19 +21,17 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-
   const { data: userRole } = useQuery({
     queryKey: ["userRole", user?.email],
     queryFn: async () => {
       if (!user?.email) return null;
       const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/user/role/${user.email}`
+        `https://smart-home-and-ceremony-decoration.vercel.app/user/role/${user.email}`
       );
       return result.data.role;
     },
     enabled: !!user?.email,
   });
-
 
   const handleLogOut = () => {
     logOut()
@@ -56,14 +54,14 @@ const Navbar = () => {
 
   const navRoleBased = [
     ...navLinks,
-    ...(userRole === 'user' || userRole === 'customer' ?
-      [
-        {
-          name: "Be a Decorator",
-          path: "/become-decorator",
-          icon: GrUserAdmin,
-        },
-      ]
+    ...(userRole === "user" || userRole === "customer"
+      ? [
+          {
+            name: "Be a Decorator",
+            path: "/become-decorator",
+            icon: GrUserAdmin,
+          },
+        ]
       : []),
   ];
 

@@ -11,7 +11,7 @@ const TopDecorators = () => {
     queryKey: ["top-decorators"],
     queryFn: async () => {
       const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/decorators/top?limit=6`
+        `https://smart-home-and-ceremony-decoration.vercel.app/decorators/top?limit=6`
       );
       return result.data;
     },
@@ -27,7 +27,7 @@ const TopDecorators = () => {
 
   return (
     <section className="py-16 bg-linear-to-b from-white to-purple-50">
-      <MyContainer className={'px-4 sm:px-6 lg:px-8'}>
+      <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -142,8 +142,6 @@ const TopDecorators = () => {
                     {decorator.bio}
                   </p>
                 )}
-
-                
               </div>
             </div>
           ))}

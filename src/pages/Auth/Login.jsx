@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router";
-import SocialLogin from "./SocialLogin";
+import SocialLogin from "../Auth/SocialLogin";
 import Button from "../shared/button/Button";
 import toast from "react-hot-toast";
 import Loader from "../shared/loader/Loader";

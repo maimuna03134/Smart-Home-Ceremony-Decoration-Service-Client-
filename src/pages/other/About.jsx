@@ -73,10 +73,10 @@ const About = () => {
               className="grid grid-cols-2 gap-4"
             >
               {[
-                "https:images.unsplash.com/photo-1519225421980-715cb0215aed?w=400",
-                "https:images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400",
-                "https:images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400",
-                "https:images.unsplash.com/photo-1556912173-46c336c7fd55?w=400",
+                "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500",
+                "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500",
+                "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500",
+                "https://images.unsplash.com/photo-1556912173-46c336c7fd55?w=500",
               ].map((img, index) => (
                 <motion.img
                   key={index}

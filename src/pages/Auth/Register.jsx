@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router";
-import SocialLogin from "./SocialLogin";
+import SocialLogin from '../Auth/SocialLogin';
 import Button from "../shared/button/Button";
 import Loader from "../shared/loader/Loader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -62,7 +62,7 @@ const Register = () => {
     <div className="hero-content flex-col">
       <div className="text-center lg:text-left">
         <h1 className="text-3xl font-bold">Create an Account</h1>
-        <p className="py-2 text-sm">Register with ZapShift</p>
+        <p className="py-2 text-sm">Register with StyleDecor</p>
       </div>
 
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">

@@ -8,7 +8,7 @@
 //   const sessionId = searchParams.get("session_id");
 //   useEffect(() => {
 //     if (sessionId) {
-//       axios.patch(`${import.meta.env.VITE_API_URL}/payment-success`, {
+//       axios.patch(`https://smart-home-and-ceremony-decoration.vercel.app/payment-success`, {
 //         sessionId,
 //       });
 //     }
@@ -51,7 +51,7 @@
 //   useEffect(() => {
 //     if (sessionId) {
 //       axios
-//         .patch(`${import.meta.env.VITE_API_URL}/payment-success`, {
+//         .patch(`https://smart-home-and-ceremony-decoration.vercel.app/payment-success`, {
 //           sessionId: sessionId,
 //         })
 //         .then((res) => {
@@ -90,9 +90,12 @@ const PaymentSuccess = () => {
   useEffect(() => {
     if (sessionId) {
       axios
-        .patch(`${import.meta.env.VITE_API_URL}/payment-success`, {
-          sessionId: sessionId,
-        })
+        .patch(
+          `https://smart-home-and-ceremony-decoration.vercel.app/payment-success`,
+          {
+            sessionId: sessionId,
+          }
+        )
         .then((res) => {
           console.log(res.data);
           if (res.data.success) {

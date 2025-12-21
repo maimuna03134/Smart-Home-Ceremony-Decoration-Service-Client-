@@ -20,7 +20,7 @@ const ServiceDetails = () => {
     queryKey: ["service", id],
     queryFn: async () => {
       const result = await axios(
-        `${import.meta.env.VITE_API_URL}/services/${id}`
+        `https://smart-home-and-ceremony-decoration.vercel.app/services/${id}`
       );
       return result.data;
     },
@@ -31,7 +31,7 @@ const ServiceDetails = () => {
     enabled: !!user?.email && !!id,
     queryFn: async () => {
       const result = await axios.get(
-        `${import.meta.env.VITE_API_URL}/bookings/check`,
+        `https://smart-home-and-ceremony-decoration.vercel.app/bookings/check`,
         {
           params: {
             userEmail: user.email,

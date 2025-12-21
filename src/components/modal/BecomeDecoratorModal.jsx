@@ -7,7 +7,7 @@ const BecomeDecoratorModal = ({ closeModal, isOpen }) => {
   const handleRequest = async () => {
     try {
       await axios.get(
-        `${import.meta.env.VITE_API_URL}/become-seller/${user?.email}`
+        `https://smart-home-and-ceremony-decoration.vercel.app/become-seller/${user?.email}`
       );
       toast.success("Request sent, please wait for admin approval!");
     } catch (err) {

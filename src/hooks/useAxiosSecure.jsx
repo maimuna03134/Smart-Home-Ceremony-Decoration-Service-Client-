@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { auth } from "../firebase/firebase.config";
 
 const axiosSecure = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: "https://smart-home-and-ceremony-decoration.vercel.app",
 });
 
 const useAxiosSecure = () => {
