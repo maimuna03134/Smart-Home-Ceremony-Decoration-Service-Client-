@@ -289,37 +289,50 @@ const MyBookings = () => {
                         {booking.status?.replace(/_/g, " ") || "Pending"}
                       </span>
                     </td>
+
                     <td>
-                      <div className="flex gap-3">
+                      <div className="flex gap-3 items-center">
                         {booking.paymentStatus !== "Paid" &&
                           booking.status !== "Cancelled" &&
                           booking.status !== "cancelled" &&
                           booking.status !== "cancelled_by_admin" && (
-                            <button
-                              onClick={() => handleUpdate(booking)}
-                              className="btn btn-square btn-sm hover:bg-green-500 hover:text-white transition"
-                              title="Update Booking"
-                            >
-                              <FiEdit className="w-5 h-5" />
-                            </button>
+                            <>
+                              <button
+                                onClick={() => handleUpdate(booking)}
+                                className="btn btn-square btn-sm hover:bg-green-500 hover:text-white transition"
+                                title="Update Booking"
+                              >
+                                <FiEdit className="w-5 h-5" />
+                              </button>
+
+                              <button
+                                onClick={() => handleBookingDelete(booking._id)}
+                                className="btn btn-square btn-sm hover:bg-red-500 hover:text-white transition"
+                                title="Cancel Booking"
+                              >
+                                <FaTrashCan className="w-5 h-5" />
+                              </button>
+                            </>
                           )}
 
-                        {booking.paymentStatus !== "Paid" &&
-                          booking.status !== "Cancelled" &&
-                          booking.status !== "cancelled" &&
+                        {booking.paymentStatus === "Paid" &&
                           booking.status !== "cancelled_by_admin" && (
-                            <button
-                              onClick={() => handleBookingDelete(booking._id)}
-                              className="btn btn-square btn-sm hover:bg-red-500 hover:text-white transition"
-                              title="Cancel Booking"
-                            >
-                              <FaTrashCan className="w-5 h-5" />
-                            </button>
+                            <span className="text-green-600 font-medium text-sm px-3 py-1 bg-green-50 rounded-full">
+                              ✓ Payment Complete. No actions available now.
+                            </span>
                           )}
 
-                        {booking.paymentStatus === "Paid" && (
-                          <span className="text-green-600 font-medium text-sm">
-                            No actions available
+                        {booking.status === "cancelled_by_admin" &&
+                          booking.status === "cancelled_by_admin" && (
+                            <span className="text-xs text-gray-600 italic">
+                              ⚠️ Service unavailable
+                            </span>
+                          )}
+
+                        {(booking.status === "Cancelled" ||
+                          booking.status === "cancelled") && (
+                          <span className="text-gray-500 font-medium text-sm px-3 py-1 bg-gray-100 rounded-full">
+                            Booking Cancelled
                           </span>
                         )}
                       </div>
