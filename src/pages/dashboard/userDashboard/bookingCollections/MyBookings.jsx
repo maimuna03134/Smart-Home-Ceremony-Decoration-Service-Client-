@@ -258,22 +258,37 @@ const MyBookings = () => {
                       ৳ {booking.servicePrice?.toLocaleString()}
                     </td>
                     <td>
-                      {booking.paymentStatus === "Paid" ? (
+                      {booking.paymentStatus === "Paid" && (
                         <span className="badge badge-success text-white font-semibold">
                           Paid
                         </span>
-                      ) : (
-                        <button
-                          onClick={() => handlePayment(booking)}
-                          className="btn btn-sm btn-primary"
-                        >
-                          Pay
-                        </button>
+                      )}
+
+                      {booking.paymentStatus !== "Paid" && (
+                        <div className="flex flex-col gap-1 items-center">
+                          <button
+                            onClick={() => handlePayment(booking)}
+                            disabled={
+                              booking.status === "cancelled" ||
+                              booking.status === "Cancelled" ||
+                              booking.status === "cancelled_by_admin"
+                            }
+                            className={`btn btn-sm btn-primary w-full ${
+                              booking.status === "cancelled" ||
+                              booking.status === "Cancelled" ||
+                              booking.status === "cancelled_by_admin"
+                                ? "opacity-90 text-gray-500 rounded-xl cursor-not-allowed"
+                                : ""
+                            }`}
+                          >
+                            Pay
+                          </button>
+                        </div>
                       )}
                     </td>
                     <td>
                       <span
-                        className={`badge py-6 ${
+                        className={`badge py-6 text-center ${
                           booking.status === "Completed" ||
                           booking.status === "completed"
                             ? "badge-success"
