@@ -20,10 +20,14 @@ This project solves critical problems faced by local decoration businesses:
 
 **Live URL:**   https://smart-home-decoration-service.web.app/
 
+<p align="center">
+  <img src="./StyleDecor cover page.png" width="100%" alt="Banner" />
+</p>
+
+---
+
 ## 🛠️ Technology Stack
 
-|                           Technology                        |
-| ---------------------------- | ---------------------------- |
 | **React.js**                 | **DaisyUI 5.4.7**            |
 | **Node.js**                  | **Firebase 12.5.0**          |
 | **Express.js**               | **React Router 7.9.5**       |
@@ -35,7 +39,8 @@ This project solves critical problems faced by local decoration businesses:
 
 ## 📦 Dependencies
 
-"dependencies": {
+```json
+{
     "@headlessui/react": "^2.2.9",
     "@stripe/react-stripe-js": "^5.4.1",
     "@stripe/stripe-js": "^8.5.3",
@@ -58,7 +63,8 @@ This project solves critical problems faced by local decoration businesses:
     "recharts": "^3.6.0",
     "sweetalert2": "^11.26.10",
     "tailwindcss": "^4.1.17"
-  },
+  }
+```
 
 ---
 
