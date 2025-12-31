@@ -20,6 +20,47 @@ This project solves critical problems faced by local decoration businesses:
 
 **Live URL:**   https://smart-home-decoration-service.web.app/
 
+## 🛠️ Technology Stack
+
+|                           Technology                        |
+| ---------------------------- | ---------------------------- |
+| **React.js**                 | **DaisyUI 5.4.7**            |
+| **Node.js**                  | **Firebase 12.5.0**          |
+| **Express.js**               | **React Router 7.9.5**       |
+| **MongoDB**                  | **Swiper 12.0.3**            | 
+| **Vite**                     | **React Hot Toast 2.6.0**    | 
+| **Tailwind CSS 4.1.17**      | **React Icons 5.5.0**        | 
+
+---
+
+## 📦 Dependencies
+
+"dependencies": {
+    "@headlessui/react": "^2.2.9",
+    "@stripe/react-stripe-js": "^5.4.1",
+    "@stripe/stripe-js": "^8.5.3",
+    "@tailwindcss/vite": "^4.1.17",
+    "@tanstack/react-query": "^5.90.12",
+    "axios": "^1.13.2",
+    "daisyui": "^5.5.8",
+    "firebase": "^12.6.0",
+    "framer-motion": "^12.23.25",
+    "lucide-react": "^0.561.0",
+    "motion": "^12.23.25",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.68.0",
+    "react-hot-toast": "^2.6.0",
+    "react-icons": "^5.5.0",
+    "react-leaflet": "^5.0.0-rc.2",
+    "react-router": "^7.10.1",
+    "react-spinners": "^0.17.0",
+    "recharts": "^3.6.0",
+    "sweetalert2": "^11.26.10",
+    "tailwindcss": "^4.1.17"
+  },
+
+---
 
 ## ✨ Key Features
 
