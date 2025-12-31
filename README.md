@@ -65,7 +65,81 @@ This project solves critical problems faced by local decoration businesses:
     "tailwindcss": "^4.1.17"
   }
 ```
+---
 
+## 🚀 Installation & Setup Guide
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/maimuna03134/Smart-Home-Ceremony-Decoration-Service-Client-.git
+```
+
+### Step 2: Install Dependencies
+
+Using npm:
+
+```bash
+npm install
+```
+
+### Step 3: Run Development Server
+
+```bash
+npm run dev
+```
+
+The application will start at `http://localhost:5173` 
+
+### Step 4: Build for Production
+
+```bash
+npm run build
+```
+
+The optimized production build will be generated in the `dist` folder.
+
+### Step 5: Preview Production Build
+
+```bash
+npm run preview
+```
+
+---
+
+## 🌐 Deployment
+
+### Deploy to Firebase Hosting
+
+1. Install Firebase CLI:
+
+```bash
+npm install -g firebase-tools
+```
+
+2. Login to Firebase:
+
+```bash
+firebase login
+```
+
+3. Initialize Firebase in the project:
+
+```bash
+firebase init
+```
+
+4. Build the project:
+
+```bash
+npm run build
+```
+
+5. Deploy to Firebase:
+
+```bash
+firebase deploy
+```
 ---
 
 ## ✨ Key Features
