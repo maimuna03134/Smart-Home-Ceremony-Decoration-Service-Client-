@@ -277,7 +277,7 @@ const MyBookings = () => {
                               booking.status === "cancelled" ||
                               booking.status === "Cancelled" ||
                               booking.status === "cancelled_by_admin"
-                                ? "opacity-90 text-gray-500 rounded-xl cursor-not-allowed"
+                                ? "opacity-90 text-gray-500 rounded cursor-not-allowed"
                                 : ""
                             }`}
                           >

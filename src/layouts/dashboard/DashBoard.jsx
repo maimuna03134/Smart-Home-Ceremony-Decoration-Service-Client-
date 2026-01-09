@@ -11,10 +11,11 @@ import { FaChartBar, FaMoneyBillWave, FaUserAlt, FaUsers, FaUserTag } from "reac
 import useRole from "../../hooks/useRole";
 import Loader from "../../pages/shared/loader/Loader";
 import { AiTwotoneSchedule } from "react-icons/ai";
-import { GrDocumentUpdate, GrOverview, GrServices, GrUserAdmin } from "react-icons/gr";
+import { GrDocumentUpdate, GrServices } from "react-icons/gr";
+import CustomerMenu from "../../components/Dashboard/menu/CustomerMenu";
+import DecoratorMenu from "../../components/Dashboard/menu/DecoratorMenu";
+import AdminMenu from "../../components/Dashboard/menu/AdminMenu";
 
-import DecoratorEarnings from "../../pages/dashboard/decoratorDashboard/decoratorEarning/DecoratorEarnings";
-import MyProfile from "../../pages/dashboard/userDashboard/MyProfile";
 
 
 const DashBoard = () => {
@@ -68,164 +69,23 @@ if(isRoleLoading) return <Loader/>
             {/* ===== USER ===== */}
             {role === "user" && (
               <>
-                <li>
-                  <Link
-                    to="/dashboard/profile"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="My Profile"
-                  >
-                    <FaUserAlt />
-                    <span className="is-drawer-close:hidden">My Profile</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="/dashboard/my-bookings"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="My Bookings"
-                  >
-                    <BsFillMenuButtonFill />
-                    <span className="is-drawer-close:hidden">My Bookings</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="/dashboard/payment-history"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Payment History"
-                  >
-                    <FaRegCreditCard />
-                    <span className="is-drawer-close:hidden">
-                      Payment History
-                    </span>
-                  </Link>
-                </li>
+                <CustomerMenu/>
+                
               </>
             )}
 
             {/* ===== DECORATOR ===== */}
             {role === "decorator" && (
               <>
-                
-                <li>
-                  <Link
-                    to="/dashboard/my-project"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="My Project"
-                  >
-                    <LuProjector />
-                    <span className="is-drawer-close:hidden">My Project</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/today-schedule"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Today's Schedule"
-                  >
-                    <AiTwotoneSchedule />
-                    <span className="is-drawer-close:hidden">
-                      Today's Schedule
-                    </span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/update-project"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Update Project Status
-"
-                  >
-                    <GrDocumentUpdate />
-                    <span className="is-drawer-close:hidden">
-                      Update Project Status
-                    </span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/decorator-earning"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Earnings Summary
-
-"
-                  >
-                    <FaMoneyBillWave />
-                    <span className="is-drawer-close:hidden">
-                      Earnings Summary
-                    </span>
-                  </Link>
-                </li>
+                <DecoratorMenu/>
+               
               </>
             )}
 
             {/* ===== ADMIN ===== */}
             {role === "admin" && (
               <>
-                
-                <li>
-                  <Link
-                    to="/dashboard/manage-services"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Manage Services"
-                  >
-                    <GrServices />
-                    <span className="is-drawer-close:hidden">
-                      {" "}
-                      Manage Services
-                    </span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/manage-bookings"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Manage Bookings"
-                  >
-                    <MdAdminPanelSettings />
-                    <span className="is-drawer-close:hidden">
-                      Manage Bookings
-                    </span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/decorator"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Manage Decorator"
-                  >
-                    <FaUserTag />
-                    <span className="is-drawer-close:hidden">
-                      Manage Decorator
-                    </span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/assign-decorator"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Assign Decorator"
-                  >
-                    <MdOutlineAssignmentInd />
-                    <span className="is-drawer-close:hidden">
-                      Assign Decorator
-                    </span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/dashboard/analytics"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Analytics Charts"
-                  >
-                    <FaChartBar />
-                    <span className="is-drawer-close:hidden">
-                      Analytics Charts
-                    </span>
-                  </Link>
-                </li>
+               <AdminMenu/>
               </>
             )}
 
