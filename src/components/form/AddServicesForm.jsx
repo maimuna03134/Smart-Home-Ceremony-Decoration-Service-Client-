@@ -29,9 +29,6 @@ const AddServicesForm = () => {
 
     onSuccess: (data) => {
       // console.log(data);
-     
-      
-
       toast.success("Service Added successfully");
       mutationReset();
       navigate("/services");
@@ -75,7 +72,8 @@ const AddServicesForm = () => {
 
   const onSubmit = async (data) => {
     
-    if (!checkActionPermission("add_service")) return;
+    if (!checkActionPermission("add_service"))
+      return;
     const { name, description, price, category, unit, image } = data;
     const imageFile = image[0];
 

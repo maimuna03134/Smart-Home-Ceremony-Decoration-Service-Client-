@@ -11,7 +11,7 @@ import { saveOrUpdateUser } from "../../utils";
 import { DEMO_CREDENTIALS } from "../../config/demoCredentials";
 
 const Login = () => {
-    const { signIn, loading, setLoading } = useAuth();
+  const { signIn, loading, setLoading } = useAuth();
   const [showPass, setShowPass] = useState(false);
   const [selectedDemoRole, setSelectedDemoRole] = useState(null);
 
@@ -25,41 +25,100 @@ const Login = () => {
   } = useForm();
 
   const email = watch("email");
-
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Get user-friendly error message
+  const getErrorMessage = (error) => {
+    console.log("Error object:", error);
+    console.log("Error code:", error?.code);
+    console.log("Error message:", error?.message);
+
+    const errorCode = error?.code;
+    const errorMessage = error?.message || "";
+
+    // Check Firebase error codes (new version)
+    if (errorCode === "auth/invalid-credential" ||
+      errorCode === "auth/wrong-password" ||
+      errorMessage.includes("INVALID_LOGIN_CREDENTIALS") ||
+      errorMessage.includes("invalid-credential")) {
+      return "❌ Incorrect email or password. Please try again.";
+    }
+
+    if (errorCode === "auth/user-not-found" ||
+      errorMessage.includes("USER_NOT_FOUND")) {
+      return "❌ No account found with this email. Please register first.";
+    }
+
+    if (errorCode === "auth/invalid-email" ||
+      errorMessage.includes("INVALID_EMAIL")) {
+      return "❌ Invalid email address format.";
+    }
+
+    if (errorCode === "auth/user-disabled" ||
+      errorMessage.includes("USER_DISABLED")) {
+      return "❌ This account has been disabled. Contact support.";
+    }
+
+    if (errorCode === "auth/too-many-requests" ||
+      errorMessage.includes("TOO_MANY_ATTEMPTS_TRY_LATER")) {
+      return "❌ Too many failed attempts. Please try again later.";
+    }
+
+    if (errorCode === "auth/network-request-failed") {
+      return "❌ Network error. Please check your internet connection.";
+    }
+
+    // Default error message
+    return "❌ Login failed. Please check your credentials and try again.";
+  };
 
   const handleLogin = async (data) => {
+    setLoading(true);
 
     try {
       const { user } = await signIn(data.email, data.password);
-       
+
       const isDemoAccount = Object.values(DEMO_CREDENTIALS).some(
         (cred) => cred.email === data.email
       );
 
-       await saveOrUpdateUser({
-         name: user?.displayName,
-         email: user?.email,
-         image: user?.photoURL,
-         isDemo: isDemoAccount,
-       });
-      
+      await saveOrUpdateUser({
+        name: user?.displayName || "User",
+        email: user?.email,
+        image: user?.photoURL || "https://i.ibb.co/9ZQW8Yx/user.png",
+        isDemo: isDemoAccount,
+      });
+
       if (isDemoAccount) {
         toast.success("Logged in with demo account! Note: Some features are read-only.", {
           duration: 4000,
           icon: "ℹ️",
         });
       } else {
-        toast.success("Login successful!");
+        toast.success("✅ Login successful! Welcome back!", {
+          duration: 3000,
+        });
       }
-    
+
       reset();
       setSelectedDemoRole(null);
       navigate(location.state?.from || "/", { replace: true });
+
     } catch (err) {
-      toast.error(err.message || "Login failed");
+      console.error("Login error:", err);
+
+      const friendlyMessage = getErrorMessage(err);
+
+      toast.error(friendlyMessage, {
+        duration: 5000,
+        style: {
+          background: "#FEE2E2",
+          color: "#991B1B",
+          border: "1px solid #FCA5A5",
+        },
+      });
+
     } finally {
       setLoading(false);
     }
@@ -71,7 +130,7 @@ const Login = () => {
     setValue("password", credentials.password);
     setSelectedDemoRole(role);
 
-    toast.success(`Demo ${role} credentials loaded! Click Login to continue.`, {
+    toast.success(`🎯 Demo ${role} credentials loaded! Click Login to continue.`, {
       duration: 3000,
     });
   };
@@ -89,6 +148,7 @@ const Login = () => {
         <h1 className="text-3xl font-bold">Welcome Back</h1>
         <p className="py-2 text-sm">Login with StyleDecor</p>
       </div>
+
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
         <div className="card-body">
           <form onSubmit={handleSubmit(handleLogin)}>
@@ -103,8 +163,8 @@ const Login = () => {
                     type="button"
                     onClick={() => handleDemoLogin("customer")}
                     className={`flex flex-col items-center justify-center p-3 rounded-lg transition-all duration-200 ${selectedDemoRole === "customer"
-                        ? "bg-blue-500 text-white shadow-lg scale-105"
-                        : "bg-white text-gray-700 hover:bg-blue-100 hover:shadow-md"
+                      ? "bg-blue-500 text-white shadow-lg scale-105"
+                      : "bg-white text-gray-700 hover:bg-blue-100 hover:shadow-md"
                       }`}
                   >
                     <FaUser className="text-xl mb-1" />
@@ -115,8 +175,8 @@ const Login = () => {
                     type="button"
                     onClick={() => handleDemoLogin("decorator")}
                     className={`flex flex-col items-center justify-center p-3 rounded-lg transition-all duration-200 ${selectedDemoRole === "decorator"
-                        ? "bg-purple-500 text-white shadow-lg scale-105"
-                        : "bg-white text-gray-700 hover:bg-purple-100 hover:shadow-md"
+                      ? "bg-purple-500 text-white shadow-lg scale-105"
+                      : "bg-white text-gray-700 hover:bg-purple-100 hover:shadow-md"
                       }`}
                   >
                     <FaPaintBrush className="text-xl mb-1" />
@@ -127,8 +187,8 @@ const Login = () => {
                     type="button"
                     onClick={() => handleDemoLogin("admin")}
                     className={`flex flex-col items-center justify-center p-3 rounded-lg transition-all duration-200 ${selectedDemoRole === "admin"
-                        ? "bg-red-500 text-white shadow-lg scale-105"
-                        : "bg-white text-gray-700 hover:bg-red-100 hover:shadow-md"
+                      ? "bg-red-500 text-white shadow-lg scale-105"
+                      : "bg-white text-gray-700 hover:bg-red-100 hover:shadow-md"
                       }`}
                   >
                     <FaUserShield className="text-xl mb-1" />
@@ -144,8 +204,7 @@ const Login = () => {
 
               <div className="divider text-xs text-gray-500">OR Login Manually</div>
 
-              
-              {/* email filed */}
+              {/* Email field */}
               <div>
                 <label className="label">Email</label>
                 <input
@@ -161,15 +220,13 @@ const Login = () => {
                   })}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.email.message}
-                  </p>
+                  <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
                 )}
               </div>
-              {/* password filed */}
+
+              {/* Password field */}
               <div>
                 <label className="label">Password</label>
-
                 <div className="relative">
                   <input
                     type={showPass ? "text" : "password"}
@@ -181,8 +238,6 @@ const Login = () => {
                         value: 6,
                         message: "Password must be at least 6 characters",
                       },
-                      pattern:
-                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
                     })}
                   />
                   <button
@@ -194,20 +249,11 @@ const Login = () => {
                   </button>
                 </div>
                 {errors.password && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.password.message}
-                  </p>
-                )}
-
-                {errors.password?.type === "pattern" && (
-                  <p className="text-red-500" role="alert">
-                    Password must have at least one uppercase, at least on
-                    lowercase and at least one special characters
-                  </p>
+                  <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
                 )}
               </div>
 
-              {/* forgot pass */}
+              {/* Forgot password */}
               <label className="label my-2">
                 <Link
                   to="/auth/forgot-password"
@@ -220,20 +266,19 @@ const Login = () => {
 
               <Button
                 label="Login"
-                loading={false}
-                disabled={false}
+                loading={loading}
+                disabled={loading}
                 className="w-full"
               />
+
               <SocialLogin />
             </fieldset>
-            <p className="text-sm text-gray-500 font-semibold text-center">
-              <span className="hover:text-red-500 ">
-                New to StyleDecor ?
+
+            <p className="text-sm text-gray-500 font-semibold text-center mt-4">
+              <span className="hover:text-red-500">
+                New to StyleDecor?
                 <Link state={location.state} to="/auth/register">
-                  <span className="text-red-500 hover:font-bold">
-                    {" "}
-                    Register
-                  </span>
+                  <span className="text-red-500 hover:font-bold"> Register</span>
                 </Link>
               </span>
             </p>

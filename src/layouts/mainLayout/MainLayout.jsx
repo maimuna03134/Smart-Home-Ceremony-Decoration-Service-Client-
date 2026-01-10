@@ -12,7 +12,23 @@ const MainLayout = () => {
         <Outlet />
         <ScrollTop />
         <Footer />
-        <Toaster />
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+            },
+            success: {
+              duration: 3000,
+            },
+            error: {
+              duration: 5000,
+            },
+          }}
+        />
       </div>
     );
 };
