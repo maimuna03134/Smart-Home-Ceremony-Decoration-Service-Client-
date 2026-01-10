@@ -8,12 +8,15 @@ import Loader from "../../pages/shared/loader/Loader";
 import ErrorPage from "../../pages/shared/errorPage/ErrorPage";
 import { useNavigate } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useDemoProtection from "../../hooks/useDemoProtection";
+import { FaLock } from "react-icons/fa";
 
 const AddServicesForm = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
+  const { checkActionPermission, isDemoAccount } = useDemoProtection();
 
   const {
     isPending,
@@ -22,10 +25,13 @@ const AddServicesForm = () => {
     reset: mutationReset,
   } = useMutation({
     mutationFn: async (payload) =>
-      await axiosSecure.post("/services",payload),
-      
+      await axiosSecure.post("/services", payload),
+
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
+     
+      
+
       toast.success("Service Added successfully");
       mutationReset();
       navigate("/services");
@@ -68,6 +74,8 @@ const AddServicesForm = () => {
   };
 
   const onSubmit = async (data) => {
+    
+    if (!checkActionPermission("add_service")) return;
     const { name, description, price, category, unit, image } = data;
     const imageFile = image[0];
 
@@ -105,12 +113,14 @@ const AddServicesForm = () => {
     }
   };
 
+
   if (isPending) return <Loader />;
   if (isError) return <ErrorPage />;
 
   return (
-    <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl my-20">
+      <form
+        onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="space-y-6">
             {/* Name */}
@@ -249,7 +259,9 @@ const AddServicesForm = () => {
                       className="hidden"
                       type="file"
                       accept="image/*"
+                    
                       onChange={handleImageChange}
+                     
                     />
                     <div className="bg-primary text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:opacity-90">
                       {imagePreview ? "Change Image" : "Upload Image"}
@@ -266,12 +278,29 @@ const AddServicesForm = () => {
             </div>
 
             {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-primary hover:opacity-90"
-            >
-              Save & Continue
-            </button>
+            <div>
+              {isDemoAccount && (
+                <div className="alert alert-warning">
+                  <FaLock />
+                  <span>Demo Admin - You can view everything but cannot make changes</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                // onClick={(e) => {
+                //   if (isDemoAccount) {
+                //     e.preventDefault(); 
+                //     toast.error("Demo admin cannot add services");
+                //   }
+                // }}
+                className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-primary hover:opacity-90"
+              >
+                Save & Continue
+              </button>
+
+            </div>
+
           </div>
         </div>
       </form>

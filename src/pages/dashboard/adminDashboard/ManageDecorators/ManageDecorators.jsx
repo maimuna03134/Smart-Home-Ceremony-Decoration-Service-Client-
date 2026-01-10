@@ -3,8 +3,12 @@ import DecoratorRequestsDataRow from "../../../../components/Dashboard/tablerows
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../../../shared/loader/Loader";
+import useDemoProtection from "../../../../hooks/useDemoProtection";
+import { FaLock } from "react-icons/fa";
+
 
 const ManageDecorators = () => {
+  const { isDemoAccount,checkActionPermission } = useDemoProtection();
   const { user } = useAuth();
   const {
     data: requests = [],
@@ -31,7 +35,14 @@ const ManageDecorators = () => {
         <h2 className="text-xl text-gray-800 ">
           Total Decorators : {requests.length}
         </h2>
-
+        {isDemoAccount && (
+          <div className="alert alert-warning flex items-center gap-2 mt-4 mb-4">
+            <FaLock />
+            <span>
+              Demo Admin - You can view everything but cannot make changes
+            </span>
+          </div>
+        )}
         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
           <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
             <table className="min-w-full leading-normal">
@@ -82,6 +93,8 @@ const ManageDecorators = () => {
                     refetch={refetch}
                     key={req._id}
                     req={req}
+                    isDemoAccount={isDemoAccount} 
+                    checkActionPermission={checkActionPermission} 
                   />
                 ))}
               </tbody>

@@ -6,12 +6,15 @@ import Loader from "../../../shared/loader/Loader";
 import Swal from "sweetalert2";
 import { FaEye, FaBan, FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useDemoProtection from "../../../../hooks/useDemoProtection";
+import toast from "react-hot-toast";
 
 const ManageBookings = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [selectedBooking, setSelectedBooking] = useState(null);
   const detailsModalRef = useRef();
+  const { isDemoAccount, checkActionPermission } = useDemoProtection();
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -101,6 +104,13 @@ const ManageBookings = () => {
 
   // Handle cancel booking
   const handleCancelBooking = (booking) => {
+    if (isDemoAccount && !checkActionPermission("cancel_booking")) {
+      toast.error(
+        "Demo Admin - You can view bookings but cannot cancel them."
+      );
+      return;
+    }
+
     Swal.fire({
       title: "Cancel this booking?",
       text: "This action will cancel the booking",

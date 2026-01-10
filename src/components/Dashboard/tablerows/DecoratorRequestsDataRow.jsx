@@ -5,50 +5,52 @@ import { IoPersonRemoveSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-const DecoratorRequestsDataRow = ({ req, refetch }) => {
+const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount,
+  checkActionPermission }) => {
   const axiosSecure = useAxiosSecure();
-  const updateDecoratorStatus = (decorator, status) => {
+  const updateDecoratorStatus = async (decorator, status, actionName) => {
+    if (isDemoAccount && !checkActionPermission(actionName)) {
+      return; 
+    }
+
     const updateInfo = {
       status: status,
       email: decorator.email,
     };
 
-    axiosSecure
-      .patch(
-        `/decorators/${decorator._id}`,
-        updateInfo
-      )
-      .then((res) => {
-        if (res.data.modifiedCount) {
-          refetch();
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: `Decorator status is set to ${status}.`,
-            showConfirmButton: false,
-            timer: 2000,
-          });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+    try {
+      const res = await axiosSecure.patch(`/decorators/${decorator._id}`, updateInfo);
+
+      if (res.data.modifiedCount) {
+        refetch();
         Swal.fire({
-          icon: "error",
-          title: "Failed!",
-          text: err?.response?.data?.message || "Something went wrong",
+          position: "center",
+          icon: "success",
+          title: `Decorator status is set to ${status}.`,
+          showConfirmButton: false,
+          timer: 2000,
         });
+      }
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Failed!",
+        text: err?.response?.data?.message || "Something went wrong",
       });
+    }
   };
 
   const handleApproval = (decorator) => {
-    updateDecoratorStatus(decorator, "approved");
+    updateDecoratorStatus(decorator, "approved", "approve_decorator");
   };
 
   const handleRejection = (decorator) => {
-    updateDecoratorStatus(decorator, "rejected");
+    updateDecoratorStatus(decorator, "rejected", "reject_decorator");
   };
 
   const handleDisable = (decorator) => {
+    if (isDemoAccount && !checkActionPermission("disable_decorator")) return;
     Swal.fire({
       title: "Disable this decorator?",
       text: "The decorator won't be able to take new bookings",
@@ -64,10 +66,11 @@ const DecoratorRequestsDataRow = ({ req, refetch }) => {
   };
 
   const handleEnable = (decorator) => {
-    updateDecoratorStatus(decorator, "approved");
+    updateDecoratorStatus(decorator, "approved", "enable_decorator");
   };
 
   const handleDeleteDecorator = (decorator) => {
+    if (isDemoAccount && !checkActionPermission("delete_decorator")) return;
     Swal.fire({
       title: "Are you sure?",
       text: "This decorator will be permanently deleted!",

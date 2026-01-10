@@ -6,12 +6,14 @@ import SocialLogin from "../Auth/SocialLogin";
 import Button from "../shared/button/Button";
 import toast from "react-hot-toast";
 import Loader from "../shared/loader/Loader";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaPaintBrush, FaUser, FaUserShield } from "react-icons/fa";
 import { saveOrUpdateUser } from "../../utils";
+import { DEMO_CREDENTIALS } from "../../config/demoCredentials";
 
 const Login = () => {
     const { signIn, loading, setLoading } = useAuth();
   const [showPass, setShowPass] = useState(false);
+  const [selectedDemoRole, setSelectedDemoRole] = useState(null);
 
   const {
     register,
@@ -19,6 +21,7 @@ const Login = () => {
     formState: { errors },
     reset,
     watch,
+    setValue,
   } = useForm();
 
   const email = watch("email");
@@ -28,27 +31,49 @@ const Login = () => {
 
 
   const handleLogin = async (data) => {
-  
 
     try {
       const { user } = await signIn(data.email, data.password);
        
- 
+      const isDemoAccount = Object.values(DEMO_CREDENTIALS).some(
+        (cred) => cred.email === data.email
+      );
+
        await saveOrUpdateUser({
          name: user?.displayName,
          email: user?.email,
          image: user?.photoURL,
+         isDemo: isDemoAccount,
        });
       
-      
-      toast.success("Login successful!");
+      if (isDemoAccount) {
+        toast.success("Logged in with demo account! Note: Some features are read-only.", {
+          duration: 4000,
+          icon: "ℹ️",
+        });
+      } else {
+        toast.success("Login successful!");
+      }
+    
       reset();
+      setSelectedDemoRole(null);
       navigate(location.state?.from || "/", { replace: true });
     } catch (err) {
       toast.error(err.message || "Login failed");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDemoLogin = (role) => {
+    const credentials = DEMO_CREDENTIALS[role];
+    setValue("email", credentials.email);
+    setValue("password", credentials.password);
+    setSelectedDemoRole(role);
+
+    toast.success(`Demo ${role} credentials loaded! Click Login to continue.`, {
+      duration: 3000,
+    });
   };
 
   const handleTogglePasswordShow = (e) => {
@@ -68,6 +93,58 @@ const Login = () => {
         <div className="card-body">
           <form onSubmit={handleSubmit(handleLogin)}>
             <fieldset className="fieldset space-y-4">
+              {/* Demo Login Section */}
+              <div className="bg-linear-to-r from-blue-50 to-purple-50 p-4 rounded-lg border border-blue-200">
+                <p className="text-xs font-semibold text-gray-700 mb-3 text-center">
+                  🎯 Try Demo Login
+                </p>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleDemoLogin("customer")}
+                    className={`flex flex-col items-center justify-center p-3 rounded-lg transition-all duration-200 ${selectedDemoRole === "customer"
+                        ? "bg-blue-500 text-white shadow-lg scale-105"
+                        : "bg-white text-gray-700 hover:bg-blue-100 hover:shadow-md"
+                      }`}
+                  >
+                    <FaUser className="text-xl mb-1" />
+                    <span className="text-xs font-medium">Customer</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleDemoLogin("decorator")}
+                    className={`flex flex-col items-center justify-center p-3 rounded-lg transition-all duration-200 ${selectedDemoRole === "decorator"
+                        ? "bg-purple-500 text-white shadow-lg scale-105"
+                        : "bg-white text-gray-700 hover:bg-purple-100 hover:shadow-md"
+                      }`}
+                  >
+                    <FaPaintBrush className="text-xl mb-1" />
+                    <span className="text-xs font-medium">Decorator</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleDemoLogin("admin")}
+                    className={`flex flex-col items-center justify-center p-3 rounded-lg transition-all duration-200 ${selectedDemoRole === "admin"
+                        ? "bg-red-500 text-white shadow-lg scale-105"
+                        : "bg-white text-gray-700 hover:bg-red-100 hover:shadow-md"
+                      }`}
+                  >
+                    <FaUserShield className="text-xl mb-1" />
+                    <span className="text-xs font-medium">Admin</span>
+                  </button>
+                </div>
+                {selectedDemoRole && (
+                  <p className="text-xs text-center mt-2 text-gray-600">
+                    ✓ {DEMO_CREDENTIALS[selectedDemoRole].name} selected
+                  </p>
+                )}
+              </div>
+
+              <div className="divider text-xs text-gray-500">OR Login Manually</div>
+
+              
               {/* email filed */}
               <div>
                 <label className="label">Email</label>

@@ -8,10 +8,12 @@ import toast from "react-hot-toast";
 import BookingModal from "../../components/modal/BookingModal";
 import useAuth from "../../hooks/useAuth";
 import { Star, Users } from "lucide-react";
+import useDemoProtection from "../../hooks/useDemoProtection";
 
 const ServiceDetails = () => {
   const { user } = useAuth();
   const { id } = useParams();
+  const { isDemoAccount } = useDemoProtection();
   console.log(id);
   const navigate = useNavigate();
   const [showBookingModal, setShowBookingModal] = useState(false);
@@ -44,6 +46,14 @@ const ServiceDetails = () => {
   });
 
   const handleBookNow = () => {
+    if (isDemoAccount) {
+      toast.error("Demo accounts cannot book services. Please register with your own account to book.", {
+        duration: 5000,
+        icon: "🔒",
+      });
+      return;
+    }
+
     if (!user) {
       toast.error("Please login to book a service");
       navigate("/auth/login", { state: { from: `/services/${id}` } });
@@ -178,14 +188,21 @@ const ServiceDetails = () => {
                     Price: <span className="text-primary">৳ {price}</span>
                   </p>
                   <div>
+                    {isDemoAccount && (
+                      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-4">
+                        <p className="text-yellow-800 font-semibold">
+                          ⚠️ You are using a demo account. Booking is disabled.
+                        </p>
+                      </div>
+                    )}
+
                     <button
                       onClick={handleBookNow}
                       disabled={isBookingDisabled}
-                      className={`px-8 py-3 text-lg font-bold rounded-xl shadow-lg transition-all duration-300 ${
-                        isBookingDisabled
-                          ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                          : "bg-linear-to-r from-primary to-orange-600 text-white hover:shadow-xl transform hover:-translate-y-1"
-                      }`}
+                      className={`px-8 py-3 text-lg font-bold rounded-xl shadow-lg transition-all duration-300 ${isBookingDisabled
+                        ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                        : "bg-linear-to-r from-primary to-orange-600 text-white hover:shadow-xl transform hover:-translate-y-1"
+                        }`}
                     >
                       {isBookingDisabled ? "Already Booked" : "Book Now"}
                     </button>

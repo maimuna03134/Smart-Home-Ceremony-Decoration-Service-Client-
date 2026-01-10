@@ -3,6 +3,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useDemoProtection from "../../../hooks/useDemoProtection";
+import { FaLock } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const AssignDecorator = () => {
   const axiosSecure = useAxiosSecure();
@@ -11,14 +14,14 @@ const AssignDecorator = () => {
   const [isAssigning, setIsAssigning] = useState(false);
   const decoratorModalRef = useRef();
   const queryClient = useQueryClient();
+  const { checkActionPermission, isDemoAccount } = useDemoProtection();
 
 
   const { data: bookings = [], refetch: bookingsRefetch } = useQuery({
     queryKey: ["bookings", "paid"],
     queryFn: async () => {
       const res = await axios.get(
-        `${
-          import.meta.env.VITE_API_URL
+        `${import.meta.env.VITE_API_URL
         }/booking-decorator?paymentStatus=Paid&status=awaiting_decorator`
       );
       return res.data;
@@ -30,8 +33,7 @@ const AssignDecorator = () => {
     enabled: !!selectedBooking,
     queryFn: async () => {
       const res = await axios.get(
-        `${
-          import.meta.env.VITE_API_URL
+        `${import.meta.env.VITE_API_URL
         }/decorators?status=approved&workStatus=available`
       );
       return res.data;
@@ -45,6 +47,14 @@ const AssignDecorator = () => {
   };
 
   const handleAssignDecorator = async () => {
+    if (!checkActionPermission("assign_decorator")) {
+      toast.error("Demo accounts cannot book services. Please register with your own account to book.", {
+        duration: 5000,
+        icon: "🔒",
+      });
+      return; 
+    }
+
     if (!selectedDecorator) {
       Swal.fire({
         icon: "warning",
@@ -236,6 +246,13 @@ const AssignDecorator = () => {
           </div>
 
           <div className="modal-action">
+            {isDemoAccount && (
+              <div className="alert alert-warning">
+                <FaLock />
+                <span>Demo Admin - You can view everything but cannot make changes</span>
+              </div>
+            )}
+
             <button
               onClick={handleAssignDecorator}
               disabled={!selectedDecorator || isAssigning}

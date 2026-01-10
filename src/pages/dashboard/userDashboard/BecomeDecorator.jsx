@@ -4,10 +4,12 @@ import { FaPlusCircle, FaTimes } from "react-icons/fa";
 import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useDemoProtection from "../../../hooks/useDemoProtection";
 
 const BecomeDecorator = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const { isDemoAccount } = useDemoProtection();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -71,6 +73,13 @@ const BecomeDecorator = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isDemoAccount) {
+      toast.error("Demo accounts cannot request for decorator. Please register with your own account to send a request.", {
+        duration: 5000,
+        icon: "🔒",
+      });
+      return;
+    }
 
     if (formData.specialties.length === 0) {
       toast.error("Please select at least one specialty");
@@ -178,11 +187,10 @@ const BecomeDecorator = () => {
                     type="button"
                     onClick={() => addSpecialty(option)}
                     disabled={formData.specialties.includes(option)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                      formData.specialties.includes(option)
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition ${formData.specialties.includes(option)
                         ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                         : "bg-white border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white"
-                    }`}
+                      }`}
                   >
                     + {option}
                   </button>
@@ -230,16 +238,26 @@ const BecomeDecorator = () => {
               decoration projects.
             </p>
           </div>
+          <div>
+            {isDemoAccount && (
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-4">
+                <p className="text-yellow-800 font-semibold">
+                  ⚠️ You are using a demo account. Booking is disabled.
+                </p>
+              </div>
+            )}
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white 
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white 
             font-semibold py-3 rounded-xl transition-all transform 
             hover:scale-105 shadow-md"
-          >
-            Submit Decorator Request
-          </button>
+            >
+              Submit Decorator Request
+            </button>
+          </div>
+
         </form>
       </div>
     </div>
