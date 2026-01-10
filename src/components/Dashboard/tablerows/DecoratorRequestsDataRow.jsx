@@ -1,17 +1,15 @@
-
 import { FaUserCheck, FaBan, FaUserPlus } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { IoPersonRemoveSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount,
-  checkActionPermission }) => {
+const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount, checkActionPermission }) => {
   const axiosSecure = useAxiosSecure();
+
   const updateDecoratorStatus = async (decorator, status, actionName) => {
-    if (isDemoAccount && !checkActionPermission(actionName)) {
-      return; 
-    }
+    // Demo protection
+    if (!checkActionPermission(actionName)) return;
 
     const updateInfo = {
       status: status,
@@ -26,7 +24,7 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount,
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `Decorator status is set to ${status}.`,
+          title: `✅ Decorator status set to ${status}`,
           showConfirmButton: false,
           timer: 2000,
         });
@@ -50,7 +48,9 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount,
   };
 
   const handleDisable = (decorator) => {
-    if (isDemoAccount && !checkActionPermission("disable_decorator")) return;
+    // Demo protection
+    if (!checkActionPermission("disable_decorator")) return;
+
     Swal.fire({
       title: "Disable this decorator?",
       text: "The decorator won't be able to take new bookings",
@@ -60,7 +60,7 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount,
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        updateDecoratorStatus(decorator, "disabled");
+        updateDecoratorStatus(decorator, "disabled", "disable_decorator");
       }
     });
   };
@@ -70,7 +70,9 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount,
   };
 
   const handleDeleteDecorator = (decorator) => {
-    if (isDemoAccount && !checkActionPermission("delete_decorator")) return;
+    // Demo protection
+    if (!checkActionPermission("delete_decorator")) return;
+
     Swal.fire({
       title: "Are you sure?",
       text: "This decorator will be permanently deleted!",
@@ -88,7 +90,7 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount,
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "Decorator deleted successfully!",
+                title: "✅ Decorator deleted successfully!",
                 showConfirmButton: false,
                 timer: 2000,
               });
@@ -112,43 +114,31 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount,
         <p className="text-gray-900">{req?.email}</p>
       </td>
 
-      {/* Name */}
-      <td className="px-5 py-5 border-b bg-white text-sm">
-        {req?.name || "N/A"}
-      </td>
+      <td className="px-5 py-5 border-b bg-white text-sm">{req?.name || "N/A"}</td>
 
-      {/* District */}
-      <td className="px-5 py-5 border-b bg-white text-sm">
-        {req?.district || "N/A"}
-      </td>
+      <td className="px-5 py-5 border-b bg-white text-sm">{req?.district || "N/A"}</td>
 
-      {/* Status */}
       <td className="px-5 py-5 border-b bg-white text-sm">
         <span
-          className={`px-3 py-1 rounded-full text-xs font-semibold
-          ${
-            req?.status === "approved"
+          className={`px-3 py-1 rounded-full text-xs font-semibold ${req?.status === "approved"
               ? "bg-green-100 text-green-800"
               : req?.status === "rejected"
-              ? "bg-red-100 text-red-800"
-              : req?.status === "disabled"
-              ? "bg-gray-100 text-gray-800"
-              : "bg-yellow-100 text-yellow-800"
-          }`}
+                ? "bg-red-100 text-red-800"
+                : req?.status === "disabled"
+                  ? "bg-gray-100 text-gray-800"
+                  : "bg-yellow-100 text-yellow-800"
+            }`}
         >
           {req?.status || "pending"}
         </span>
       </td>
 
-      {/* Work Status */}
       <td className="px-5 py-5 border-b bg-white text-sm">
         <span
-          className={`px-3 py-1 rounded-full text-xs font-semibold
-          ${
-            req?.workStatus === "available"
+          className={`px-3 py-1 rounded-full text-xs font-semibold ${req?.workStatus === "available"
               ? "bg-blue-100 text-blue-800"
               : "bg-gray-100 text-gray-800"
-          }`}
+            }`}
         >
           {req?.workStatus || "N/A"}
         </span>
@@ -156,20 +146,21 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount,
 
       <td className="px-5 py-5 border-b bg-white text-sm">
         <div className="flex gap-2">
-
           {req?.status === "pending" && (
             <>
               <button
                 onClick={() => handleApproval(req)}
-                className="btn btn-sm btn-success"
-                title="Approve"
+                disabled={isDemoAccount}
+                className={`btn btn-sm ${isDemoAccount ? "btn-disabled" : "btn-success"}`}
+                title={isDemoAccount ? "Demo mode" : "Approve"}
               >
                 <FaUserCheck />
               </button>
               <button
                 onClick={() => handleRejection(req)}
-                className="btn btn-sm btn-warning"
-                title="Reject"
+                disabled={isDemoAccount}
+                className={`btn btn-sm ${isDemoAccount ? "btn-disabled" : "btn-warning"}`}
+                title={isDemoAccount ? "Demo mode" : "Reject"}
               >
                 <IoPersonRemoveSharp />
               </button>
@@ -179,17 +170,20 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount,
           {req?.status === "approved" && (
             <button
               onClick={() => handleDisable(req)}
-              className="btn btn-sm btn-warning"
-              title="Disable Account"
+              disabled={isDemoAccount}
+              className={`btn btn-sm ${isDemoAccount ? "btn-disabled" : "btn-warning"}`}
+              title={isDemoAccount ? "Demo mode" : "Disable Account"}
             >
               <FaBan />
             </button>
           )}
+
           {req?.status === "disabled" && (
             <button
               onClick={() => handleEnable(req)}
-              className="btn btn-sm btn-success"
-              title="Enable Account"
+              disabled={isDemoAccount}
+              className={`btn btn-sm ${isDemoAccount ? "btn-disabled" : "btn-success"}`}
+              title={isDemoAccount ? "Demo mode" : "Enable Account"}
             >
               <FaUserPlus />
             </button>
@@ -197,8 +191,9 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount,
 
           <button
             onClick={() => handleDeleteDecorator(req)}
-            className="btn btn-sm btn-error"
-            title="Delete"
+            disabled={isDemoAccount}
+            className={`btn btn-sm ${isDemoAccount ? "btn-disabled" : "btn-error"}`}
+            title={isDemoAccount ? "Demo mode" : "Delete"}
           >
             <FaTrashCan />
           </button>

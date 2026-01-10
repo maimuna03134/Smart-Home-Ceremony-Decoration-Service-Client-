@@ -24,24 +24,15 @@ const AddServicesForm = () => {
     mutateAsync,
     reset: mutationReset,
   } = useMutation({
-    mutationFn: async (payload) =>
-      await axiosSecure.post("/services", payload),
-
+    mutationFn: async (payload) => await axiosSecure.post("/services", payload),
     onSuccess: (data) => {
-      // console.log(data);
-      toast.success("Service Added successfully");
+      toast.success("✅ Service added successfully!");
       mutationReset();
       navigate("/services");
     },
     onError: (error) => {
       console.log(error);
-      toast.error("Failed to add service");
-    },
-    onMutate: (payload) => {
-      console.log("I will post this data--->", payload);
-    },
-    onSettled: (data, error) => {
-      if (error) console.log(error);
+      toast.error("❌ Failed to add service. Please try again.");
     },
     retry: 3,
   });
@@ -54,38 +45,34 @@ const AddServicesForm = () => {
     setValue,
   } = useForm();
 
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
-
-      // Set value for react-hook-form
       setValue("image", e.target.files);
     }
   };
 
   const onSubmit = async (data) => {
-    
-    if (!checkActionPermission("add_service"))
-      return;
+    // Demo protection check
+    if (!checkActionPermission("add_service")) return;
+
     const { name, description, price, category, unit, image } = data;
     const imageFile = image[0];
 
     if (!imageFile) {
-      toast.error("Please select an image");
+      toast.error("❌ Please select an image");
       return;
     }
 
     try {
-      toast.loading("Uploading image...");
+      const loadingToast = toast.loading("Uploading image...");
       const imageUrl = await imageUpload(imageFile);
-      toast.dismiss();
+      toast.dismiss(loadingToast);
 
       const serviceData = {
         name,
@@ -107,18 +94,27 @@ const AddServicesForm = () => {
       setImagePreview(null);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to upload image");
+      toast.error("❌ Failed to upload image. Please try again.");
     }
   };
-
 
   if (isPending) return <Loader />;
   if (isError) return <ErrorPage />;
 
   return (
-    <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl my-20">
-      <form
-        onSubmit={handleSubmit(onSubmit)}>
+    <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl my-20 p-6 md:p-0">
+      {/* Demo Account Warning */}
+      {isDemoAccount && (
+        <div className="alert alert-warning mb-6 max-w-4xl shadow-lg">
+          <FaLock className="text-xl" />
+          <div>
+            <h3 className="font-bold">Demo Admin Account - Read Only</h3>
+            <div className="text-sm">You can view everything but cannot add services.</div>
+          </div>
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-4xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="space-y-6">
             {/* Name */}
@@ -135,9 +131,7 @@ const AddServicesForm = () => {
                 {...register("name", { required: "Name is required" })}
               />
               {errors.name && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.name.message}
-                </p>
+                <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
               )}
             </div>
 
@@ -154,15 +148,12 @@ const AddServicesForm = () => {
                 <option value="Wedding">Wedding</option>
                 <option value="Home">Home</option>
                 <option value="Office">Office</option>
-                <option value="Office">Seminar</option>
-
+                <option value="Seminar">Seminar</option>
                 <option value="Birthday">Birthday</option>
-                <option value="Corporate">Meeting </option>
+                <option value="Meeting">Meeting</option>
               </select>
               {errors.category && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.category.message}
-                </p>
+                <p className="text-red-500 text-xs mt-1">{errors.category.message}</p>
               )}
             </div>
 
@@ -190,7 +181,6 @@ const AddServicesForm = () => {
           <div className="space-y-6 flex flex-col">
             {/* Price & Unit */}
             <div className="flex justify-between gap-2">
-              {/* Price */}
               <div className="flex-1">
                 <label className="block text-gray-700 font-medium mb-2">
                   Price *
@@ -202,13 +192,10 @@ const AddServicesForm = () => {
                   {...register("price", { required: "Price is required" })}
                 />
                 {errors.price && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.price.message}
-                  </p>
+                  <p className="text-red-500 text-xs mt-1">{errors.price.message}</p>
                 )}
               </div>
 
-              {/* Unit */}
               <div className="flex-1">
                 <label className="block text-gray-700 font-medium mb-2">
                   Unit *
@@ -225,9 +212,7 @@ const AddServicesForm = () => {
                   <option value="per day">per day</option>
                 </select>
                 {errors.unit && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.unit.message}
-                  </p>
+                  <p className="text-red-500 text-xs mt-1">{errors.unit.message}</p>
                 )}
               </div>
             </div>
@@ -238,7 +223,6 @@ const AddServicesForm = () => {
                 Service Image *
               </label>
 
-              {/* Image Preview */}
               {imagePreview && (
                 <div className="mb-3">
                   <img
@@ -249,7 +233,6 @@ const AddServicesForm = () => {
                 </div>
               )}
 
-              {/* File Upload */}
               <div className="file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg">
                 <div className="flex flex-col w-max mx-auto text-center">
                   <label className="cursor-pointer">
@@ -257,9 +240,7 @@ const AddServicesForm = () => {
                       className="hidden"
                       type="file"
                       accept="image/*"
-                    
                       onChange={handleImageChange}
-                     
                     />
                     <div className="bg-primary text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:opacity-90">
                       {imagePreview ? "Change Image" : "Upload Image"}
@@ -277,28 +258,17 @@ const AddServicesForm = () => {
 
             {/* Submit Button */}
             <div>
-              {isDemoAccount && (
-                <div className="alert alert-warning">
-                  <FaLock />
-                  <span>Demo Admin - You can view everything but cannot make changes</span>
-                </div>
-              )}
-
               <button
                 type="submit"
-                // onClick={(e) => {
-                //   if (isDemoAccount) {
-                //     e.preventDefault(); 
-                //     toast.error("Demo admin cannot add services");
-                //   }
-                // }}
-                className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-primary hover:opacity-90"
+                disabled={isDemoAccount}
+                className={`w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md ${isDemoAccount
+                    ? "bg-gray-400 cursor-not-allowed opacity-60"
+                    : "bg-primary hover:opacity-90 cursor-pointer"
+                  }`}
               >
-                Save & Continue
+                {isDemoAccount ? "🔒 Demo Mode - Cannot Add" : "Save & Continue"}
               </button>
-
             </div>
-
           </div>
         </div>
       </form>
