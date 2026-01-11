@@ -9,6 +9,7 @@ import CTASection from "../other/CTASection";
 import Banner from "./banner/Banner";
 import { useTheme } from "../../contexts/ThemeContext";
 
+
 const Home = () => {
   const { isDark } = useTheme();
   
@@ -37,6 +38,7 @@ const Home = () => {
 
       {/* CTA Section */}
       <CTASection />
+
     </div>
   );
 };

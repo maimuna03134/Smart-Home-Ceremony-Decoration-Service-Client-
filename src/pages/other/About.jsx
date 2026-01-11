@@ -12,12 +12,15 @@ import {
   FaHandSparkles,
 } from "react-icons/fa";
 import MyContainer from "../../components/container/MyContainer";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const About = () => {
+  const { isDark } = useTheme();
+  
   return (
-    <div className="min-h-screen bg-white">
+    <div className={`min-h-screen ${isDark ? 'bg-gray-900' : ''}`}>
       {/* Hero Section */}
-      <section className="relative py-20 bg-linear-to-br from-purple-50 via-pink-50 to-amber-50 overflow-hidden">
+      <section className="relative py-16 bg-primary/10 overflow-hidden">
         <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -29,7 +32,9 @@ const About = () => {
                 About StyleDecor
               </span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className={`text-xl max-w-3xl mx-auto ${
+              isDark ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               We're on a mission to make professional decoration services
               accessible to everyone, transforming ordinary spaces into
               extraordinary experiences.
@@ -47,20 +52,28 @@ const About = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              <h2 className={`text-4xl font-bold mb-6 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
                 Our Story
               </h2>
-              <p className="text-lg text-gray-600 mb-4">
+              <p className={`text-lg mb-4 ${
+                isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 Founded in 2020, StyleDecor began with a simple vision: to
                 revolutionize the decoration industry in Bangladesh by making
                 premium services accessible through technology.
               </p>
-              <p className="text-lg text-gray-600 mb-4">
+              <p className={`text-lg mb-4 ${
+                isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 What started as a small team of passionate decorators has grown
                 into the leading online decoration booking platform, serving
                 thousands of happy customers across the country.
               </p>
-              <p className="text-lg text-gray-600">
+              <p className={`text-lg ${
+                isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 Today, we're proud to connect talented decorators with clients
                 who want to create unforgettable moments, all through our
                 easy-to-use platform.
@@ -95,7 +108,7 @@ const About = () => {
       </section>
 
       {/* Values */}
-      <section className="py-20 bg-linear-to-br from-purple-50 via-pink-50 to-amber-50">
+      <section className="py-20">
         <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -103,10 +116,14 @@ const About = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className={`text-4xl font-bold mb-4 ${
+              isDark ? 'text-white' : 'text-gray-900'
+            }`}>
               Our Core Values
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className={`text-xl ${
+              isDark ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               The principles that guide everything we do
             </p>
           </motion.div>
@@ -142,15 +159,19 @@ const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-8 hover:shadow-2xl transition-all duration-300"
+                className={`rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 ${
+                  isDark ? 'bg-gray-800' : 'bg-white'
+                }`}
               >
                 <div className="w-16 h-16 bg-linear-to-r from-primary to-amber-600 rounded-xl flex items-center justify-center text-white mb-6">
                   {React.cloneElement(value.icon, { className: "w-8 h-8" })}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                <h3 className={`text-xl font-bold mb-3 ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
                   {value.title}
                 </h3>
-                <p className="text-gray-600">{value.description}</p>
+                <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>{value.description}</p>
               </motion.div>
             ))}
           </div>
@@ -158,9 +179,9 @@ const About = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-20 bg-white">
+      <section className="py-10 bg-primary/10">
         <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-4 gap-8 ">
             {[
               { value: "5000+", label: "Happy Clients", icon: <FaUsers /> },
               {
@@ -185,7 +206,7 @@ const About = () => {
                 <div className="text-4xl font-bold bg-linear-to-r from-primary to-amber-600 bg-clip-text text-transparent mb-2">
                   {stat.value}
                 </div>
-                <div className="text-gray-600">{stat.label}</div>
+                <div className={isDark ? 'text-gray-300' : 'text-gray-600'}>{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -193,22 +214,28 @@ const About = () => {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20 bg-linear-to-br from-purple-50 via-pink-50 to-amber-50">
+      <section className="py-20">
         <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
           <div className="grid lg:grid-cols-2 gap-12">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-white rounded-2xl p-10 shadow-2xl"
+              className={`rounded-2xl p-10 shadow-2xl ${
+                isDark ? 'bg-gray-800' : 'bg-white'
+              }`}
             >
               <div className="w-16 h-16 bg-linear-to-r from-primary to-amber-600 rounded-xl flex items-center justify-center text-white mb-6">
                 <FaBullseye className="w-8 h-8" />
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">
+              <h3 className={`text-3xl font-bold mb-4 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
                 Our Mission
               </h3>
-              <p className="text-lg text-gray-600">
+              <p className={`text-lg ${
+                isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 To democratize professional decoration services by leveraging
                 technology, making it easy for anyone to book expert decorators
                 and create beautiful spaces for their special moments.
@@ -218,15 +245,21 @@ const About = () => {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-white rounded-2xl p-10 shadow-2xl"
+              className={`rounded-2xl p-10 shadow-2xl ${
+                isDark ? 'bg-gray-800' : 'bg-white'
+              }`}
             >
               <div className="w-16 h-16 bg-linear-to-r from-primary to-amber-600 rounded-xl flex items-center justify-center text-white mb-6">
                 <FaChartLine className="w-8 h-8" />
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">
+              <h3 className={`text-3xl font-bold mb-4 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
                 Our Vision
               </h3>
-              <p className="text-lg text-gray-600">
+              <p className={`text-lg ${
+                isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 To become South Asia's leading decoration service platform,
                 known for quality, innovation, and customer satisfaction,
                 transforming how people plan and execute their celebrations.

@@ -155,7 +155,7 @@ const AssignDecorator = () => {
         }`}>
           <table className="min-w-full border-collapse">
             <thead>
-              <tr className="bg-gradient-to-r from-primary to-orange-600 text-white">
+              <tr className="bg-linear-to-r from-primary to-orange-600 text-white">
                 <th className="px-4 py-3 border text-left">Booking ID</th>
                 <th className="px-4 py-3 border text-left">Customer</th>
                 <th className="px-4 py-3 border text-left">Service</th>

@@ -12,8 +12,10 @@ import toast from "react-hot-toast";
 import MyContainer from "../../components/container/MyContainer";
 import Coverage from "../coverage/Coverage";
 import Button from "../shared/button/Button";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const Contact = () => {
+  const { isDark } = useTheme();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -52,9 +54,9 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className={`min-h-screen ${isDark ? 'bg-gray-900' : ''}`}>
       {/* Hero Section */}
-      <section className="py-20 bg-linear-to-br from-purple-50 via-pink-50 to-amber-50">
+      <section className="py-16 bg-primary/10">
         <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -66,7 +68,8 @@ const Contact = () => {
                 Get In Touch
               </span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className={`text-xl max-w-3xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
               Have questions? We'd love to hear from you. Send us a message and
               we'll respond as soon as possible.
             </p>
@@ -84,7 +87,8 @@ const Contact = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">
+              <h2 className={`text-3xl font-bold mb-8 ${isDark ? 'text-white' : 'text-gray-900'
+                }`}>
                 Contact Information
               </h2>
               <div className="space-y-6">
@@ -128,18 +132,21 @@ const Contact = () => {
                       {React.cloneElement(item.icon, { className: "w-6 h-6" })}
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900 mb-1">
+                      <h3 className={`font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'
+                        }`}>
                         {item.title}
                       </h3>
                       {item.link ? (
                         <a
                           href={item.link}
-                          className="text-gray-600 hover:text-primary transition-colors"
+                          className={`hover:text-primary transition-colors ${isDark ? 'text-gray-300' : 'text-gray-600'
+                            }`}
                         >
                           {item.content}
                         </a>
                       ) : (
-                        <p className="text-gray-600 whitespace-pre-line">
+                        <p className={`whitespace-pre-line ${isDark ? 'text-gray-300' : 'text-gray-600'
+                          }`}>
                           {item.content}
                         </p>
                       )}
@@ -150,7 +157,8 @@ const Contact = () => {
 
               {/* Social Media */}
               <div className="mt-10">
-                <h3 className="font-bold text-gray-900 mb-4">Follow Us</h3>
+                <h3 className={`font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'
+                  }`}>Follow Us</h3>
                 <div className="flex gap-4">
                   {["Facebook", "Instagram", "Twitter", "LinkedIn"].map(
                     (social, index) => (
@@ -177,15 +185,18 @@ const Contact = () => {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-linear-to-br from-purple-50 to-pink-50 rounded-2xl p-8 shadow-xl"
+              className={`rounded-2xl p-8 shadow-xl ${isDark ? 'bg-gray-800' : 'bg-white'
+                }`}
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">
+              <h2 className={`text-3xl font-bold mb-8 ${isDark ? 'text-white' : 'text-gray-900'
+                }`}>
                 Send Us a Message
               </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
+                      }`}>
                       Your Name *
                     </label>
                     <input
@@ -194,7 +205,10 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-white rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent "
+                      className={`w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${isDark
+                          ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                          : 'bg-white border-gray-300 text-gray-900'
+                        }`}
                       placeholder="John Doe"
                     />
                   </div>
@@ -208,7 +222,7 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-white rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className="w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                       placeholder="john@example.com"
                     />
                   </div>
@@ -224,7 +238,7 @@ const Contact = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className="w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                       placeholder="+880 1XXX-XXXXXX"
                     />
                   </div>
@@ -237,7 +251,7 @@ const Contact = () => {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-white rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className="w-full px-4 py-3  rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     >
                       <option value="">Select a subject</option>
                       <option value="general">General Inquiry</option>
@@ -259,7 +273,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows="5"
-                    className="w-full px-4 py-3 bg-white rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none "
+                    className="w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none "
                     placeholder="Tell us more about your inquiry..."
                   />
                 </div>
@@ -278,7 +292,7 @@ const Contact = () => {
 
       {/* Map Section */}
       <section>
-        <Coverage/>
+        <Coverage />
       </section>
     </div>
   );

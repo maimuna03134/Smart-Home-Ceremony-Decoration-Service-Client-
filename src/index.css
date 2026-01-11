@@ -523,3 +523,100 @@ html.light {
 .dark .update-booking-modal span {
   color: #d1d5db !important;
 }
+
+/* Swiper Testimonials Custom Styles */
+.testimonials-swiper {
+  padding-bottom: 50px !important;
+  overflow: visible;
+}
+
+.testimonials-swiper .swiper-slide {
+  height: auto;
+  display: flex;
+}
+
+.testimonials-swiper .swiper-slide > div {
+  width: 100%;
+  height: auto;
+  min-height: 280px;
+}
+
+/* Custom Pagination Bullets */
+.testimonials-swiper .swiper-pagination {
+  bottom: 15px !important;
+  text-align: center;
+}
+
+.testimonials-swiper .swiper-pagination-bullet {
+  width: 10px !important;
+  height: 10px !important;
+  background: rgba(175, 95, 68, 0.3) !important;
+  border: 2px solid rgba(175, 95, 68, 0.5) !important;
+  opacity: 1 !important;
+  margin: 0 4px !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer;
+}
+
+.testimonials-swiper .swiper-pagination-bullet-active {
+  background: #af5f44 !important;
+  border-color: #af5f44 !important;
+  transform: scale(1.2) !important;
+  box-shadow: 0 0 8px rgba(175, 95, 68, 0.5) !important;
+}
+
+.dark .testimonials-swiper .swiper-pagination-bullet {
+  background: rgba(217, 119, 6, 0.3) !important;
+  border-color: rgba(217, 119, 6, 0.5) !important;
+}
+
+.dark .testimonials-swiper .swiper-pagination-bullet-active {
+  background: #d97706 !important;
+  border-color: #d97706 !important;
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.5) !important;
+}
+
+/* Testimonial Card Hover Effects */
+.testimonials-swiper .swiper-slide:hover .testimonial-card {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.dark .testimonials-swiper .swiper-slide:hover .testimonial-card {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Compact card styling */
+.testimonial-card {
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+
+.dark .testimonial-card {
+  border-color: rgba(55, 65, 81, 0.3);
+}
+
+.testimonial-card:hover {
+  border-color: rgba(175, 95, 68, 0.2);
+}
+
+.dark .testimonial-card:hover {
+  border-color: rgba(217, 119, 6, 0.3);
+}
+
+/* Responsive adjustments for testimonials */
+@media (max-width: 768px) {
+  .testimonials-swiper {
+    padding-bottom: 40px !important;
+  }
+  
+  .testimonials-swiper .swiper-pagination-bullet {
+    width: 8px !important;
+    height: 8px !important;
+    margin: 0 3px !important;
+  }
+  
+  .testimonials-swiper .swiper-slide > div {
+    min-height: 260px;
+  }
+}
