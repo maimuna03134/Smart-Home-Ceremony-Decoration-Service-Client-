@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useTheme } from "../../contexts/ThemeContext";
+import Button from "../../pages/shared/button/Button";
 
 const BookingModal = ({ service, onClose }) => {
   const { user, loading: authLoading } = useAuth();
@@ -260,24 +261,18 @@ const BookingModal = ({ service, onClose }) => {
 
               {/* Submit Button */}
               <div className="flex gap-3 pt-4">
-                <button
-                  type="button"
+                <Button
+                  label="Cancel"
                   onClick={onClose}
-                  className={`flex-1 px-6 py-3 border-2 rounded-xl font-semibold transition ${
-                    isDark 
-                      ? 'border-gray-600 text-gray-300 hover:bg-gray-700' 
-                      : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
+                  outline
+                  small
+                />
+                <Button
+                  label={loading ? "Booking..." : "Confirm Booking"}
+                  loading={loading}
                   disabled={loading}
-                  className="flex-1 px-6 py-3 bg-linear-to-r from-primary to-orange-600 text-white rounded-xl font-semibold hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {loading ? "Booking..." : "Confirm Booking"}
-                </button>
+                  small
+                />
               </div>
             </form>
           </div>

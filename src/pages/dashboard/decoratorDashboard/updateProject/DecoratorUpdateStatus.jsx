@@ -5,9 +5,12 @@ import { FaCheckCircle, FaSpinner, FaClock } from "react-icons/fa";
 import useAuth from "../../../../hooks/useAuth";
 import Loader from "../../../shared/loader/Loader";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useTheme } from "../../../../contexts/ThemeContext";
+import Button from "../../../shared/button/Button";
 
 const DecoratorUpdateStatus = () => {
   const { user } = useAuth();
+  const { isDark } = useTheme();
   const axiosSecure = useAxiosSecure();
 
   const {
@@ -95,28 +98,40 @@ const DecoratorUpdateStatus = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="p-6">
+    <div className={`p-6 ${isDark ? 'bg-gray-900' : ''}`}>
       <div className="mb-6">
-        <h2 className="text-3xl font-bold text-primary">
+        <h2 className={`text-3xl font-bold text-primary ${
+          isDark ? 'text-orange-400' : ''
+        }`}>
           Update Project Status
         </h2>
-        <p className="text-gray-600 mt-1">
+        <p className={`mt-1 ${
+          isDark ? 'text-gray-300' : 'text-gray-600'
+        }`}>
           Active Projects:{" "}
           <span className="font-semibold">{projects.length}</span>
         </p>
       </div>
 
       {projects.length === 0 ? (
-        <div className="text-center py-12 rounded-lg shadow">
-          <FaCheckCircle className="text-6xl text-green-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">All projects are completed!</p>
+        <div className={`text-center py-12 rounded-lg shadow ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
+          <FaCheckCircle className={`text-6xl mx-auto mb-4 ${
+            isDark ? 'text-green-400' : 'text-green-300'
+          }`} />
+          <p className={`text-lg ${
+            isDark ? 'text-gray-400' : 'text-gray-500'
+          }`}>All projects are completed!</p>
         </div>
       ) : (
         <div className="space-y-4">
           {projects.map((project) => (
             <div
               key={project._id}
-              className="rounded-lg shadow-lg p-6 border-l-4 border-primary"
+              className={`rounded-lg shadow-lg p-6 border-l-4 border-primary ${
+                isDark ? 'bg-gray-800' : 'bg-white'
+              }`}
             >
               <div className="flex items-center justify-between">
                 {/* Project Info */}
@@ -127,11 +142,17 @@ const DecoratorUpdateStatus = () => {
                     className="w-20 h-20 rounded-lg object-cover"
                   />
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg">{project.serviceName}</h3>
-                    <p className="text-sm text-gray-600">
+                    <h3 className={`font-bold text-lg ${
+                      isDark ? 'text-white' : 'text-gray-900'
+                    }`}>{project.serviceName}</h3>
+                    <p className={`text-sm ${
+                      isDark ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
                       Customer: {project.userName}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className={`text-sm ${
+                      isDark ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
                       Location: {project.location || "N/A"}
                     </p>
                     <p className="text-sm font-semibold text-primary mt-1">
@@ -144,7 +165,9 @@ const DecoratorUpdateStatus = () => {
                 <div className="flex items-center gap-4">
                   {/* Current Status */}
                   <div className="text-center">
-                    <p className="text-xs text-gray-500 mb-1">Current Status</p>
+                    <p className={`text-xs mb-1 ${
+                      isDark ? 'text-gray-400' : 'text-gray-500'
+                    }`}>Current Status</p>
                     <span
                       className={`px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 ${
                         project.status === "in_progress"
@@ -162,23 +185,26 @@ const DecoratorUpdateStatus = () => {
                   </div>
 
                   {/* Update Button */}
-                  <button
-                    onClick={() =>
-                      handleStatusUpdate(project._id, project.status)
-                    }
-                    className="px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:opacity-90 transition"
-                  >
-                    {project.status === "in_progress"
-                      ? "Mark as Completed"
-                      : "Start Project"}
-                  </button>
+                  <div className="w-48">
+                    <Button
+                      label={project.status === "in_progress"
+                        ? "Mark as Completed"
+                        : "Start Project"}
+                      onClick={() =>
+                        handleStatusUpdate(project._id, project.status)
+                      }
+                      small
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* Progress Bar */}
               <div className="mt-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-gray-600">
+                  <span className={`text-xs font-semibold ${
+                    isDark ? 'text-gray-400' : 'text-gray-600'
+                  }`}>
                     Progress
                   </span>
                   <span className="text-xs font-semibold text-primary">
@@ -189,7 +215,9 @@ const DecoratorUpdateStatus = () => {
                       : "0%"}
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className={`w-full rounded-full h-2 ${
+                  isDark ? 'bg-gray-700' : 'bg-gray-200'
+                }`}>
                   <div
                     className="bg-primary h-2 rounded-full transition-all"
                     style={{

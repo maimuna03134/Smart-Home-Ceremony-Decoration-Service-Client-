@@ -5,9 +5,11 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useDemoProtection from "../../../hooks/useDemoProtection";
 import { FaLock, FaUserTie } from "react-icons/fa";
+import { useTheme } from "../../../contexts/ThemeContext";
 
 const AssignDecorator = () => {
   const axiosSecure = useAxiosSecure();
+  const { isDark } = useTheme();
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [selectedDecorator, setSelectedDecorator] = useState(null);
   const [isAssigning, setIsAssigning] = useState(false);
@@ -108,10 +110,14 @@ const AssignDecorator = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className={`p-6 ${isDark ? 'bg-gray-900' : ''}`}>
       <div className="mb-6">
-        <h2 className="text-3xl font-bold text-primary">Assign Decorator to Bookings</h2>
-        <p className="text-gray-600 mt-1">
+        <h2 className={`text-3xl font-bold text-primary ${
+          isDark ? 'text-orange-400' : ''
+        }`}>Assign Decorator to Bookings</h2>
+        <p className={`mt-1 ${
+          isDark ? 'text-gray-300' : 'text-gray-600'
+        }`}>
           Total pending assignments: <span className="font-semibold">{bookings.length}</span>
         </p>
       </div>
@@ -130,17 +136,23 @@ const AssignDecorator = () => {
       )}
 
       {bookings.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-lg p-16 text-center">
+        <div className={`rounded-lg shadow-lg p-16 text-center ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <div className="text-7xl mb-6">📋</div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">
+          <h3 className={`text-2xl font-bold mb-4 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
             No Pending Assignments
           </h3>
-          <p className="text-gray-600">
+          <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
             All paid bookings have been assigned to decorators.
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto bg-white rounded-lg shadow-lg">
+        <div className={`overflow-x-auto rounded-lg shadow-lg ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <table className="min-w-full border-collapse">
             <thead>
               <tr className="bg-gradient-to-r from-primary to-orange-600 text-white">
@@ -154,41 +166,69 @@ const AssignDecorator = () => {
               </tr>
             </thead>
             <tbody>
-              {bookings.map((booking) => (
-                <tr key={booking._id} className="hover:bg-gray-50 transition">
-                  <td className="px-4 py-3 border">
-                    <span className="text-xs font-mono text-gray-600">
+              {bookings.map((booking, index) => (
+                <tr key={booking._id} className={`transition ${
+                  index % 2 === 0 
+                    ? isDark ? 'bg-gray-700' : 'bg-gray-50'
+                    : isDark ? 'bg-gray-800' : 'bg-white'
+                } hover:${isDark ? 'bg-gray-600' : 'bg-gray-100'}`}>
+                  <td className={`px-4 py-3 border ${
+                    isDark ? 'border-gray-600' : 'border-gray-200'
+                  }`}>
+                    <span className={`text-xs font-mono ${
+                      isDark ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
                       {booking._id.slice(-8)}
                     </span>
                   </td>
-                  <td className="px-4 py-3 border">
+                  <td className={`px-4 py-3 border ${
+                    isDark ? 'border-gray-600' : 'border-gray-200'
+                  }`}>
                     <div>
-                      <p className="font-semibold text-gray-900">{booking.userName}</p>
-                      <p className="text-sm text-gray-600">{booking.userEmail}</p>
+                      <p className={`font-semibold ${
+                        isDark ? 'text-white' : 'text-gray-900'
+                      }`}>{booking.userName}</p>
+                      <p className={`text-sm ${
+                        isDark ? 'text-gray-300' : 'text-gray-600'
+                      }`}>{booking.userEmail}</p>
                     </div>
                   </td>
-                  <td className="px-4 py-3 border">
+                  <td className={`px-4 py-3 border ${
+                    isDark ? 'border-gray-600' : 'border-gray-200'
+                  }`}>
                     <div>
-                      <p className="font-medium">{booking.serviceName}</p>
-                      <p className="text-xs text-gray-500">{booking.serviceCategory}</p>
+                      <p className={`font-medium ${
+                        isDark ? 'text-white' : 'text-gray-900'
+                      }`}>{booking.serviceName}</p>
+                      <p className={`text-xs ${
+                        isDark ? 'text-gray-400' : 'text-gray-500'
+                      }`}>{booking.serviceCategory}</p>
                     </div>
                   </td>
-                  <td className="px-4 py-3 border">
+                  <td className={`px-4 py-3 border ${
+                    isDark ? 'border-gray-600 text-gray-300' : 'border-gray-200 text-gray-900'
+                  }`}>
                     <span className="text-sm">{booking.bookingDate}</span>
                   </td>
-                  <td className="px-4 py-3 border">
+                  <td className={`px-4 py-3 border ${
+                    isDark ? 'border-gray-600 text-gray-300' : 'border-gray-200 text-gray-900'
+                  }`}>
                     <span className="text-sm" title={booking.location}>
                       {booking.location?.length > 30
                         ? `${booking.location.substring(0, 30)}...`
                         : booking.location}
                     </span>
                   </td>
-                  <td className="px-4 py-3 border text-center">
+                  <td className={`px-4 py-3 border text-center ${
+                    isDark ? 'border-gray-600' : 'border-gray-200'
+                  }`}>
                     <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold">
                       {booking.paymentStatus}
                     </span>
                   </td>
-                  <td className="px-4 py-3 border text-center">
+                  <td className={`px-4 py-3 border text-center ${
+                    isDark ? 'border-gray-600' : 'border-gray-200'
+                  }`}>
                     <button
                       onClick={() => openAssignDecoratorModal(booking)}
                       disabled={isDemoAccount}
@@ -210,51 +250,79 @@ const AssignDecorator = () => {
 
       {/* Assign Decorator Modal */}
       <dialog ref={decoratorModalRef} className="modal">
-        <div className="modal-box max-w-2xl">
+        <div className={`modal-box max-w-2xl ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <div className="mb-4">
-            <h3 className="font-bold text-xl text-primary">Assign Decorator</h3>
-            <p className="text-sm text-gray-600">
+            <h3 className={`font-bold text-xl text-primary ${
+              isDark ? 'text-orange-400' : ''
+            }`}>Assign Decorator</h3>
+            <p className={`text-sm ${
+              isDark ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               Select a decorator for this booking
             </p>
           </div>
 
           {selectedBooking && (
-            <div className="bg-gray-50 p-4 rounded-lg mb-4 space-y-2">
+            <div className={`p-4 rounded-lg mb-4 space-y-2 ${
+              isDark ? 'bg-gray-700' : 'bg-gray-50'
+            }`}>
               <div className="flex justify-between">
-                <span className="font-semibold text-gray-700">Service:</span>
-                <span className="text-gray-900">{selectedBooking.serviceName}</span>
+                <span className={`font-semibold ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>Service:</span>
+                <span className={isDark ? 'text-white' : 'text-gray-900'}>{selectedBooking.serviceName}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-semibold text-gray-700">Customer:</span>
-                <span className="text-gray-900">{selectedBooking.userName}</span>
+                <span className={`font-semibold ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>Customer:</span>
+                <span className={isDark ? 'text-white' : 'text-gray-900'}>{selectedBooking.userName}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-semibold text-gray-700">Location:</span>
-                <span className="text-gray-900">{selectedBooking.location}</span>
+                <span className={`font-semibold ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>Location:</span>
+                <span className={isDark ? 'text-white' : 'text-gray-900'}>{selectedBooking.location}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-semibold text-gray-700">Date:</span>
-                <span className="text-gray-900">{selectedBooking.bookingDate}</span>
+                <span className={`font-semibold ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>Date:</span>
+                <span className={isDark ? 'text-white' : 'text-gray-900'}>{selectedBooking.bookingDate}</span>
               </div>
             </div>
           )}
 
           <div className="mb-4">
-            <label className="block font-semibold mb-2 text-gray-700">
+            <label className={`block font-semibold mb-2 ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               Select Decorator
             </label>
             {availableDecorators.length === 0 ? (
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
-                <p className="text-yellow-800 font-medium">
+              <div className={`border-l-4 border-yellow-400 p-4 rounded ${
+                isDark ? 'bg-yellow-900/20' : 'bg-yellow-50'
+              }`}>
+                <p className={`font-medium ${
+                  isDark ? 'text-yellow-300' : 'text-yellow-800'
+                }`}>
                   ⚠️ No available decorators at the moment
                 </p>
-                <p className="text-sm text-yellow-700 mt-1">
+                <p className={`text-sm mt-1 ${
+                  isDark ? 'text-yellow-400' : 'text-yellow-700'
+                }`}>
                   All decorators are currently assigned to other projects.
                 </p>
               </div>
             ) : (
               <select
-                className="select select-bordered w-full"
+                className={`select select-bordered w-full ${
+                  isDark 
+                    ? 'bg-gray-700 border-gray-600 text-white' 
+                    : ''
+                }`}
                 value={selectedDecorator?._id || ""}
                 onChange={(e) => {
                   const decorator = availableDecorators.find(
@@ -279,11 +347,17 @@ const AssignDecorator = () => {
             )}
 
             {selectedDecorator && (
-              <div className="mt-3 bg-blue-50 p-3 rounded-lg">
-                <p className="text-sm text-blue-900">
+              <div className={`mt-3 p-3 rounded-lg ${
+                isDark ? 'bg-blue-900/20' : 'bg-blue-50'
+              }`}>
+                <p className={`text-sm ${
+                  isDark ? 'text-blue-300' : 'text-blue-900'
+                }`}>
                   <span className="font-semibold">Selected:</span> {selectedDecorator.name}
                 </p>
-                <p className="text-xs text-blue-700 mt-1">
+                <p className={`text-xs mt-1 ${
+                  isDark ? 'text-blue-400' : 'text-blue-700'
+                }`}>
                   Rating: ⭐ {selectedDecorator.rating?.toFixed(1)} |
                   Completed: {selectedDecorator.completedProjects || 0} projects
                 </p>

@@ -10,9 +10,12 @@ import { useNavigate } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useDemoProtection from "../../hooks/useDemoProtection";
 import { FaLock } from "react-icons/fa";
+import { useTheme } from "../../contexts/ThemeContext";
+import Button from "../../pages/shared/button/Button";
 
 const AddServicesForm = () => {
   const { user } = useAuth();
+  const { isDark } = useTheme();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
@@ -25,7 +28,7 @@ const AddServicesForm = () => {
     reset: mutationReset,
   } = useMutation({
     mutationFn: async (payload) => await axiosSecure.post("/services", payload),
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("✅ Service added successfully!");
       mutationReset();
       navigate("/services");
@@ -102,7 +105,9 @@ const AddServicesForm = () => {
   if (isError) return <ErrorPage />;
 
   return (
-    <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl my-20 p-6 md:p-0">
+    <div className={`w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center rounded-xl my-20 p-6 md:p-0 ${
+      isDark ? 'bg-gray-900 text-white' : 'text-gray-800'
+    }`}>
       {/* Demo Account Warning */}
       {isDemoAccount && (
         <div className="alert alert-warning mb-6 max-w-4xl shadow-lg">
@@ -119,11 +124,17 @@ const AddServicesForm = () => {
           <div className="space-y-6">
             {/* Name */}
             <div className="space-y-1 text-sm">
-              <label htmlFor="name" className="block text-gray-600">
+              <label htmlFor="name" className={`block ${
+                isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 Name *
               </label>
               <input
-                className="w-full px-4 py-3 text-gray-800 border border-orange-300 focus:outline-orange-500 rounded-md bg-white"
+                className={`w-full px-4 py-3 border border-orange-300 focus:outline-orange-500 rounded-md ${
+                  isDark 
+                    ? 'bg-gray-700 text-white border-gray-600' 
+                    : 'bg-white text-gray-800'
+                }`}
                 name="name"
                 id="name"
                 type="text"
@@ -137,11 +148,17 @@ const AddServicesForm = () => {
 
             {/* Category */}
             <div>
-              <label className="block text-gray-700 font-medium mb-2">
+              <label className={`block font-medium mb-2 ${
+                isDark ? 'text-gray-300' : 'text-gray-700'
+              }`}>
                 Category *
               </label>
               <select
-                className="w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500"
+                className={`w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500 ${
+                  isDark 
+                    ? 'bg-gray-700 text-white border-gray-600' 
+                    : 'bg-white text-gray-800'
+                }`}
                 {...register("category", { required: "Category is required" })}
               >
                 <option value="">Select category</option>
@@ -159,13 +176,19 @@ const AddServicesForm = () => {
 
             {/* Description */}
             <div>
-              <label className="block text-gray-700 font-medium mb-2">
+              <label className={`block font-medium mb-2 ${
+                isDark ? 'text-gray-300' : 'text-gray-700'
+              }`}>
                 Description *
               </label>
               <textarea
                 rows="5"
                 placeholder="Describe the service..."
-                className="w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500 resize-none"
+                className={`w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500 resize-none ${
+                  isDark 
+                    ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400' 
+                    : 'bg-white text-gray-800'
+                }`}
                 {...register("description", {
                   required: "Description is required",
                 })}
@@ -182,13 +205,19 @@ const AddServicesForm = () => {
             {/* Price & Unit */}
             <div className="flex justify-between gap-2">
               <div className="flex-1">
-                <label className="block text-gray-700 font-medium mb-2">
+                <label className={`block font-medium mb-2 ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   Price *
                 </label>
                 <input
                   type="number"
                   placeholder="Price"
-                  className="w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500"
+                  className={`w-full px-4 py-3 border border-orange-300 rounded-lg focus:outline-orange-500 ${
+                    isDark 
+                      ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400' 
+                      : 'bg-white text-gray-800'
+                  }`}
                   {...register("price", { required: "Price is required" })}
                 />
                 {errors.price && (
@@ -197,11 +226,17 @@ const AddServicesForm = () => {
               </div>
 
               <div className="flex-1">
-                <label className="block text-gray-700 font-medium mb-2">
+                <label className={`block font-medium mb-2 ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   Unit *
                 </label>
                 <select
-                  className="w-full px-4 py-3 text-gray-800 border border-orange-300 focus:outline-orange-500 rounded-md bg-white"
+                  className={`w-full px-4 py-3 border border-orange-300 focus:outline-orange-500 rounded-md ${
+                    isDark 
+                      ? 'bg-gray-700 text-white border-gray-600' 
+                      : 'bg-white text-gray-800'
+                  }`}
                   {...register("unit", { required: "Unit is required" })}
                 >
                   <option value="">Select unit</option>
@@ -219,7 +254,9 @@ const AddServicesForm = () => {
 
             {/* Image Upload with Preview */}
             <div className="p-4 w-full m-auto rounded-lg grow">
-              <label className="block text-gray-700 font-medium mb-2">
+              <label className={`block font-medium mb-2 ${
+                isDark ? 'text-gray-300' : 'text-gray-700'
+              }`}>
                 Service Image *
               </label>
 
@@ -233,7 +270,11 @@ const AddServicesForm = () => {
                 </div>
               )}
 
-              <div className="file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg">
+              <div className={`file_upload px-5 py-3 relative border-4 border-dotted rounded-lg ${
+                isDark 
+                  ? 'border-gray-600 bg-gray-800' 
+                  : 'border-gray-300 bg-white'
+              }`}>
                 <div className="flex flex-col w-max mx-auto text-center">
                   <label className="cursor-pointer">
                     <input
@@ -258,16 +299,10 @@ const AddServicesForm = () => {
 
             {/* Submit Button */}
             <div>
-              <button
-                type="submit"
+              <Button
+                label={isDemoAccount ? "🔒 Demo Mode - Cannot Add" : "Save & Continue"}
                 disabled={isDemoAccount}
-                className={`w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md ${isDemoAccount
-                    ? "bg-gray-400 cursor-not-allowed opacity-60"
-                    : "bg-primary hover:opacity-90 cursor-pointer"
-                  }`}
-              >
-                {isDemoAccount ? "🔒 Demo Mode - Cannot Add" : "Save & Continue"}
-              </button>
+              />
             </div>
           </div>
         </div>

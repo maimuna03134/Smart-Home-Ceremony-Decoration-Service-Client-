@@ -10,9 +10,11 @@ import {
 import useAuth from "../../../../hooks/useAuth";
 import Loader from "../../../shared/loader/Loader";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useTheme } from "../../../../contexts/ThemeContext";
 
 const DecoratorEarnings = () => {
   const { user } = useAuth();
+  const { isDark } = useTheme();
   const axiosSecure=useAxiosSecure()
 
   const { data: earnings = {}, isLoading } = useQuery({
@@ -35,10 +37,14 @@ const DecoratorEarnings = () => {
   } = earnings;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className={`p-6 space-y-6 ${isDark ? 'bg-gray-900' : ''}`}>
       <div className="mb-6">
-        <h2 className="text-3xl font-bold text-primary">Earnings Summary</h2>
-        <p className="text-gray-600 mt-1">
+        <h2 className={`text-3xl font-bold text-primary ${
+          isDark ? 'text-orange-400' : ''
+        }`}>Earnings Summary</h2>
+        <p className={`mt-1 ${
+          isDark ? 'text-gray-300' : 'text-gray-600'
+        }`}>
           Track your income and completed projects
         </p>
       </div>
@@ -46,10 +52,14 @@ const DecoratorEarnings = () => {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Total Earnings */}
-        <div className=" rounded-lg shadow-lg p-6 border-l-4 border-green-500">
+        <div className={`rounded-lg shadow-lg p-6 border-l-4 border-green-500 ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">
+              <p className={`text-sm font-medium ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}>
                 Total Earnings
               </p>
               <p className="text-3xl font-bold text-green-600 mt-2">
@@ -62,12 +72,16 @@ const DecoratorEarnings = () => {
 
         {/* Completed Projects */}
         <div
-          className=" rounded-lg shadow-lg p-6 border-l-4"
+          className={`rounded-lg shadow-lg p-6 border-l-4 ${
+            isDark ? 'bg-gray-800' : 'bg-white'
+          }`}
           style={{ borderLeftColor: "#af5f44" }}
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">
+              <p className={`text-sm font-medium ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}>
                 Completed Projects
               </p>
               <p className="text-3xl font-bold text-primary mt-2">
@@ -79,10 +93,14 @@ const DecoratorEarnings = () => {
         </div>
 
         {/* Ongoing Projects */}
-        <div className=" rounded-lg shadow-lg p-6 border-l-4 border-blue-500">
+        <div className={`rounded-lg shadow-lg p-6 border-l-4 border-blue-500 ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">
+              <p className={`text-sm font-medium ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}>
                 Ongoing Projects
               </p>
               <p className="text-3xl font-bold text-blue-600 mt-2">
@@ -95,18 +113,24 @@ const DecoratorEarnings = () => {
       </div>
 
       {/* Payment History Table */}
-      <div className="rounded-lg shadow-lg p-6">
-        <h3 className="text-xl font-bold mb-4 text-primary">Payment History</h3>
+      <div className={`rounded-lg shadow-lg p-6 ${
+        isDark ? 'bg-gray-800' : 'bg-white'
+      }`}>
+        <h3 className={`text-xl font-bold mb-4 text-primary ${
+          isDark ? 'text-orange-400' : ''
+        }`}>Payment History</h3>
 
         {paymentHistory.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-500">No payment history yet</p>
+            <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>No payment history yet</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full">
               <thead>
-                <tr className="border-b" style={{ backgroundColor: "#af5f44" }}>
+                <tr className={`border-b ${
+                  isDark ? 'border-gray-600' : 'border-gray-200'
+                }`} style={{ backgroundColor: "#af5f44" }}>
                   <th className="px-4 py-3 text-left text-white">Date</th>
                   <th className="px-4 py-3 text-left text-white">Service</th>
                   <th className="px-4 py-3 text-left text-white">Customer</th>
@@ -117,8 +141,14 @@ const DecoratorEarnings = () => {
               </thead>
               <tbody>
                 {paymentHistory.map((payment, index) => (
-                  <tr key={index} className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm">
+                  <tr key={index} className={`border-b transition ${
+                    isDark 
+                      ? 'border-gray-600 hover:bg-gray-700' 
+                      : 'border-gray-200 hover:bg-gray-50'
+                  }`}>
+                    <td className={`px-4 py-3 text-sm ${
+                      isDark ? 'text-gray-300' : 'text-gray-900'
+                    }`}>
                       {new Date(payment.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-3">
@@ -128,12 +158,16 @@ const DecoratorEarnings = () => {
                           alt={payment.serviceName}
                           className="w-10 h-10 rounded object-cover"
                         />
-                        <span className="font-medium">
+                        <span className={`font-medium ${
+                          isDark ? 'text-white' : 'text-gray-900'
+                        }`}>
                           {payment.serviceName}
                         </span>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-sm">{payment.userName}</td>
+                    <td className={`px-4 py-3 text-sm ${
+                      isDark ? 'text-gray-300' : 'text-gray-900'
+                    }`}>{payment.userName}</td>
                     <td className="px-4 py-3">
                       <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
                         {payment.serviceCategory}
@@ -164,17 +198,29 @@ const DecoratorEarnings = () => {
       </div>
 
       {/* Monthly Breakdown  */}
-      <div className="rounded-lg shadow-lg p-6">
-        <h3 className="text-xl font-bold mb-4 text-primary">This Month</h3>
+      <div className={`rounded-lg shadow-lg p-6 ${
+        isDark ? 'bg-gray-800' : 'bg-white'
+      }`}>
+        <h3 className={`text-xl font-bold mb-4 text-primary ${
+          isDark ? 'text-orange-400' : ''
+        }`}>This Month</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-green-50 rounded-lg">
-            <p className="text-gray-600 text-sm">Completed This Month</p>
+          <div className={`p-4 rounded-lg ${
+            isDark ? 'bg-green-900/20' : 'bg-green-50'
+          }`}>
+            <p className={`text-sm ${
+              isDark ? 'text-gray-300' : 'text-gray-600'
+            }`}>Completed This Month</p>
             <p className="text-2xl font-bold text-green-600 mt-1">
               {paymentHistory.filter((p) => p.status === "completed").length}
             </p>
           </div>
-          <div className="p-4 bg-blue-50 rounded-lg">
-            <p className="text-gray-600 text-sm">Earnings This Month</p>
+          <div className={`p-4 rounded-lg ${
+            isDark ? 'bg-blue-900/20' : 'bg-blue-50'
+          }`}>
+            <p className={`text-sm ${
+              isDark ? 'text-gray-300' : 'text-gray-600'
+            }`}>Earnings This Month</p>
             <p className="text-2xl font-bold text-blue-600 mt-1">
               ৳
               {paymentHistory

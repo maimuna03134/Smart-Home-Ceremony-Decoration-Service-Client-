@@ -157,7 +157,7 @@ const PaymentHistory = () => {
             {/* Desktop Table */}
             <div className="hidden lg:block overflow-x-auto">
               <table className="min-w-full">
-                <thead className="bg-gradient-to-r from-primary to-orange-600 text-white">
+                <thead className="bg-linear-to-r from-primary to-orange-600 text-white">
                   <tr>
                     <th className="text-left py-2 px-6 font-semibold">SL No</th>
                     <th className="text-left py-2 px-6 font-semibold">

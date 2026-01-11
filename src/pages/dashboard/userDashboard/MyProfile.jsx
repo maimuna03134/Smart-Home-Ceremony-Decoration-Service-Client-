@@ -6,6 +6,7 @@ import { imageUpload } from "../../../utils";
 import coverImg from '../../../assets/coverImage.avif'
 import Loader from "../../shared/loader/Loader";
 import { useTheme } from "../../../contexts/ThemeContext";
+import Button from "../../shared/button/Button";
 
 const MyProfile = () => {
   const { user, setUser, updateProfileInfo } = useAuth();
@@ -241,24 +242,22 @@ const MyProfile = () => {
 
               {/* Action Buttons */}
               <div className="flex gap-3 mt-2">
-                <button
-                  type="submit"
+                <Button
+                  label={isUploading ? "Updating..." : "Save Changes"}
+                  loading={isUploading}
                   disabled={isUploading}
-                  className="flex-1 px-4 py-2.5 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
-                >
-                  {isUploading ? "Updating..." : "Save Changes"}
-                </button>
-                <button
-                  type="button"
+                  small
+                />
+                <Button
+                  label="Cancel"
                   onClick={() => {
                     setIsModalOpen(false);
                     setImagePreview(null);
                   }}
                   disabled={isUploading}
-                  className="flex-1 px-4 py-2.5 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all disabled:bg-gray-400 shadow-md hover:shadow-lg"
-                >
-                  Cancel
-                </button>
+                  outline
+                  small
+                />
               </div>
             </form>
           </div>

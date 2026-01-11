@@ -2,6 +2,7 @@
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import Button from "../../shared/button/Button";
 
 const titles = [
     { title: "Smart Home Decoration", subtitle: "Modern Living, Smarter Style" },
@@ -67,13 +68,14 @@ const Banner = () => {
                                 </p>
 
                                 {/* CTA Button */}
-                                <button
-                                    onClick={() => navigate("/services")}
-                                    className="group inline-flex items-center gap-2 mt-6 px-5 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-semibold btn btn-primary btn-hover-dark"
-                                >
-                                    Browse Services
-                                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
-                                </button>
+                                <div className="mt-6">
+                                    <Button
+                                        label="Browse Services"
+                                        onClick={() => navigate("/services")}
+                                        icon={ArrowRight}
+                                        small
+                                    />
+                                </div>
                             </div>
                         </div>
 

@@ -24,6 +24,7 @@ import {
 } from "react-icons/fa";
 import Loader from "../../../shared/loader/Loader";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useTheme } from "../../../../contexts/ThemeContext";
 
 const COLORS = [
   "#af5f44",
@@ -36,6 +37,7 @@ const COLORS = [
 
 const AdminAnalytics = () => {
   const axiosSecure = useAxiosSecure()
+  const { isDark } = useTheme();
   const { data: analytics = {}, isLoading } = useQuery({
     queryKey: ["admin-analytics"],
     queryFn: async () => {
@@ -61,13 +63,17 @@ const AdminAnalytics = () => {
   } = analytics;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className={`p-6 space-y-6 ${isDark ? 'bg-gray-900' : ''}`}>
       {/* Header */}
       <div>
-        <h2 className="text-3xl font-bold" style={{ color: "#af5f44" }}>
+        <h2 className={`text-3xl font-bold ${
+          isDark ? 'text-orange-400' : ''
+        }`} style={{ color: isDark ? '#f59e0b' : "#af5f44" }}>
           Analytics & Revenue Monitoring
         </h2>
-        <p className="text-gray-600 mt-1">
+        <p className={`mt-1 ${
+          isDark ? 'text-gray-300' : 'text-gray-600'
+        }`}>
           Track your business performance and revenue
         </p>
       </div>
@@ -76,12 +82,16 @@ const AdminAnalytics = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Revenue */}
         <div
-          className="rounded-lg shadow-lg p-6 border-l-4"
+          className={`rounded-lg shadow-lg p-6 border-l-4 ${
+            isDark ? 'bg-gray-800' : 'bg-white'
+          }`}
           style={{ borderLeftColor: "#af5f44" }}
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">Total Revenue</p>
+              <p className={`text-sm font-medium ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}>Total Revenue</p>
               <p
                 className="text-3xl font-bold mt-2"
                 style={{ color: "#af5f44" }}
@@ -97,14 +107,20 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Paid Revenue */}
-        <div className="rounded-lg shadow-lg p-6 border-l-4 border-green-500">
+        <div className={`rounded-lg shadow-lg p-6 border-l-4 border-green-500 ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">Paid Revenue</p>
+              <p className={`text-sm font-medium ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}>Paid Revenue</p>
               <p className="text-3xl font-bold text-green-600 mt-2">
                 ৳{paidRevenue.toLocaleString()}
               </p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className={`text-xs mt-1 ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}>
                 {paidBookings} bookings
               </p>
             </div>
@@ -113,16 +129,22 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Pending Revenue */}
-        <div className="rounded-lg shadow-lg p-6 border-l-4 border-yellow-500">
+        <div className={`rounded-lg shadow-lg p-6 border-l-4 border-yellow-500 ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">
+              <p className={`text-sm font-medium ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}>
                 Pending Revenue
               </p>
               <p className="text-3xl font-bold text-yellow-600 mt-2">
                 ৳{unpaidRevenue.toLocaleString()}
               </p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className={`text-xs mt-1 ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}>
                 {unpaidBookings} bookings
               </p>
             </div>
@@ -131,16 +153,22 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Total Bookings */}
-        <div className="rounded-lg shadow-lg p-6 border-l-4 border-blue-500">
+        <div className={`rounded-lg shadow-lg p-6 border-l-4 border-blue-500 ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">
+              <p className={`text-sm font-medium ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}>
                 Total Bookings
               </p>
               <p className="text-3xl font-bold text-blue-600 mt-2">
                 {totalBookings}
               </p>
-              <p className="text-xs text-gray-500 mt-1">All time</p>
+              <p className={`text-xs mt-1 ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}>All time</p>
             </div>
             <FaServicestack className="text-4xl text-blue-500" />
           </div>
@@ -150,8 +178,12 @@ const AdminAnalytics = () => {
       {/* Charts Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Service Demand Chart */}
-        <div className="rounded-lg shadow-lg p-6">
-          <h3 className="text-xl font-bold mb-4" style={{ color: "#af5f44" }}>
+        <div className={`rounded-lg shadow-lg p-6 ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
+          <h3 className={`text-xl font-bold mb-4 ${
+            isDark ? 'text-orange-400' : ''
+          }`} style={{ color: isDark ? '#f59e0b' : "#af5f44" }}>
             Service Demand (Most Booked Services)
           </h3>
           <ResponsiveContainer width="100%" height={500}>
@@ -163,9 +195,16 @@ const AdminAnalytics = () => {
                 textAnchor="end"
                 height={175}
                 interval={0}
+                tick={{ fill: isDark ? '#d1d5db' : '#374151' }}
               />
-              <YAxis />
-              <Tooltip />
+              <YAxis tick={{ fill: isDark ? '#d1d5db' : '#374151' }} />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: isDark ? '#374151' : '#ffffff',
+                  border: isDark ? '1px solid #4b5563' : '1px solid #e5e7eb',
+                  color: isDark ? '#f9fafb' : '#111827'
+                }}
+              />
               <Legend />
               <Bar
                 dataKey="bookingCount"
@@ -177,8 +216,12 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Category Revenue Distribution */}
-        <div className="rounded-lg shadow-lg p-6">
-          <h3 className="text-xl font-bold mb-4" style={{ color: "#af5f44" }}>
+        <div className={`rounded-lg shadow-lg p-6 ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
+          <h3 className={`text-xl font-bold mb-4 ${
+            isDark ? 'text-orange-400' : ''
+          }`} style={{ color: isDark ? '#f59e0b' : "#af5f44" }}>
             Revenue by Category
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -202,23 +245,42 @@ const AdminAnalytics = () => {
                   />
                 ))}
               </Pie>
-              <Tooltip />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: isDark ? '#374151' : '#ffffff',
+                  border: isDark ? '1px solid #4b5563' : '1px solid #e5e7eb',
+                  color: isDark ? '#f9fafb' : '#111827'
+                }}
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Monthly Revenue Trend */}
-      <div className="rounded-lg shadow-lg p-6">
-        <h3 className="text-xl font-bold mb-4" style={{ color: "#af5f44" }}>
+      <div className={`rounded-lg shadow-lg p-6 ${
+        isDark ? 'bg-gray-800' : 'bg-white'
+      }`}>
+        <h3 className={`text-xl font-bold mb-4 ${
+          isDark ? 'text-orange-400' : ''
+        }`} style={{ color: isDark ? '#f59e0b' : "#af5f44" }}>
           Monthly Revenue Trend
         </h3>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={monthlyRevenue}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis />
-            <Tooltip />
+            <XAxis 
+              dataKey="month" 
+              tick={{ fill: isDark ? '#d1d5db' : '#374151' }}
+            />
+            <YAxis tick={{ fill: isDark ? '#d1d5db' : '#374151' }} />
+            <Tooltip 
+              contentStyle={{
+                backgroundColor: isDark ? '#374151' : '#ffffff',
+                border: isDark ? '1px solid #4b5563' : '1px solid #e5e7eb',
+                color: isDark ? '#f9fafb' : '#111827'
+              }}
+            />
             <Legend />
             <Line
               type="monotone"
@@ -239,14 +301,20 @@ const AdminAnalytics = () => {
       </div>
 
       {/* Detailed Stats Table */}
-      <div className=" rounded-lg shadow-lg p-6">
-        <h3 className="text-xl font-bold mb-4" style={{ color: "#af5f44" }}>
+      <div className={`rounded-lg shadow-lg p-6 ${
+        isDark ? 'bg-gray-800' : 'bg-white'
+      }`}>
+        <h3 className={`text-xl font-bold mb-4 ${
+          isDark ? 'text-orange-400' : ''
+        }`} style={{ color: isDark ? '#f59e0b' : "#af5f44" }}>
           Service-wise Revenue Breakdown
         </h3>
         <div className="overflow-x-auto">
           <table className="min-w-full">
             <thead>
-              <tr className="border-b" style={{ backgroundColor: "#af5f44" }}>
+              <tr className={`border-b ${
+                isDark ? 'border-gray-600' : 'border-gray-200'
+              }`} style={{ backgroundColor: "#af5f44" }}>
                 <th className="px-4 py-3 text-left text-white">Service Name</th>
                 <th className="px-4 py-3 text-left text-white">Category</th>
                 <th className="px-4 py-3 text-center text-white">
@@ -259,14 +327,26 @@ const AdminAnalytics = () => {
             </thead>
             <tbody>
               {serviceDemand.map((service, index) => (
-                <tr key={index} className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3">{service.serviceName}</td>
+                <tr key={index} className={`border-b transition ${
+                  isDark 
+                    ? 'border-gray-600 hover:bg-gray-700' 
+                    : 'border-gray-200 hover:bg-gray-50'
+                }`}>
+                  <td className={`px-4 py-3 ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}>{service.serviceName}</td>
                   <td className="px-4 py-3">
-                    <span className="px-2 py-1 bg-gray-100 rounded text-sm">
+                    <span className={`px-2 py-1 rounded text-sm ${
+                      isDark 
+                        ? 'bg-gray-700 text-gray-300' 
+                        : 'bg-gray-100 text-gray-700'
+                    }`}>
                       {service.category}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-center font-semibold">
+                  <td className={`px-4 py-3 text-center font-semibold ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}>
                     {service.bookingCount}
                   </td>
                   <td

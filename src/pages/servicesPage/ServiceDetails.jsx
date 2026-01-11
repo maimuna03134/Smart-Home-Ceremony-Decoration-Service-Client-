@@ -7,9 +7,10 @@ import Loader from "../shared/loader/Loader";
 import toast from "react-hot-toast";
 import BookingModal from "../../components/modal/BookingModal";
 import useAuth from "../../hooks/useAuth";
-import { Star, Users } from "lucide-react";
+import { Star, Users, AlertCircle } from "lucide-react";
 import useDemoProtection from "../../hooks/useDemoProtection";
 import { useTheme } from "../../contexts/ThemeContext";
+import Button from "../shared/button/Button";
 
 const ServiceDetails = () => {
   const { user } = useAuth();
@@ -80,12 +81,11 @@ const ServiceDetails = () => {
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             Service Not Found
           </h2>
-          <button
+          <Button
+            label="Back to Services"
             onClick={() => navigate("/services")}
-            className="btn btn-primary mt-4"
-          >
-            Back to Services
-          </button>
+            small
+          />
         </div>
       </div>
     );
@@ -228,16 +228,11 @@ const ServiceDetails = () => {
                       </div>
                     )}
 
-                    <button
+                    <Button
+                      label={isBookingDisabled ? "Already Booked" : "Book Now"}
                       onClick={handleBookNow}
                       disabled={isBookingDisabled}
-                      className={`px-8 py-3 text-lg font-bold rounded-xl shadow-lg transition-all duration-300 ${isBookingDisabled
-                        ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                        : "bg-linear-to-r from-primary to-orange-600 text-white hover:shadow-xl transform hover:-translate-y-1"
-                        }`}
-                    >
-                      {isBookingDisabled ? "Already Booked" : "Book Now"}
-                    </button>
+                    />
                   </div>
                 </div>
 

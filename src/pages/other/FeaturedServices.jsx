@@ -1,15 +1,18 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
 import Loader from "../shared/loader/Loader";
 import MyContainer from "../../components/container/MyContainer";
 import { useTheme } from "../../contexts/ThemeContext";
+import Button from "../shared/button/Button";
+import { ArrowRight } from "lucide-react";
 
 const FeaturedServices = () => {
   const { isDark } = useTheme();
+  const navigate = useNavigate();
   
   const { data: services = [], isLoading } = useQuery({
     queryKey: ["featured-services"],
@@ -191,28 +194,13 @@ const FeaturedServices = () => {
           transition={{ delay: 0.5, duration: 0.6 }}
           className="text-center mt-12"
         >
-          <Link
-            to="/services"
-            className="inline-flex items-center gap-2 px-8 py-4 
-            bg-gradient-to-r from-primary to-orange-600 text-white 
-            rounded-full font-semibold text-lg transition-all duration-300 
-            transform hover:scale-105 shadow-lg hover:shadow-xl"
-          >
-            View All Services
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 7l5 5m0 0l-5 5m5-5H6"
-              />
-            </svg>
-          </Link>
+          <div className="inline-block">
+            <Button
+              label="View All Services"
+              onClick={() => navigate("/services")}
+              icon={ArrowRight}
+            />
+          </div>
         </motion.div>
       </MyContainer>
     </section>

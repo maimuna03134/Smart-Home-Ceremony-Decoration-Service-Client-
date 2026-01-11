@@ -11,6 +11,7 @@ import {
 import toast from "react-hot-toast";
 import MyContainer from "../../components/container/MyContainer";
 import Coverage from "../coverage/Coverage";
+import Button from "../shared/button/Button";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -263,23 +264,12 @@ const Contact = () => {
                   />
                 </div>
 
-                <button
-                  type="submit"
+                <Button
+                  label={submitting ? "Sending..." : "Send Message"}
+                  loading={submitting}
                   disabled={submitting}
-                  className="shared-style w-full disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {submitting ? (
-                    <>
-                      <span className="loading loading-spinner loading-sm"></span>
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <FaPaperPlane className="w-5 h-5" />
-                      Send Message
-                    </>
-                  )}
-                </button>
+                  icon={FaPaperPlane}
+                />
               </form>
             </motion.div>
           </div>

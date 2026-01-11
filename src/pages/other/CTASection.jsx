@@ -4,6 +4,7 @@ import MyContainer from "../../components/container/MyContainer";
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import Button from "../shared/button/Button";
 
 const CTASection = () => {
   const navigate = useNavigate();
@@ -23,13 +24,12 @@ const CTASection = () => {
               Book your decoration service today and let our experts create
               magic for your special occasion
             </p>
-            <button
+            <Button
+              label="Get Started Now"
               onClick={() => navigate("/services")}
-              className="px-10 py-5 bg-white text-primary rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
-            >
-              Get Started Now
-              <ArrowRight className="w-5 h-5" />
-            </button>
+              icon={ArrowRight}
+              outline
+            />
           </motion.div>
         </MyContainer>
       </section>

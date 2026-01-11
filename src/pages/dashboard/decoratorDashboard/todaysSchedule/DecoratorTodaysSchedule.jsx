@@ -6,9 +6,11 @@ import { FaClock, FaMapMarkerAlt,  FaEnvelope } from "react-icons/fa";
 import useAuth from "../../../../hooks/useAuth";
 import Loader from "../../../shared/loader/Loader";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useTheme } from "../../../../contexts/ThemeContext";
 
 const DecoratorTodaysSchedule = () => {
   const { user } = useAuth();
+  const { isDark } = useTheme();
   const axiosSecure=useAxiosSecure()
 
   const { data: schedule = [], isLoading } = useQuery({
@@ -33,30 +35,44 @@ const DecoratorTodaysSchedule = () => {
   });
 
   return (
-    <div className="p-6">
+    <div className={`p-6 ${isDark ? 'bg-gray-900' : ''}`}>
       <div className="mb-6">
-        <h2 className="text-3xl font-bold text-primary">Today's Schedule</h2>
-        <p className="text-gray-600 mt-1">{today}</p>
-        <p className="text-sm text-gray-500 mt-1">
+        <h2 className={`text-3xl font-bold text-primary ${
+          isDark ? 'text-orange-400' : ''
+        }`}>Today's Schedule</h2>
+        <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>{today}</p>
+        <p className={`text-sm mt-1 ${
+          isDark ? 'text-gray-400' : 'text-gray-500'
+        }`}>
           Projects scheduled:{" "}
           <span className="font-semibold">{schedule.length}</span>
         </p>
       </div>
 
       {schedule.length === 0 ? (
-        <div className="text-center py-12 rounded-lg shadow">
-          <FaClock className="text-6xl text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">
+        <div className={`text-center py-12 rounded-lg shadow ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
+          <FaClock className={`text-6xl mx-auto mb-4 ${
+            isDark ? 'text-gray-600' : 'text-gray-300'
+          }`} />
+          <p className={`text-lg ${
+            isDark ? 'text-gray-400' : 'text-gray-500'
+          }`}>
             No projects scheduled for today
           </p>
-          <p className="text-gray-400 text-sm mt-2">Enjoy your day off!</p>
+          <p className={`text-sm mt-2 ${
+            isDark ? 'text-gray-500' : 'text-gray-400'
+          }`}>Enjoy your day off!</p>
         </div>
       ) : (
         <div className="space-y-4">
           {schedule.map((item, index) => (
             <div
               key={item._id}
-              className="rounded-lg shadow-lg p-6 border-l-4"
+              className={`rounded-lg shadow-lg p-6 border-l-4 ${
+                isDark ? 'bg-gray-800' : 'bg-white'
+              }`}
               style={{ borderLeftColor: "#af5f44" }}
             >
               <div className="flex items-start justify-between">
@@ -67,7 +83,9 @@ const DecoratorTodaysSchedule = () => {
                     <span className="bg-primary text-white px-3 py-1 rounded-full text-sm font-bold">
                       #{index + 1}
                     </span>
-                    <h3 className="font-bold text-xl">{item.serviceName}</h3>
+                    <h3 className={`font-bold text-xl ${
+                      isDark ? 'text-white' : 'text-gray-900'
+                    }`}>{item.serviceName}</h3>
                   </div>
 
                   {/* Category */}
@@ -77,14 +95,20 @@ const DecoratorTodaysSchedule = () => {
 
                   {/* Customer Details */}
                   <div className="space-y-2">
-                    <p className="font-semibold text-gray-700">
+                    <p className={`font-semibold ${
+                      isDark ? 'text-gray-300' : 'text-gray-700'
+                    }`}>
                       Customer Details:
                     </p>
-                    <div className="flex items-center gap-2 text-sm">
+                    <div className={`flex items-center gap-2 text-sm ${
+                      isDark ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
                       <FaEnvelope className="text-primary" />
                       <span>{item.userEmail}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm">
+                    <div className={`flex items-center gap-2 text-sm ${
+                      isDark ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
                       <FaMapMarkerAlt className="text-primary" />
                       <span>{item.location || "Location not specified"}</span>
                     </div>

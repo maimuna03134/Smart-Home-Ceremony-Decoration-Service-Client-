@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import useAuth from "../../../../hooks/useAuth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTheme } from "../../../../contexts/ThemeContext";
+import Button from "../../../shared/button/Button";
 
 import Swal from "sweetalert2";
 import { imageUpload } from "../../../../utils"; 
@@ -224,13 +225,14 @@ const ManageServices = () => {
             <span className="font-semibold">{services.length}</span>
           </p>
         </div>
-        <button
-          onClick={() => navigate("/dashboard/add-service")}
-          className="btn text-white bg-primary hover:bg-primary/90 border-primary"
-        >
-          <FaPlus className="mr-2" />
-          Add New Service
-        </button>
+        <div className="w-auto">
+          <Button
+            label="Add New Service"
+            onClick={() => navigate("/dashboard/add-service")}
+            icon={FaPlus}
+            small
+          />
+        </div>
       </div>
 
       {/* Services Table */}
@@ -509,29 +511,23 @@ const ManageServices = () => {
               </div>
 
               {/* Actions */}
-              <div className="modal-action">
-                <button
-                  type="button"
+              <div className="modal-action gap-3">
+                <Button
+                  label="Cancel"
                   onClick={() => {
                     setIsModalOpen(false);
                     setEditingService(null);
                     resetForm();
                   }}
-                  className={`btn ${
-                    isDark 
-                      ? 'bg-gray-600 hover:bg-gray-700 text-white border-gray-600' 
-                      : ''
-                  }`}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="btn text-white bg-primary hover:bg-primary/90 border-primary"
+                  outline
+                  small
+                />
+                <Button
+                  label={updateMutation.isPending ? "Updating..." : "Update Service"}
+                  loading={updateMutation.isPending}
                   disabled={updateMutation.isPending}
-                >
-                  {updateMutation.isPending ? "Updating..." : "Update Service"}
-                </button>
+                  small
+                />
               </div>
             </form>
           </div>

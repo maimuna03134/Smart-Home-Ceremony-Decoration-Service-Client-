@@ -113,7 +113,7 @@ const Register = () => {
                   {...register("image", {
                     required: "Profile image is required",
                   })}
-                  className={`block w-full text-sm rounded cursor-pointer py-2 ${
+                  className={`px-2 block w-full text-sm rounded cursor-pointer py-2 ${
                     isDark 
                       ? 'text-gray-300 bg-gray-700 border border-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90' 
                       : 'text-gray-500 bg-gray-100 border border-dashed border-orange-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-primary hover:file:bg-orange-100'

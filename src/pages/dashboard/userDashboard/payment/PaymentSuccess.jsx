@@ -82,6 +82,7 @@ import { useSearchParams, useNavigate } from "react-router";
 import axios from "axios";
 import { IoBagCheckOutline } from "react-icons/io5";
 import { useTheme } from "../../../../contexts/ThemeContext";
+import Button from "../../../shared/button/Button";
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
@@ -130,12 +131,10 @@ const PaymentSuccess = () => {
         }`}>
           Thank you for your purchase. Your booking is being processed.
         </p>
-        <button
+        <Button
+          label="Go to My Bookings"
           onClick={() => navigate("/dashboard/my-bookings")}
-          className="inline-block bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-orange-600 transition duration-300 w-full"
-        >
-          Go to My Bookings
-        </button>
+        />
       </div>
     </div>
   );

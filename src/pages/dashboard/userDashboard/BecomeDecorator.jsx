@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useDemoProtection from "../../../hooks/useDemoProtection";
+import Button from "../../shared/button/Button";
 
 const BecomeDecorator = () => {
   const { user } = useAuth();
@@ -248,14 +249,9 @@ const BecomeDecorator = () => {
             )}
 
             {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white 
-            font-semibold py-3 rounded-xl transition-all transform 
-            hover:scale-105 shadow-md"
-            >
-              Submit Decorator Request
-            </button>
+            <Button
+              label="Submit Decorator Request"
+            />
           </div>
 
         </form>

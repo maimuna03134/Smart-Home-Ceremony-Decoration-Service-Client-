@@ -4,6 +4,7 @@ import { X, Calendar, MapPin, Edit } from "lucide-react";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useTheme } from "../../contexts/ThemeContext";
+import Button from "../../pages/shared/button/Button";
 
 const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
   const axiosSecure = useAxiosSecure();
@@ -228,25 +229,19 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
 
               {/* Action Buttons */}
               <div className="flex gap-3 pt-4">
-                <button
-                  type="button"
+                <Button
+                  label="Cancel"
                   onClick={closeModal}
                   disabled={loading}
-                  className={`flex-1 px-6 py-3 border-2 rounded-xl font-semibold transition disabled:opacity-50 ${
-                    isDark 
-                      ? 'border-gray-600 text-gray-300 hover:bg-gray-700' 
-                      : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
+                  outline
+                  small
+                />
+                <Button
+                  label={loading ? "Updating..." : "Update Booking"}
+                  loading={loading}
                   disabled={loading}
-                  className="flex-1 px-6 py-3 bg-linear-to-r from-primary to-orange-600 text-white rounded-xl font-semibold hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {loading ? "Updating..." : "Update Booking"}
-                </button>
+                  small
+                />
               </div>
             </form>
           </DialogPanel>

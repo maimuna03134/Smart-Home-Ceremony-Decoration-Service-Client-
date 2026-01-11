@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { motion } from "framer-motion";
 import { ArrowRight, Award, Sparkles } from 'lucide-react';
 import MyContainer from '../../../components/container/MyContainer';
+import Button from '../../shared/button/Button';
 
 const StyleDecorHero = () => {
      const navigate = useNavigate();
@@ -94,19 +95,16 @@ const StyleDecorHero = () => {
                     transition={{ delay: 0.5 }}
                     className="flex flex-col sm:flex-row gap-4"
                   >
-                    <button
+                    <Button
+                      label="Book Decoration Service"
                       onClick={() => navigate("/services")}
-                      className="group px-8 py-4 bg-linear-to-r from-primary to-orange-600 text-white rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
-                    >
-                      Book Decoration Service
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                    <button
+                      icon={ArrowRight}
+                    />
+                    <Button
+                      label="Browse Services"
                       onClick={() => navigate("/services")}
-                      className="px-8 py-4 bg-white text-primary rounded-2xl font-bold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border-2 border-purple-200"
-                    >
-                      Browse Services
-                    </button>
+                      outline
+                    />
                   </motion.div>
 
                   {/* Stats */}
