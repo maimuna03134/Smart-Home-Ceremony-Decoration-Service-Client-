@@ -84,10 +84,10 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`navbar fixed top-0 left-0 w-full py-0 min-h-0 z-50 transition-all duration-300
+        className={`fixed top-0 left-0 w-full py-0 min-h-0 z-1 transition-all duration-300
     ${isScrolled
             ? "bg-white border-b border-gray-200"
-            : "glass-card rounded-full"
+            : "glass-card"
           }`}
       >
         <MyContainer className={" px-4 sm:px-6 lg:px-8"}>

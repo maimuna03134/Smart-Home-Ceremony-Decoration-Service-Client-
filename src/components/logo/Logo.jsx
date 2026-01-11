@@ -10,7 +10,7 @@ const Logo = ({ isScrolled }) => {
             className={`text-xl transition-all duration-300
             ${isScrolled
               ? "text-primary font-bold"   
-              : "text-white font-semibold " 
+              : "text-gray-800 font-semibold " 
               }`}>
             StyleDecor
           </span>
