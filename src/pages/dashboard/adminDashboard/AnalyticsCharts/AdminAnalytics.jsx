@@ -76,7 +76,7 @@ const AdminAnalytics = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Revenue */}
         <div
-          className="bg-white rounded-lg shadow-lg p-6 border-l-4"
+          className="rounded-lg shadow-lg p-6 border-l-4"
           style={{ borderLeftColor: "#af5f44" }}
         >
           <div className="flex items-center justify-between">
@@ -97,7 +97,7 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Paid Revenue */}
-        <div className="bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-500">
+        <div className="rounded-lg shadow-lg p-6 border-l-4 border-green-500">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium">Paid Revenue</p>
@@ -113,7 +113,7 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Pending Revenue */}
-        <div className="bg-white rounded-lg shadow-lg p-6 border-l-4 border-yellow-500">
+        <div className="rounded-lg shadow-lg p-6 border-l-4 border-yellow-500">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium">
@@ -131,7 +131,7 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Total Bookings */}
-        <div className="bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-500">
+        <div className="rounded-lg shadow-lg p-6 border-l-4 border-blue-500">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium">
@@ -150,7 +150,7 @@ const AdminAnalytics = () => {
       {/* Charts Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Service Demand Chart */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="rounded-lg shadow-lg p-6">
           <h3 className="text-xl font-bold mb-4" style={{ color: "#af5f44" }}>
             Service Demand (Most Booked Services)
           </h3>
@@ -177,7 +177,7 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Category Revenue Distribution */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="rounded-lg shadow-lg p-6">
           <h3 className="text-xl font-bold mb-4" style={{ color: "#af5f44" }}>
             Revenue by Category
           </h3>
@@ -209,7 +209,7 @@ const AdminAnalytics = () => {
       </div>
 
       {/* Monthly Revenue Trend */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="rounded-lg shadow-lg p-6">
         <h3 className="text-xl font-bold mb-4" style={{ color: "#af5f44" }}>
           Monthly Revenue Trend
         </h3>
@@ -239,7 +239,7 @@ const AdminAnalytics = () => {
       </div>
 
       {/* Detailed Stats Table */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className=" rounded-lg shadow-lg p-6">
         <h3 className="text-xl font-bold mb-4" style={{ color: "#af5f44" }}>
           Service-wise Revenue Breakdown
         </h3>

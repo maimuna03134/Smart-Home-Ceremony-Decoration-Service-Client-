@@ -44,7 +44,7 @@ const DecoratorTodaysSchedule = () => {
       </div>
 
       {schedule.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-lg shadow">
+        <div className="text-center py-12 rounded-lg shadow">
           <FaClock className="text-6xl text-gray-300 mx-auto mb-4" />
           <p className="text-gray-500 text-lg">
             No projects scheduled for today
@@ -56,7 +56,7 @@ const DecoratorTodaysSchedule = () => {
           {schedule.map((item, index) => (
             <div
               key={item._id}
-              className="bg-white rounded-lg shadow-lg p-6 border-l-4"
+              className="rounded-lg shadow-lg p-6 border-l-4"
               style={{ borderLeftColor: "#af5f44" }}
             >
               <div className="flex items-start justify-between">

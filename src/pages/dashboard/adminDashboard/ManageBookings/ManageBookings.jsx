@@ -147,7 +147,7 @@ const ManageBookings = () => {
 
       <div className="mb-4 space-y-4">
         {/* Payment Filter */}
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="p-4 rounded-lg shadow">
           <span className="font-medium text-gray-700 mr-4">Filter by Payment:</span>
           <div className="inline-flex gap-2">
             <button
@@ -181,7 +181,7 @@ const ManageBookings = () => {
         </div>
 
         {/* Sorting Controls */}
-        <div className="mb-4 flex gap-4 items-center bg-white p-4 rounded-lg shadow">
+        <div className="mb-4 flex gap-4 items-center  p-4 rounded-lg shadow">
           <span className="font-medium text-gray-700">Sort by:</span>
           <button
             onClick={() => handleSort("createdAt")}
@@ -210,7 +210,7 @@ const ManageBookings = () => {
                 {["Sl No", "User Info", "Service", "Payment Status", "Booking Status", "Actions"].map((head) => (
                   <th
                     key={head}
-                    className="px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-semibold"
+                    className="px-5 py-3  border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-semibold"
                   >
                     {head}
                   </th>

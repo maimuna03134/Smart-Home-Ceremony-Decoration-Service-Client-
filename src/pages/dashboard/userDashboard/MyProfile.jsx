@@ -134,7 +134,7 @@ const MyProfile = () => {
       {/* Update Profile Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md relative">
+          <div className=" rounded-xl shadow-2xl p-6 w-full max-w-md relative">
             <h3 className="text-2xl font-bold text-primary mb-6 text-center">
               Update Profile
             </h3>

@@ -26,10 +26,10 @@ const PaymentHistory = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-purple-50 via-pink-50 to-indigo-50 p-6">
+    <div className="min-h-screen  p-6">
       <MyContainer>
         {/* Header with Stats */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
+        <div className=" rounded-2xl shadow-xl p-6 mb-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -39,7 +39,7 @@ const PaymentHistory = () => {
                 View all your payment transactions
               </p>
             </div>
-            <div className="bg-linear-to-br from-purple-100 to-pink-100 rounded-xl p-4 border border-purple-200">
+            <div className="rounded-xl p-4 border border-purple-200">
               <p className="text-sm text-gray-600 mb-1">Total Spent</p>
               <p className="text-3xl font-bold text-primary">
                 ৳ {totalSpent.toLocaleString()}
@@ -50,7 +50,7 @@ const PaymentHistory = () => {
 
         {/* Statistics Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className=" rounded-xl shadow-lg p-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-green-100 rounded-xl">
                 <CreditCard className="w-8 h-8 text-green-600" />
@@ -64,7 +64,7 @@ const PaymentHistory = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="rounded-xl shadow-lg p-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-blue-100 rounded-xl">
                 <Calendar className="w-8 h-8 text-blue-600" />
@@ -87,7 +87,7 @@ const PaymentHistory = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="rounded-xl shadow-lg p-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-purple-100 rounded-xl">
                 <DollarSign className="w-8 h-8 text-primary" />
@@ -107,7 +107,7 @@ const PaymentHistory = () => {
 
         {/* Payment Table */}
         {payments.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-xl p-12 text-center">
+          <div className="rounded-2xl shadow-xl p-12 text-center">
             <div className="text-6xl mb-4">💳</div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">
               No Payment History
@@ -117,7 +117,7 @@ const PaymentHistory = () => {
             </p>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div className="rounded-2xl shadow-xl overflow-hidden">
             {/* Desktop Table */}
             <div className="hidden lg:block overflow-x-auto">
               <table className="min-w-full">

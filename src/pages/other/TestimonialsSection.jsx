@@ -3,8 +3,11 @@ import MyContainer from '../../components/container/MyContainer';
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
 import { Quote, Star } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const TestimonialsSection = () => {
+    const { isDark } = useTheme();
+    
     const testimonials = [
       {
         name: "Ayesha Rahman",
@@ -33,7 +36,7 @@ const TestimonialsSection = () => {
     ];
     return (
       <div>
-        <section className="py-20 ">
+        <section className="py-20">
           <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -41,10 +44,14 @@ const TestimonialsSection = () => {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
                 What Our Clients Say
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <p className={`text-xl max-w-2xl mx-auto ${
+                isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 Real stories from real customers who loved our services
               </p>
             </motion.div>
@@ -57,10 +64,14 @@ const TestimonialsSection = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="rounded-2xl p-8 hover:shadow-2xl transition-all duration-300"
+                  className={`rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 ${
+                    isDark ? 'bg-gray-800 hover:bg-gray-750' : 'bg-white hover:bg-gray-50'
+                  }`}
                 >
                   <Quote className="w-10 h-10 text-primary mb-4" />
-                  <p className="text-gray-700 mb-6 italic">
+                  <p className={`mb-6 italic ${
+                    isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                     "{testimonial.text}"
                   </p>
                   <div className="flex items-center gap-4">
@@ -70,10 +81,14 @@ const TestimonialsSection = () => {
                       className="w-14 h-14 rounded-full border-2 border-white shadow-lg"
                     />
                     <div>
-                      <h4 className="font-bold text-gray-900">
+                      <h4 className={`font-bold ${
+                        isDark ? 'text-white' : 'text-gray-900'
+                      }`}>
                         {testimonial.name}
                       </h4>
-                      <p className="text-sm text-gray-600">
+                      <p className={`text-sm ${
+                        isDark ? 'text-gray-400' : 'text-gray-600'
+                      }`}>
                         {testimonial.role}
                       </p>
                       <div className="flex items-center gap-1 mt-1">

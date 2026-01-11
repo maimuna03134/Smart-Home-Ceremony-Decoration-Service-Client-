@@ -36,7 +36,7 @@ const DecoratorAssignedProjects = () => {
       </div>
 
       {projects.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-lg shadow">
+        <div className="text-center py-12  rounded-lg shadow">
           <p className="text-gray-500 text-lg">No projects assigned yet</p>
         </div>
       ) : (
@@ -44,7 +44,7 @@ const DecoratorAssignedProjects = () => {
           {projects.map((project) => (
             <div
               key={project._id}
-              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+              className=" rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
             >
               {/* Service Image */}
               <img

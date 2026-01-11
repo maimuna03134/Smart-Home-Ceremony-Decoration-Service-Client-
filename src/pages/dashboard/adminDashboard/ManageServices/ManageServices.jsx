@@ -233,7 +233,7 @@ const axiosSecure = useAxiosSecure();
       </div>
 
       {/* Services Table */}
-      <div className="overflow-x-auto bg-white rounded-lg shadow">
+      <div className="overflow-x-auto rounded-lg shadow">
         <table className="table table-zebra">
           <thead>
             <tr style={{ backgroundColor: "#af5f44", color: "white" }}>

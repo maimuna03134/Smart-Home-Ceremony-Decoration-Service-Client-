@@ -107,7 +107,7 @@ const DecoratorUpdateStatus = () => {
       </div>
 
       {projects.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-lg shadow">
+        <div className="text-center py-12 rounded-lg shadow">
           <FaCheckCircle className="text-6xl text-green-300 mx-auto mb-4" />
           <p className="text-gray-500 text-lg">All projects are completed!</p>
         </div>
@@ -116,7 +116,7 @@ const DecoratorUpdateStatus = () => {
           {projects.map((project) => (
             <div
               key={project._id}
-              className="bg-white rounded-lg shadow-lg p-6 border-l-4 border-primary"
+              className="rounded-lg shadow-lg p-6 border-l-4 border-primary"
             >
               <div className="flex items-center justify-between">
                 {/* Project Info */}

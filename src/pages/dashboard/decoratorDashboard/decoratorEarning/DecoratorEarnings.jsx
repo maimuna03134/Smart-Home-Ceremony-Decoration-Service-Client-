@@ -46,7 +46,7 @@ const DecoratorEarnings = () => {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Total Earnings */}
-        <div className="bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-500">
+        <div className=" rounded-lg shadow-lg p-6 border-l-4 border-green-500">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium">
@@ -62,7 +62,7 @@ const DecoratorEarnings = () => {
 
         {/* Completed Projects */}
         <div
-          className="bg-white rounded-lg shadow-lg p-6 border-l-4"
+          className=" rounded-lg shadow-lg p-6 border-l-4"
           style={{ borderLeftColor: "#af5f44" }}
         >
           <div className="flex items-center justify-between">
@@ -79,7 +79,7 @@ const DecoratorEarnings = () => {
         </div>
 
         {/* Ongoing Projects */}
-        <div className="bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-500">
+        <div className=" rounded-lg shadow-lg p-6 border-l-4 border-blue-500">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm font-medium">
@@ -95,7 +95,7 @@ const DecoratorEarnings = () => {
       </div>
 
       {/* Payment History Table */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="rounded-lg shadow-lg p-6">
         <h3 className="text-xl font-bold mb-4 text-primary">Payment History</h3>
 
         {paymentHistory.length === 0 ? (
@@ -163,8 +163,8 @@ const DecoratorEarnings = () => {
         )}
       </div>
 
-      {/* Monthly Breakdown (Optional) */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      {/* Monthly Breakdown  */}
+      <div className="rounded-lg shadow-lg p-6">
         <h3 className="text-xl font-bold mb-4 text-primary">This Month</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-4 bg-green-50 rounded-lg">

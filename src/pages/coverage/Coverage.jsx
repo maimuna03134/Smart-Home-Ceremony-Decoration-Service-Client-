@@ -3,8 +3,11 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import MyContainer from "../../components/container/MyContainer";
 import { FaSearch } from "react-icons/fa";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const Coverage = () => {
+  const { isDark } = useTheme();
+  
   const serviceCenters = [
     {
       region: "Dhaka",
@@ -129,10 +132,14 @@ const Coverage = () => {
     <div className="min-h-screen py-16">
       <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className={`text-4xl md:text-5xl font-bold mb-4 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
             Our Service Coverage
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className={`text-xl max-w-3xl mx-auto ${
+            isDark ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             We are proud to serve across{" "}
             <span className="font-bold text-primary">
               {serviceCenters.length}+ major districts
@@ -146,22 +153,32 @@ const Coverage = () => {
               <div className="flex-1 relative">
                 <input
                   type="search"
-                  className="grow w-full px-6 py-4 pr-12 border-2 border-gray-300 rounded-xl 
+                  className={`grow w-full px-6 py-4 pr-12 border-2 rounded-xl 
                   focus:outline-none focus:ring-2 focus:ring-orange-500 
-                  focus:border-transparent text-lg shadow-md"
+                  focus:border-transparent text-lg shadow-md transition-colors ${
+                    isDark 
+                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
+                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                  }`}
                   name="location"
                   placeholder="Search for your district (e.g., Dhaka, Chittagong)..."
                 />
-                <FaSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
+                <FaSearch className={`absolute right-4 top-1/2 -translate-y-1/2 text-xl ${
+                  isDark ? 'text-gray-400' : 'text-gray-400'
+                }`} />
               </div>
             </div>
           </form>
-          <p className="text-sm text-gray-500 mt-3 text-center">
+          <p className={`text-sm mt-3 text-center ${
+            isDark ? 'text-gray-400' : 'text-gray-500'
+          }`}>
             💡 Try searching: Dhaka, Chittagong, Sylhet, Rajshahi, Khulna...
           </p>
         </div>
         <div>
-          <h3 className="text-2xl text-secondary font-bold">
+          <h3 className={`text-2xl font-bold mb-4 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
             We deliver almost all over Bangladesh
           </h3>
           <div className="border w-full h-[500px] relative z-0">

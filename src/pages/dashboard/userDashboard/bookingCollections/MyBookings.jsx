@@ -159,7 +159,7 @@ const MyBookings = () => {
       </div>
 
       {bookings.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-lg p-16 text-center">
+        <div className=" rounded-lg shadow-lg p-16 text-center">
           <div className="text-7xl mb-6">📅</div>
           <h3 className="text-2xl font-bold text-gray-900 mb-4">
             No Bookings Yet
@@ -174,7 +174,7 @@ const MyBookings = () => {
       ) : (
         <>
           {/* Sorting Controls */}
-          <div className="mb-4 flex gap-4 items-center bg-white p-4 rounded-lg shadow">
+          <div className="mb-4 flex gap-4 items-center p-4 rounded-lg shadow">
             <span className="font-medium text-gray-700">Sort by:</span>
             <button
               onClick={() => handleSort("bookingDate")}

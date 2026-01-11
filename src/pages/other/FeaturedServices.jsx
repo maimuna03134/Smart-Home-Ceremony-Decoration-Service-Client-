@@ -6,8 +6,11 @@ import { Link } from "react-router";
 import { motion } from "framer-motion";
 import Loader from "../shared/loader/Loader";
 import MyContainer from "../../components/container/MyContainer";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const FeaturedServices = () => {
+  const { isDark } = useTheme();
+  
   const { data: services = [], isLoading } = useQuery({
     queryKey: ["featured-services"],
     queryFn: async () => {
@@ -54,10 +57,14 @@ const FeaturedServices = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className={`text-4xl font-bold mb-4 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
             Our Popular Services
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className={`text-lg max-w-2xl mx-auto ${
+            isDark ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             Transform your special moments with our premium decoration packages
           </p>
         </motion.div>
@@ -78,8 +85,10 @@ const FeaturedServices = () => {
             >
               <Link
                 to={`/service/${service._id}`}
-                className="block  rounded-2xl shadow-lg overflow-hidden 
-                hover:shadow-2xl transition-all duration-300 h-60"
+                className={`block rounded-2xl shadow-lg overflow-hidden 
+                hover:shadow-2xl transition-all duration-300 h-60 ${
+                  isDark ? 'bg-gray-800' : 'bg-white'
+                }`}
               >
                 {/* Service Image */}
                 <div className="relative h-64 overflow-hidden">
@@ -100,7 +109,7 @@ const FeaturedServices = () => {
                   </div>
 
                   <div
-                    className="absolute inset-0 bg-linear-to-t from-black/60 
+                    className="absolute inset-0 bg-gradient-to-t from-black/60 
                   to-transparent opacity-0 group-hover:opacity-100 transition-opacity 
                   duration-300 flex items-end justify-center pb-6"
                   >
@@ -114,26 +123,32 @@ const FeaturedServices = () => {
                 <div className="p-6">
                   {/* Service Name */}
                   <h3
-                    className="text-xl font-bold text-gray-900 mb-2 
-                  group-hover:text-primary transition-colors line-clamp-2"
+                    className={`text-xl font-bold mb-2 
+                  group-hover:text-primary transition-colors line-clamp-2 ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}
                   >
                     {service.name}
                   </h3>
 
                   {/* Description */}
                   {service.description && (
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                    <p className={`text-sm mb-4 line-clamp-2 ${
+                      isDark ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
                       {service.description}
                     </p>
                   )}
 
                   {/* Price & Unit */}
                   <div
-                    className="flex items-center justify-between pt-4 
-                  border-t border-gray-200"
+                    className={`flex items-center justify-between pt-4 
+                  border-t ${isDark ? 'border-gray-700' : 'border-gray-200'}`}
                   >
                     <div>
-                      <p className="text-xs text-gray-500 uppercase">
+                      <p className={`text-xs uppercase ${
+                        isDark ? 'text-gray-400' : 'text-gray-500'
+                      }`}>
                         {service.unit}
                       </p>
                       <p className="text-2xl font-bold text-primary">
@@ -179,7 +194,7 @@ const FeaturedServices = () => {
           <Link
             to="/services"
             className="inline-flex items-center gap-2 px-8 py-4 
-            bg-linear-to-r from-primary to-orange-600 text-white 
+            bg-gradient-to-r from-primary to-orange-600 text-white 
             rounded-full font-semibold text-lg transition-all duration-300 
             transform hover:scale-105 shadow-lg hover:shadow-xl"
           >

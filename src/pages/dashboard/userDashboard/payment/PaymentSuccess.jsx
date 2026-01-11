@@ -112,7 +112,7 @@ const PaymentSuccess = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="bg-white p-10 rounded-lg shadow-lg text-center">
+      <div className=" p-10 rounded-lg shadow-lg text-center">
         <IoBagCheckOutline className="w-16 h-16 text-primary mx-auto mb-4" />
         <h1 className="text-3xl font-bold text-gray-800 mb-2">
           Payment Successful!
