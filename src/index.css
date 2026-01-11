@@ -292,3 +292,234 @@ html.light {
 .light .theme-toggle-simple {
   /* Light mode specific styles if needed */
 }
+/* Dashboard dark mode styles */
+.dark .drawer-content {
+  background-color: #111827 !important;
+}
+
+.dark .drawer-side {
+  background-color: #1f2937 !important;
+}
+
+.dark .navbar {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+.dark .menu li > * {
+  color: #d1d5db !important;
+}
+
+.dark .menu li > *:hover {
+  background-color: #374151 !important;
+  color: #ffffff !important;
+}
+
+.dark .menu li > *.active {
+  background-color: #d97706 !important;
+  color: #ffffff !important;
+}
+
+/* Dashboard cards and components */
+.dark .dashboard-card {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+.dark .dashboard-table {
+  background-color: #1f2937 !important;
+  color: #f9fafb !important;
+}
+
+.dark .dashboard-table th {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+
+.dark .dashboard-table td {
+  border-color: #4b5563 !important;
+  color: #d1d5db !important;
+}
+
+/* Form elements in dashboard */
+.dark .dashboard-input {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+  color: #f9fafb !important;
+}
+
+.dark .dashboard-input::placeholder {
+  color: #9ca3af !important;
+}
+
+.dark .dashboard-select {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+  color: #f9fafb !important;
+}
+
+/* Dashboard buttons */
+.dark .dashboard-btn-secondary {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+
+.dark .dashboard-btn-secondary:hover {
+  background-color: #4b5563 !important;
+}
+/* Table alternating row colors */
+.table-striped tbody tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.dark .table-striped tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.table-striped tbody tr:nth-child(even) {
+  background-color: transparent;
+}
+
+/* Enhanced table styles for ManageServices */
+.dark .manage-services-table {
+  background-color: #1f2937;
+}
+
+.dark .manage-services-table thead tr {
+  background-color: #374151 !important;
+}
+
+.dark .manage-services-table tbody tr:nth-child(odd) {
+  background-color: #1f2937 !important;
+}
+
+.dark .manage-services-table tbody tr:nth-child(even) {
+  background-color: #111827 !important;
+}
+
+.dark .manage-services-table tbody tr:hover {
+  background-color: #374151 !important;
+}
+
+.manage-services-table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.manage-services-table tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.manage-services-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* Modal dark mode improvements */
+.dark .modal-box {
+  background-color: #1f2937 !important;
+  color: #f9fafb !important;
+  border: 1px solid #374151;
+}
+
+.dark .modal-box input,
+.dark .modal-box select,
+.dark .modal-box textarea {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+  color: #f9fafb !important;
+}
+
+.dark .modal-box input::placeholder,
+.dark .modal-box textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+.dark .modal-box .file_upload {
+  border-color: #4b5563 !important;
+}
+
+/* Badge improvements for dark mode */
+.dark .badge-outline {
+  border-color: #4b5563 !important;
+  color: #d1d5db !important;
+}
+
+.dark .badge-ghost {
+  background-color: #374151 !important;
+  color: #d1d5db !important;
+}
+/* BookingModal dark mode fixes */
+.dark .booking-modal {
+  background-color: #1f2937 !important;
+  color: #f9fafb !important;
+}
+
+.dark .booking-modal * {
+  color: inherit;
+}
+
+.dark .booking-modal h2,
+.dark .booking-modal h3,
+.dark .booking-modal h4 {
+  color: #ffffff !important;
+}
+
+.dark .booking-modal p {
+  color: #d1d5db !important;
+}
+
+.dark .booking-modal label {
+  color: #d1d5db !important;
+}
+
+.dark .booking-modal input,
+.dark .booking-modal textarea {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+  color: #ffffff !important;
+}
+
+.dark .booking-modal input::placeholder,
+.dark .booking-modal textarea::placeholder {
+  color: #9ca3af !important;
+}
+/* UpdateBookingModal dark mode fixes */
+.dark .update-booking-modal {
+  background-color: #1f2937 !important;
+  color: #f9fafb !important;
+}
+
+.dark .update-booking-modal * {
+  color: inherit;
+}
+
+.dark .update-booking-modal h3,
+.dark .update-booking-modal h4 {
+  color: #ffffff !important;
+}
+
+.dark .update-booking-modal p {
+  color: #d1d5db !important;
+}
+
+.dark .update-booking-modal label {
+  color: #d1d5db !important;
+}
+
+.dark .update-booking-modal input,
+.dark .update-booking-modal textarea {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+  color: #ffffff !important;
+}
+
+.dark .update-booking-modal input::placeholder,
+.dark .update-booking-modal textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+.dark .update-booking-modal span {
+  color: #d1d5db !important;
+}

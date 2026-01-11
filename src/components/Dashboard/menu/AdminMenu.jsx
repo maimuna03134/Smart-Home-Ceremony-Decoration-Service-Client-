@@ -3,8 +3,11 @@ import { FaChartBar, FaUserTag } from 'react-icons/fa'
 import { GrServices } from 'react-icons/gr'
 import { MdAdminPanelSettings, MdOutlineAssignmentInd } from 'react-icons/md'
 import { Link } from 'react-router'
+import { useTheme } from '../../../contexts/ThemeContext'
 
 export default function AdminMenu() {
+  const { isDark } = useTheme();
+  
   return (
     <div>
           <ul>
@@ -12,7 +15,9 @@ export default function AdminMenu() {
               <li>
                   <Link
                       to="/dashboard/manage-services"
-                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      className={`is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+                        isDark ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : ''
+                      }`}
                       data-tip="Manage Services"
                   >
                       <GrServices />
@@ -25,7 +30,9 @@ export default function AdminMenu() {
               <li>
                   <Link
                       to="/dashboard/manage-bookings"
-                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      className={`is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+                        isDark ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : ''
+                      }`}
                       data-tip="Manage Bookings"
                   >
                       <MdAdminPanelSettings />
@@ -37,7 +44,9 @@ export default function AdminMenu() {
               <li>
                   <Link
                       to="/dashboard/decorator"
-                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      className={`is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+                        isDark ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : ''
+                      }`}
                       data-tip="Manage Decorator"
                   >
                       <FaUserTag />
@@ -49,7 +58,9 @@ export default function AdminMenu() {
               <li>
                   <Link
                       to="/dashboard/assign-decorator"
-                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      className={`is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+                        isDark ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : ''
+                      }`}
                       data-tip="Assign Decorator"
                   >
                       <MdOutlineAssignmentInd />
@@ -61,7 +72,9 @@ export default function AdminMenu() {
               <li>
                   <Link
                       to="/dashboard/analytics"
-                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      className={`is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+                        isDark ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : ''
+                      }`}
                       data-tip="Analytics Charts"
                   >
                       <FaChartBar />

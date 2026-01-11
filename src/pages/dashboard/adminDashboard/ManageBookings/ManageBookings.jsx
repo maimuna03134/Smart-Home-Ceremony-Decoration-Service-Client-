@@ -6,9 +6,11 @@ import Swal from "sweetalert2";
 import { FaEye, FaBan, FaSort, FaSortUp, FaSortDown, FaLock } from "react-icons/fa";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useDemoProtection from "../../../../hooks/useDemoProtection";
+import { useTheme } from "../../../../contexts/ThemeContext";
 
 const ManageBookings = () => {
   const { user } = useAuth();
+  const { isDark } = useTheme();
   const axiosSecure = useAxiosSecure();
   const [selectedBooking, setSelectedBooking] = useState(null);
   const detailsModalRef = useRef();
@@ -125,10 +127,10 @@ const ManageBookings = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="w-full overflow-x-auto p-6">
+    <div className={`w-full overflow-x-auto p-6 ${isDark ? 'bg-gray-900' : ''}`}>
       <div className="mb-6">
         <h2 className="text-3xl font-bold text-primary">Manage Bookings</h2>
-        <p className="text-gray-600 mt-1">
+        <p className={`mt-1 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
           Total bookings: <span className="font-semibold">{response.total || 0}</span>
           {" | "}Page {currentPage} of {totalPages}
         </p>
@@ -147,7 +149,7 @@ const ManageBookings = () => {
 
       <div className="mb-4 space-y-4">
         {/* Payment Filter */}
-        <div className="p-4 rounded-lg shadow">
+        <div className=" p-4 rounded-lg shadow">
           <span className="font-medium text-gray-700 mr-4">Filter by Payment:</span>
           <div className="inline-flex gap-2">
             <button
@@ -203,14 +205,20 @@ const ManageBookings = () => {
           </button>
         </div>
 
-        <div className="min-w-[1100px] shadow rounded-lg overflow-hidden">
-          <table className="min-w-full border-collapse">
+        <div className={`min-w-[1100px] shadow rounded-lg overflow-hidden ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
+          <table className="min-w-full border-collapse manage-services-table">
             <thead>
-              <tr>
+              <tr className={`${isDark ? 'bg-gray-700' : 'bg-primary'}`}>
                 {["Sl No", "User Info", "Service", "Payment Status", "Booking Status", "Actions"].map((head) => (
                   <th
                     key={head}
-                    className="px-5 py-3  border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-semibold"
+                    className={`px-5 py-3 border-b text-center text-sm uppercase font-semibold ${
+                      isDark 
+                        ? 'border-gray-600 text-white' 
+                        : 'border-gray-200 text-white'
+                    }`}
                   >
                     {head}
                   </th>
@@ -221,18 +229,29 @@ const ManageBookings = () => {
             <tbody>
               {bookings.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="px-5 py-10 text-center text-gray-500">
+                  <td colSpan="6" className={`px-5 py-10 text-center ${
+                    isDark ? 'text-gray-400' : 'text-gray-500'
+                  }`}>
                     No bookings found
                   </td>
                 </tr>
               ) : (
                 bookings.map((booking, index) => (
-                  <tr key={booking._id} className="hover:bg-gray-50">
-                    <td className="px-5 py-5 text-center border-b">
-                      <p className="font-medium">{(currentPage - 1) * itemsPerPage + index + 1}</p>
+                  <tr key={booking._id} className={`
+                    transition-colors duration-200 border-b
+                    ${isDark ? 'border-gray-700' : 'border-gray-200'}
+                  `}>
+                    <td className={`px-5 py-5 text-center border-b ${
+                      isDark ? 'border-gray-700' : 'border-gray-200'
+                    }`}>
+                      <p className={`font-medium ${
+                        isDark ? 'text-gray-300' : 'text-gray-900'
+                      }`}>{(currentPage - 1) * itemsPerPage + index + 1}</p>
                     </td>
 
-                    <td className="px-5 py-5 border-b">
+                    <td className={`px-5 py-5 border-b ${
+                      isDark ? 'border-gray-700' : 'border-gray-200'
+                    }`}>
                       <div className="flex flex-col items-center gap-2 text-center">
                         <img
                           src={booking.userPhoto}
@@ -240,25 +259,37 @@ const ManageBookings = () => {
                           className="w-10 h-10 rounded-full"
                         />
                         <div>
-                          <p className="font-medium">{booking.userName}</p>
-                          <p className="text-xs text-gray-500">{booking.userEmail}</p>
+                          <p className={`font-medium ${
+                            isDark ? 'text-white' : 'text-gray-900'
+                          }`}>{booking.userName}</p>
+                          <p className={`text-xs ${
+                            isDark ? 'text-gray-400' : 'text-gray-500'
+                          }`}>{booking.userEmail}</p>
                         </div>
                       </div>
                     </td>
 
-                    <td className="px-5 py-5 border-b">
+                    <td className={`px-5 py-5 border-b ${
+                      isDark ? 'border-gray-700' : 'border-gray-200'
+                    }`}>
                       <div className="flex flex-col items-center gap-1 text-center">
                         <img
                           src={booking.serviceImage}
                           alt={booking.serviceName}
                           className="w-10 h-10 rounded-lg object-cover"
                         />
-                        <p className="font-medium">{booking.serviceName}</p>
-                        <p className="text-xs text-gray-500">{booking.serviceCategory}</p>
+                        <p className={`font-medium ${
+                          isDark ? 'text-white' : 'text-gray-900'
+                        }`}>{booking.serviceName}</p>
+                        <p className={`text-xs ${
+                          isDark ? 'text-gray-400' : 'text-gray-500'
+                        }`}>{booking.serviceCategory}</p>
                       </div>
                     </td>
 
-                    <td className="px-5 py-5 text-center border-b">
+                    <td className={`px-5 py-5 text-center border-b ${
+                      isDark ? 'border-gray-700' : 'border-gray-200'
+                    }`}>
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${booking.paymentStatus?.toLowerCase() === "paid"
                             ? "bg-green-100 text-green-800"
@@ -269,7 +300,9 @@ const ManageBookings = () => {
                       </span>
                     </td>
 
-                    <td className="px-5 py-5 text-center border-b">
+                    <td className={`px-5 py-5 text-center border-b ${
+                      isDark ? 'border-gray-700' : 'border-gray-200'
+                    }`}>
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${booking.status === "completed"
                             ? "bg-green-100 text-green-800"
@@ -284,11 +317,17 @@ const ManageBookings = () => {
                       </span>
                     </td>
 
-                    <td className="px-5 py-5 text-center border-b">
+                    <td className={`px-5 py-5 text-center border-b ${
+                      isDark ? 'border-gray-700' : 'border-gray-200'
+                    }`}>
                       <div className="flex flex-col justify-center gap-2">
                         <button
                           onClick={() => openDetailsModal(booking)}
-                          className="btn btn-sm btn-info"
+                          className={`btn btn-sm ${
+                            isDark 
+                              ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-600' 
+                              : 'btn-info'
+                          }`}
                           title="View Details"
                         >
                           <FaEye />
@@ -301,7 +340,11 @@ const ManageBookings = () => {
                             <button
                               onClick={() => handleCancelBooking(booking)}
                               disabled={isDemoAccount}
-                              className={`btn btn-sm ${isDemoAccount ? "btn-disabled" : "btn-error"
+                              className={`btn btn-sm ${isDemoAccount 
+                                ? "btn-disabled" 
+                                : isDark 
+                                  ? "bg-red-600 hover:bg-red-700 text-white border-red-600" 
+                                  : "btn-error"
                                 }`}
                               title={isDemoAccount ? "Demo mode - cannot cancel" : "Cancel Booking"}
                             >
@@ -310,7 +353,9 @@ const ManageBookings = () => {
                           )}
 
                         {booking.paymentStatus !== "Paid" && (
-                          <span className="text-xs text-gray-500 italic">Payment required</span>
+                          <span className={`text-xs italic ${
+                            isDark ? 'text-gray-400' : 'text-gray-500'
+                          }`}>Payment required</span>
                         )}
                       </div>
                     </td>
@@ -327,7 +372,11 @@ const ManageBookings = () => {
             <button
               onClick={goToPrevious}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              className={`px-4 py-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed ${
+                isDark 
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
             >
               Previous
             </button>
@@ -346,7 +395,9 @@ const ManageBookings = () => {
                       onClick={() => goToPage(page)}
                       className={`px-4 py-2 rounded-lg transition ${currentPage === page
                           ? "bg-blue-500 text-white"
-                          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                          : isDark 
+                            ? "bg-gray-700 text-gray-300 hover:bg-gray-600" 
+                            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                         }`}
                     >
                       {page}
@@ -354,7 +405,9 @@ const ManageBookings = () => {
                   );
                 } else if (page === currentPage - 2 || page === currentPage + 2) {
                   return (
-                    <span key={page} className="px-2">
+                    <span key={page} className={`px-2 ${
+                      isDark ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
                       ...
                     </span>
                   );
@@ -366,24 +419,165 @@ const ManageBookings = () => {
             <button
               onClick={goToNext}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              className={`px-4 py-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed ${
+                isDark 
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
             >
               Next
             </button>
           </div>
         )}
 
-        {/* Details Modal - Same as before */}
+        {/* Details Modal */}
         <dialog ref={detailsModalRef} className="modal">
-          <div className="modal-box max-w-2xl">
+          <div className={`modal-box max-w-2xl ${
+            isDark ? 'bg-gray-800 text-white border border-gray-700' : 'bg-white'
+          }`}>
             <h3 className="font-bold text-lg mb-4 text-primary">Booking Details</h3>
+
             {selectedBooking && (
               <div className="space-y-4">
-                {/* ... modal content same as before ... */}
+                {/* User Information */}
+                <div className={`border-b pb-4 ${
+                  isDark ? 'border-gray-600' : 'border-gray-200'
+                }`}>
+                  <h4 className={`font-semibold text-md mb-2 ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}>Customer Information</h4>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={selectedBooking.userPhoto}
+                      alt={selectedBooking.userName}
+                      className="w-16 h-16 rounded-full"
+                    />
+                    <div>
+                      <p className={`font-medium ${
+                        isDark ? 'text-white' : 'text-gray-900'
+                      }`}>{selectedBooking.userName}</p>
+                      <p className={`text-sm ${
+                        isDark ? 'text-gray-400' : 'text-gray-600'
+                      }`}>{selectedBooking.userEmail}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Service Information */}
+                <div className={`border-b pb-4 ${
+                  isDark ? 'border-gray-600' : 'border-gray-200'
+                }`}>
+                  <h4 className={`font-semibold text-md mb-2 ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}>Service Information</h4>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={selectedBooking.serviceImage}
+                      alt={selectedBooking.serviceName}
+                      className="w-20 h-20 rounded-lg object-cover"
+                    />
+                    <div>
+                      <p className={`font-medium ${
+                        isDark ? 'text-white' : 'text-gray-900'
+                      }`}>{selectedBooking.serviceName}</p>
+                      <p className={`text-sm ${
+                        isDark ? 'text-gray-400' : 'text-gray-600'
+                      }`}>
+                        Category: {selectedBooking.serviceCategory}
+                      </p>
+                      <p className={`text-sm ${
+                        isDark ? 'text-gray-400' : 'text-gray-600'
+                      }`}>
+                        Price: ৳{selectedBooking.servicePrice}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Booking Details */}
+                <div className={`border-b pb-4 ${
+                  isDark ? 'border-gray-600' : 'border-gray-200'
+                }`}>
+                  <h4 className={`font-semibold text-md mb-2 ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}>Booking Details</h4>
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <p className={isDark ? 'text-gray-300' : 'text-gray-900'}>
+                      <span className="font-medium">Booking ID:</span>{" "}
+                      {selectedBooking._id}
+                    </p>
+                    <p className={isDark ? 'text-gray-300' : 'text-gray-900'}>
+                      <span className="font-medium">Date:</span>{" "}
+                      {new Date(selectedBooking.createdAt).toLocaleDateString()}
+                    </p>
+                    <p className={isDark ? 'text-gray-300' : 'text-gray-900'}>
+                      <span className="font-medium">Location:</span>{" "}
+                      {selectedBooking.location || "N/A"}
+                    </p>
+                    <p className={isDark ? 'text-gray-300' : 'text-gray-900'}>
+                      <span className="font-medium">Payment Status:</span>
+                      <span
+                        className={`ml-2 px-2 py-1 rounded text-xs ${selectedBooking.paymentStatus === "Paid"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                          }`}
+                      >
+                        {selectedBooking.paymentStatus}
+                      </span>
+                    </p>
+                    <p className={isDark ? 'text-gray-300' : 'text-gray-900'}>
+                      <span className="font-medium">Booking Status:</span>
+                      <span className="ml-2 px-2 py-1 rounded text-xs bg-blue-100 text-blue-800">
+                        {selectedBooking.status?.replace(/_/g, " ")}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Decorator Information (if assigned) */}
+                {selectedBooking.decoratorName && (
+                  <div className={`border-b pb-4 ${
+                    isDark ? 'border-gray-600' : 'border-gray-200'
+                  }`}>
+                    <h4 className={`font-semibold text-md mb-2 ${
+                      isDark ? 'text-white' : 'text-gray-900'
+                    }`}>Assigned Decorator</h4>
+                    <div className="text-sm">
+                      <p className={isDark ? 'text-gray-300' : 'text-gray-900'}>
+                        <span className="font-medium">Name:</span>{" "}
+                        {selectedBooking.decoratorName}
+                      </p>
+                      <p className={isDark ? 'text-gray-300' : 'text-gray-900'}>
+                        <span className="font-medium">Email:</span>{" "}
+                        {selectedBooking.decoratorEmail}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Additional Info */}
+                {selectedBooking.notes && (
+                  <div>
+                    <h4 className={`font-semibold text-md mb-2 ${
+                      isDark ? 'text-white' : 'text-gray-900'
+                    }`}>Notes</h4>
+                    <p className={`text-sm ${
+                      isDark ? 'text-gray-400' : 'text-gray-600'
+                    }`}>{selectedBooking.notes}</p>
+                  </div>
+                )}
               </div>
             )}
+
             <div className="modal-action">
-              <button onClick={() => detailsModalRef.current.close()} className="btn">
+              <button 
+                onClick={() => detailsModalRef.current.close()} 
+                className={`btn ${
+                  isDark 
+                    ? 'bg-gray-600 hover:bg-gray-700 text-white border-gray-600' 
+                    : ''
+                }`}
+              >
                 Close
               </button>
             </div>

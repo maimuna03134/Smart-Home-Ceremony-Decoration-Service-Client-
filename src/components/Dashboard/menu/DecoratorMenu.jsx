@@ -4,15 +4,20 @@ import { FaMoneyBillWave } from 'react-icons/fa'
 import { GrDocumentUpdate } from 'react-icons/gr'
 import { LuProjector } from 'react-icons/lu'
 import { Link } from 'react-router'
+import { useTheme } from '../../../contexts/ThemeContext'
 
 export default function DecoratorMenu() {
+    const { isDark } = useTheme();
+    
     return (
         <div>
             <ul>
                 <li>
                     <Link
                         to="/dashboard/my-project"
-                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                        className={`is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+                          isDark ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : ''
+                        }`}
                         data-tip="My Project"
                     >
                         <LuProjector />
@@ -22,7 +27,9 @@ export default function DecoratorMenu() {
                 <li>
                     <Link
                         to="/dashboard/today-schedule"
-                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                        className={`is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+                          isDark ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : ''
+                        }`}
                         data-tip="Today's Schedule"
                     >
                         <AiTwotoneSchedule />
@@ -34,9 +41,10 @@ export default function DecoratorMenu() {
                 <li>
                     <Link
                         to="/dashboard/update-project"
-                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                        data-tip="Update Project Status
-              "
+                        className={`is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+                          isDark ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : ''
+                        }`}
+                        data-tip="Update Project Status"
                     >
                         <GrDocumentUpdate />
                         <span className="is-drawer-close:hidden">
@@ -47,10 +55,10 @@ export default function DecoratorMenu() {
                 <li>
                     <Link
                         to="/dashboard/decorator-earning"
-                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                        data-tip="Earnings Summary
-              
-              "
+                        className={`is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+                          isDark ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : ''
+                        }`}
+                        data-tip="Earnings Summary"
                     >
                         <FaMoneyBillWave />
                         <span className="is-drawer-close:hidden">

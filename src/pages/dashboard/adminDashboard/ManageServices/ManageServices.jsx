@@ -5,6 +5,7 @@ import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router";
 import useAuth from "../../../../hooks/useAuth";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTheme } from "../../../../contexts/ThemeContext";
 
 import Swal from "sweetalert2";
 import { imageUpload } from "../../../../utils"; 
@@ -13,7 +14,8 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 const ManageServices = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-const axiosSecure = useAxiosSecure();
+  const { isDark } = useTheme();
+  const axiosSecure = useAxiosSecure();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingService, setEditingService] = useState(null);
@@ -214,18 +216,17 @@ const axiosSecure = useAxiosSecure();
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-3xl font-bold" style={{ color: "#af5f44" }}>
+          <h2 className={`text-3xl font-bold text-primary`}>
             Manage Services
           </h2>
-          <p className="text-gray-600 mt-1">
+          <p className={`mt-1 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
             Total services:{" "}
             <span className="font-semibold">{services.length}</span>
           </p>
         </div>
         <button
           onClick={() => navigate("/dashboard/add-service")}
-          className="btn text-white"
-          style={{ backgroundColor: "#af5f44" }}
+          className="btn text-white bg-primary hover:bg-primary/90 border-primary"
         >
           <FaPlus className="mr-2" />
           Add New Service
@@ -233,23 +234,35 @@ const axiosSecure = useAxiosSecure();
       </div>
 
       {/* Services Table */}
-      <div className="overflow-x-auto rounded-lg shadow">
-        <table className="table table-zebra">
+      <div className={`overflow-x-auto rounded-lg shadow ${
+        isDark ? 'bg-gray-800' : 'bg-white'
+      }`}>
+        <table className={`table w-full manage-services-table ${
+          isDark ? 'manage-services-table' : ''
+        }`}>
           <thead>
-            <tr style={{ backgroundColor: "#af5f44", color: "white" }}>
-              <th>SL No</th>
-              <th>Service</th>
-              <th>Category</th>
-              <th>Price</th>
-              <th>Unit</th>
-              <th>Created By</th>
-              <th>Actions</th>
+            <tr className={`${isDark ? 'bg-gray-700' : 'bg-primary'} text-white`}>
+              <th className="text-white">SL No</th>
+              <th className="text-white">Service</th>
+              <th className="text-white">Category</th>
+              <th className="text-white">Price</th>
+              <th className="text-white">Unit</th>
+              <th className="text-white">Created By</th>
+              <th className="text-white">Actions</th>
             </tr>
           </thead>
           <tbody>
             {services.map((service, index) => (
-              <tr key={service._id}>
-                <th>{index + 1}</th>
+              <tr 
+                key={service._id} 
+                className={`
+                  transition-colors duration-200 border-b
+                  ${isDark ? 'border-gray-700' : 'border-gray-200'}
+                `}
+              >
+                <th className={`${isDark ? 'text-gray-300' : 'text-gray-900'}`}>
+                  {index + 1}
+                </th>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
@@ -258,33 +271,53 @@ const axiosSecure = useAxiosSecure();
                       </div>
                     </div>
                     <div>
-                      <div className="font-bold">{service.name}</div>
-                      <div className="text-sm opacity-50 truncate max-w-xs">
+                      <div className={`font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                        {service.name}
+                      </div>
+                      <div className={`text-sm opacity-70 truncate max-w-xs ${
+                        isDark ? 'text-gray-400' : 'text-gray-600'
+                      }`}>
                         {service.description?.slice(0, 20)}...
                       </div>
                     </div>
                   </div>
                 </td>
                 <td>
-                  <span className="badge badge-ghost">{service.category}</span>
+                  <span className={`badge ${
+                    isDark ? 'badge-outline text-gray-300' : 'badge-ghost'
+                  }`}>
+                    {service.category}
+                  </span>
                 </td>
-                <td className="font-bold" style={{ color: "#af5f44" }}>
+                <td className="font-bold text-primary">
                   ৳ {service.price}
                 </td>
-                <td>{service.unit || "N/A"}</td>
-                <td className="text-sm">{service.createdByEmail || "Admin"}</td>
+                <td className={`${isDark ? 'text-gray-300' : 'text-gray-900'}`}>
+                  {service.unit || "N/A"}
+                </td>
+                <td className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                  {service.createdByEmail || "Admin"}
+                </td>
                 <td>
                   <div className="flex gap-2">
                     <button
                       onClick={() => openEditModal(service)}
-                      className="btn btn-square btn-sm hover:btn-info"
+                      className={`btn btn-square btn-sm ${
+                        isDark 
+                          ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-600' 
+                          : 'hover:btn-info'
+                      }`}
                       title="Edit"
                     >
                       <FiEdit />
                     </button>
                     <button
                       onClick={() => handleDelete(service._id)}
-                      className="btn btn-square btn-sm hover:btn-error"
+                      className={`btn btn-square btn-sm ${
+                        isDark 
+                          ? 'bg-red-600 hover:bg-red-700 text-white border-red-600' 
+                          : 'hover:btn-error'
+                      }`}
                       title="Delete"
                     >
                       <FaTrashCan />
@@ -300,15 +333,19 @@ const axiosSecure = useAxiosSecure();
       {/* Edit Modal */}
       {isModalOpen && (
         <div className="modal modal-open">
-          <div className="modal-box max-w-2xl">
-            <h3 className="font-bold text-lg mb-4" style={{ color: "#af5f44" }}>
+          <div className={`modal-box max-w-2xl ${
+            isDark ? 'bg-gray-800 text-white' : 'bg-white'
+          }`}>
+            <h3 className="font-bold text-lg mb-4 text-primary">
               Edit Service
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Service Name */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Service Name *</span>
+                  <span className={`label-text ${isDark ? 'text-gray-300' : ''}`}>
+                    Service Name *
+                  </span>
                 </label>
                 <input
                   type="text"
@@ -316,7 +353,11 @@ const axiosSecure = useAxiosSecure();
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="e.g., Royal Wedding Decoration"
-                  className="input input-bordered"
+                  className={`input input-bordered ${
+                    isDark 
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                      : ''
+                  }`}
                   required
                 />
               </div>
@@ -324,13 +365,19 @@ const axiosSecure = useAxiosSecure();
               {/* Category */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Category *</span>
+                  <span className={`label-text ${isDark ? 'text-gray-300' : ''}`}>
+                    Category *
+                  </span>
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="select select-bordered"
+                  className={`select select-bordered ${
+                    isDark 
+                      ? 'bg-gray-700 border-gray-600 text-white' 
+                      : ''
+                  }`}
                   required
                 >
                   <option value="">Select category</option>
@@ -348,7 +395,9 @@ const axiosSecure = useAxiosSecure();
               <div className="grid grid-cols-2 gap-4">
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">Price (BDT) *</span>
+                    <span className={`label-text ${isDark ? 'text-gray-300' : ''}`}>
+                      Price (BDT) *
+                    </span>
                   </label>
                   <input
                     type="number"
@@ -356,19 +405,29 @@ const axiosSecure = useAxiosSecure();
                     value={formData.price}
                     onChange={handleChange}
                     placeholder="e.g., 50000"
-                    className="input input-bordered"
+                    className={`input input-bordered ${
+                      isDark 
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                        : ''
+                    }`}
                     required
                   />
                 </div>
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">Unit</span>
+                    <span className={`label-text ${isDark ? 'text-gray-300' : ''}`}>
+                      Unit
+                    </span>
                   </label>
                   <select
                     name="unit"
                     value={formData.unit}
                     onChange={handleChange}
-                    className="select select-bordered"
+                    className={`select select-bordered ${
+                      isDark 
+                        ? 'bg-gray-700 border-gray-600 text-white' 
+                        : ''
+                    }`}
                   >
                     <option value="">Select unit</option>
                     <option value="per event">per event</option>
@@ -383,7 +442,9 @@ const axiosSecure = useAxiosSecure();
               {/* Image Upload */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Service Image *</span>
+                  <span className={`label-text ${isDark ? 'text-gray-300' : ''}`}>
+                    Service Image *
+                  </span>
                 </label>
 
                 {/* Image Preview */}
@@ -392,13 +453,17 @@ const axiosSecure = useAxiosSecure();
                     <img
                       src={imagePreview}
                       alt="Preview"
-                      className="w-full h-48 object-cover rounded-lg border-2 border-gray-300"
+                      className={`w-full h-48 object-cover rounded-lg border-2 ${
+                        isDark ? 'border-gray-600' : 'border-gray-300'
+                      }`}
                     />
                   </div>
                 )}
 
                 {/* File Upload Button */}
-                <div className="file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg">
+                <div className={`file_upload px-5 py-3 relative border-4 border-dotted rounded-lg ${
+                  isDark ? 'border-gray-600' : 'border-gray-300'
+                }`}>
                   <div className="flex flex-col w-max mx-auto text-center">
                     <label className="cursor-pointer">
                       <input
@@ -407,15 +472,14 @@ const axiosSecure = useAxiosSecure();
                         accept="image/*"
                         onChange={handleImageChange}
                       />
-                      <div
-                        className="text-white border border-gray-300 rounded font-semibold cursor-pointer p-2 px-4 hover:opacity-90"
-                        style={{ backgroundColor: "#af5f44" }}
-                      >
+                      <div className="text-white border border-gray-300 rounded font-semibold cursor-pointer p-2 px-4 hover:opacity-90 bg-primary">
                         {imageFile ? "Change Image" : "Upload New Image"}
                       </div>
                     </label>
                     {imageFile && (
-                      <p className="text-sm text-gray-600 mt-2">
+                      <p className={`text-sm mt-2 ${
+                        isDark ? 'text-gray-400' : 'text-gray-600'
+                      }`}>
                         Selected: {imageFile.name}
                       </p>
                     )}
@@ -426,14 +490,20 @@ const axiosSecure = useAxiosSecure();
               {/* Description */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Description *</span>
+                  <span className={`label-text ${isDark ? 'text-gray-300' : ''}`}>
+                    Description *
+                  </span>
                 </label>
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Describe the service..."
-                  className="textarea textarea-bordered h-24"
+                  className={`textarea textarea-bordered h-24 ${
+                    isDark 
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                      : ''
+                  }`}
                   required
                 />
               </div>
@@ -447,14 +517,17 @@ const axiosSecure = useAxiosSecure();
                     setEditingService(null);
                     resetForm();
                   }}
-                  className="btn"
+                  className={`btn ${
+                    isDark 
+                      ? 'bg-gray-600 hover:bg-gray-700 text-white border-gray-600' 
+                      : ''
+                  }`}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn text-white"
-                  style={{ backgroundColor: "#af5f44" }}
+                  className="btn text-white bg-primary hover:bg-primary/90 border-primary"
                   disabled={updateMutation.isPending}
                 >
                   {updateMutation.isPending ? "Updating..." : "Update Service"}

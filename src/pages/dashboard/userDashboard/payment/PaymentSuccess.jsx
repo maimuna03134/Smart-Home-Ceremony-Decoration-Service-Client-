@@ -81,10 +81,12 @@ import React, { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router";
 import axios from "axios";
 import { IoBagCheckOutline } from "react-icons/io5";
+import { useTheme } from "../../../../contexts/ThemeContext";
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { isDark } = useTheme();
   const sessionId = searchParams.get("session_id");
 
   useEffect(() => {
@@ -111,18 +113,26 @@ const PaymentSuccess = () => {
   }, [sessionId]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className=" p-10 rounded-lg shadow-lg text-center">
+    <div className={`flex flex-col items-center justify-center min-h-screen p-6 ${
+      isDark ? 'bg-gray-900' : 'bg-gray-50'
+    }`}>
+      <div className={`p-10 rounded-lg shadow-lg text-center max-w-md w-full ${
+        isDark ? 'bg-gray-800' : 'bg-white'
+      }`}>
         <IoBagCheckOutline className="w-16 h-16 text-primary mx-auto mb-4" />
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+        <h1 className={`text-3xl font-bold mb-2 ${
+          isDark ? 'text-white' : 'text-gray-800'
+        }`}>
           Payment Successful!
         </h1>
-        <p className="text-gray-600 mb-6">
+        <p className={`mb-6 ${
+          isDark ? 'text-gray-300' : 'text-gray-600'
+        }`}>
           Thank you for your purchase. Your booking is being processed.
         </p>
         <button
           onClick={() => navigate("/dashboard/my-bookings")}
-          className="inline-block bg-primary text-white font-semibold py-2 px-4 rounded hover:bg-orange-600 transition duration-300"
+          className="inline-block bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-orange-600 transition duration-300 w-full"
         >
           Go to My Bookings
         </button>

@@ -8,9 +8,11 @@ import UpdateBookingModal from "../../../../components/modal/UpdateBookingModal"
 import { useNavigate } from "react-router";
 import axios from "axios";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useTheme } from "../../../../contexts/ThemeContext";
 
 const MyBookings = () => {
   const { user } = useAuth();
+  const { isDark } = useTheme();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -149,22 +151,32 @@ const MyBookings = () => {
   }
 
   return (
-    <div className="p-6 bg-base-100 min-h-screen">
+    <div className={`p-6 min-h-screen ${isDark ? 'bg-gray-900' : ''}`}>
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-800">My Bookings</h2>
-        <p className="text-gray-600 mt-2">
+        <h2 className={`text-3xl font-bold ${
+          isDark ? 'text-white' : 'text-gray-800'
+        }`}>My Bookings</h2>
+        <p className={`mt-2 ${
+          isDark ? 'text-gray-300' : 'text-gray-600'
+        }`}>
           Total bookings:{" "}
           <span className="font-bold text-primary">{bookings.length}</span>
         </p>
       </div>
 
       {bookings.length === 0 ? (
-        <div className=" rounded-lg shadow-lg p-16 text-center">
+        <div className={`rounded-lg shadow-lg p-16 text-center ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <div className="text-7xl mb-6">📅</div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">
+          <h3 className={`text-2xl font-bold mb-4 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
             No Bookings Yet
           </h3>
-          <p className="text-gray-600 mb-8">
+          <p className={`mb-8 ${
+            isDark ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             Start booking our amazing decoration services!
           </p>
           <a href="/services" className="btn btn-primary btn-lg">
@@ -174,14 +186,20 @@ const MyBookings = () => {
       ) : (
         <>
           {/* Sorting Controls */}
-          <div className="mb-4 flex gap-4 items-center p-4 rounded-lg shadow">
-            <span className="font-medium text-gray-700">Sort by:</span>
+          <div className={`mb-4 flex gap-4 items-center p-4 rounded-lg shadow ${
+            isDark ? 'bg-gray-800' : 'bg-white'
+          }`}>
+            <span className={`font-medium ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}>Sort by:</span>
             <button
               onClick={() => handleSort("bookingDate")}
               className={`px-4 py-2 rounded-lg transition ${
                 sortBy === "bookingDate"
                   ? "bg-purple-500 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  : isDark
+                    ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
               Date {getSortIcon("bookingDate")}
@@ -191,35 +209,47 @@ const MyBookings = () => {
               className={`px-4 py-2 rounded-lg transition ${
                 sortBy === "status"
                   ? "bg-purple-500 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  : isDark
+                    ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
               Status {getSortIcon("status")}
             </button>
           </div>
 
-          <div className="overflow-x-auto bg-white rounded-lg shadow-lg">
+          <div className={`overflow-x-auto rounded-lg shadow-lg ${
+            isDark ? 'bg-gray-800' : 'bg-white'
+          }`}>
             <table className="table table-zebra w-full">
               {/* Head */}
-              <thead className="bg-linear-to-r from-primary to-orange-600 text-white">
+              <thead className={`${
+                isDark ? 'bg-gray-700' : 'bg-linear-to-r from-primary to-orange-600'
+              } text-white`}>
                 <tr>
-                  <th>SL No</th>
-                  <th>Service</th>
-                  <th>Booking Date</th>
-                  <th>Location</th>
-                  <th>Price</th>
-                  <th>Payment</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th className="text-white">SL No</th>
+                  <th className="text-white">Service</th>
+                  <th className="text-white">Booking Date</th>
+                  <th className="text-white">Location</th>
+                  <th className="text-white">Price</th>
+                  <th className="text-white">Payment</th>
+                  <th className="text-white">Status</th>
+                  <th className="text-white">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {sortedBookings.map((booking, index) => (
                   <tr
                     key={booking._id}
-                    className="hover:bg-purple-50 transition"
+                    className={`transition ${
+                      isDark 
+                        ? index % 2 === 0 
+                          ? 'bg-gray-800' 
+                          : 'bg-gray-900'
+                        : ''
+                    }`}
                   >
-                    <th>{index + 1}</th>
+                    <th className={isDark ? 'text-gray-300' : ''}>{index + 1}</th>
                     <td>
                       <div className="flex items-center gap-4">
                         <div className="avatar">
@@ -232,23 +262,29 @@ const MyBookings = () => {
                           </div>
                         </div>
                         <div>
-                          <div className="font-bold text-gray-900">
+                          <div className={`font-bold ${
+                            isDark ? 'text-white' : 'text-gray-900'
+                          }`}>
                             {booking.serviceName}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className={`text-sm ${
+                            isDark ? 'text-gray-400' : 'text-gray-500'
+                          }`}>
                             {booking.serviceCategory}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td className={isDark ? 'text-gray-300' : ''}>
                       {new Date(booking.bookingDate).toLocaleDateString(
                         "en-GB"
                       )}
                     </td>
                     <td>
                       <div
-                        className="max-w-xs truncate"
+                        className={`max-w-xs truncate ${
+                          isDark ? 'text-gray-300' : ''
+                        }`}
                         title={booking.location}
                       >
                         {booking.location}
@@ -363,7 +399,11 @@ const MyBookings = () => {
       <div className="mt-8 text-center">
         <button
           onClick={() => navigate("/services")}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold transition"
+          className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition ${
+            isDark 
+              ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' 
+              : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
+          }`}
         >
           ← Back
         </button>

@@ -5,11 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "../../../shared/loader/Loader";
 import useDemoProtection from "../../../../hooks/useDemoProtection";
 import { FaLock } from "react-icons/fa";
+import { useTheme } from "../../../../contexts/ThemeContext";
 
 
 const ManageDecorators = () => {
   const { isDemoAccount,checkActionPermission } = useDemoProtection();
   const { user } = useAuth();
+  const { isDark } = useTheme();
   const {
     data: requests = [],
     isLoading,
@@ -27,12 +29,12 @@ const ManageDecorators = () => {
 
   if (isLoading) return <Loader />;
   return (
-    <div className="container mx-auto px-4 sm:px-8">
+    <div className={`container mx-auto px-4 sm:px-8 ${isDark ? 'bg-gray-900' : ''}`}>
       <div className="py-8">
         <h2 className="text-3xl text-primary font-semibold text-center">
           Decorators List
         </h2>
-        <h2 className="text-xl text-gray-800 ">
+        <h2 className={`text-xl ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>
           Total Decorators : {requests.length}
         </h2>
         {isDemoAccount && (
@@ -44,44 +46,70 @@ const ManageDecorators = () => {
           </div>
         )}
         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-          <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-            <table className="min-w-full leading-normal">
+          <div className={`inline-block min-w-full shadow rounded-lg overflow-hidden ${
+            isDark ? 'bg-gray-800' : 'bg-white'
+          }`}>
+            <table className="min-w-full leading-normal manage-services-table">
               <thead>
-                <tr>
+                <tr className={`${isDark ? 'bg-gray-700' : 'bg-primary'}`}>
                   <th
                     scope="col"
-                    className="px-5 py-3  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    className={`px-5 py-3 border-b text-left text-sm uppercase font-normal ${
+                      isDark 
+                        ? 'border-gray-600 text-white' 
+                        : 'border-gray-200 text-white'
+                    }`}
                   >
                     Email
                   </th>
 
                   <th
                     scope="col"
-                    className="px-5 py-3   border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    className={`px-5 py-3 border-b text-left text-sm uppercase font-normal ${
+                      isDark 
+                        ? 'border-gray-600 text-white' 
+                        : 'border-gray-200 text-white'
+                    }`}
                   >
                     Name
                   </th>
                   <th
                     scope="col"
-                    className="px-5 py-3  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    className={`px-5 py-3 border-b text-left text-sm uppercase font-normal ${
+                      isDark 
+                        ? 'border-gray-600 text-white' 
+                        : 'border-gray-200 text-white'
+                    }`}
                   >
                     District
                   </th>
                   <th
                     scope="col"
-                    className="px-5 py-3  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    className={`px-5 py-3 border-b text-left text-sm uppercase font-normal ${
+                      isDark 
+                        ? 'border-gray-600 text-white' 
+                        : 'border-gray-200 text-white'
+                    }`}
                   >
                     Status
                   </th>
                   <th
                     scope="col"
-                    className="px-5 py-3  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    className={`px-5 py-3 border-b text-left text-sm uppercase font-normal ${
+                      isDark 
+                        ? 'border-gray-600 text-white' 
+                        : 'border-gray-200 text-white'
+                    }`}
                   >
                     Work Status
                   </th>
                   <th
                     scope="col"
-                    className="px-5 py-3  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    className={`px-5 py-3 border-b text-left text-sm uppercase font-normal ${
+                      isDark 
+                        ? 'border-gray-600 text-white' 
+                        : 'border-gray-200 text-white'
+                    }`}
                   >
                     Action
                   </th>
@@ -94,7 +122,8 @@ const ManageDecorators = () => {
                     key={req._id}
                     req={req}
                     isDemoAccount={isDemoAccount} 
-                    checkActionPermission={checkActionPermission} 
+                    checkActionPermission={checkActionPermission}
+                    isDark={isDark}
                   />
                 ))}
               </tbody>

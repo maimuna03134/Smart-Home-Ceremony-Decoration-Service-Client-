@@ -8,9 +8,11 @@ import Loader from "../shared/loader/Loader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { imageUpload, saveOrUpdateUser } from "../../utils";
 import toast from "react-hot-toast";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const Register = () => {
   const { createUser, updateProfileInfo, loading } = useAuth();
+  const { isDark } = useTheme();
   const [showPass, setShowPass] = useState(false);
 
   const {
@@ -59,24 +61,30 @@ const Register = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="hero-content flex-col">
+    <div className={`hero-content flex-col ${isDark ? 'text-white' : ''}`}>
       <div className="text-center lg:text-left">
-        <h1 className="text-3xl font-bold">Create an Account</h1>
-        <p className="py-2 text-sm">Register with StyleDecor</p>
+        <h1 className={`text-3xl font-bold ${isDark ? 'text-white' : ''}`}>Create an Account</h1>
+        <p className={`py-2 text-sm ${isDark ? 'text-gray-300' : ''}`}>Register with StyleDecor</p>
       </div>
 
-      <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+      <div className={`card w-full max-w-sm shrink-0 shadow-2xl ${
+        isDark ? 'bg-gray-800 border border-gray-700' : 'bg-base-100'
+      }`}>
         <div className="card-body">
           <form onSubmit={handleSubmit(handleRegistration)}>
             <fieldset className="fieldset">
               {/* name filed */}
               <div>
-                <label htmlFor="email" className="label">
+                <label htmlFor="email" className={`label ${isDark ? 'text-gray-300' : ''}`}>
                   Name
                 </label>
                 <input
                   type="text"
-                  className="input w-full"
+                  className={`input w-full ${
+                    isDark 
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                      : ''
+                  }`}
                   placeholder="Your Name"
                   {...register("name", {
                     required: "Name is required",
@@ -95,7 +103,7 @@ const Register = () => {
 
               {/* image field */}
               <div>
-                <label htmlFor="image" className="label">
+                <label htmlFor="image" className={`label ${isDark ? 'text-gray-300' : ''}`}>
                   Profile Image
                 </label>
 
@@ -105,8 +113,11 @@ const Register = () => {
                   {...register("image", {
                     required: "Profile image is required",
                   })}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold  file:bg-orange-50 file:text-primary  hover:file:bg-orange-100  bg-gray-100 border border-dashed border-orange-300 rounded- cursor-pointer
-    py-2"
+                  className={`block w-full text-sm rounded cursor-pointer py-2 ${
+                    isDark 
+                      ? 'text-gray-300 bg-gray-700 border border-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90' 
+                      : 'text-gray-500 bg-gray-100 border border-dashed border-orange-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-primary hover:file:bg-orange-100'
+                  }`}
                 />
                 {errors.image && (
                   <p className="text-red-500 text-xs mt-1">
@@ -117,11 +128,15 @@ const Register = () => {
 
               {/* email filed */}
               <div>
-                <label className="label">Email</label>
+                <label className={`label ${isDark ? 'text-gray-300' : ''}`}>Email</label>
                 <input
                   type="email"
                   placeholder="you@example.com"
-                  className="input w-full"
+                  className={`input w-full ${
+                    isDark 
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                      : ''
+                  }`}
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
@@ -138,13 +153,17 @@ const Register = () => {
               </div>
               {/* password filed */}
               <div>
-                <label className="label">Password</label>
+                <label className={`label ${isDark ? 'text-gray-300' : ''}`}>Password</label>
 
                 <div className="relative">
                   <input
                     type={showPass ? "text" : "password"}
                     placeholder="••••••••"
-                    className="input w-full pr-10"
+                    className={`input w-full pr-10 ${
+                      isDark 
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                        : ''
+                    }`}
                     {...register("password", {
                       required: "Password is required",
                       minLength: {
@@ -158,7 +177,11 @@ const Register = () => {
                   <button
                     type="button"
                     onClick={handleTogglePasswordShow}
-                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                    className={`absolute top-3 right-3 ${
+                      isDark 
+                        ? 'text-gray-400 hover:text-gray-200' 
+                        : 'text-gray-500 hover:text-gray-700'
+                    }`}
                   >
                     {showPass ? <FaEyeSlash /> : <FaEye />}
                   </button>
@@ -181,11 +204,19 @@ const Register = () => {
 
               <SocialLogin />
             </fieldset>
-            <p className="text-sm text-gray-500 font-semibold text-center">
-              <span className="hover:text-red-500 ">
+            <p className={`text-sm font-semibold text-center ${
+              isDark ? 'text-gray-400' : 'text-gray-500'
+            }`}>
+              <span className={`${
+                isDark ? 'hover:text-red-400' : 'hover:text-red-500'
+              }`}>
                 Already have an account ?{" "}
                 <Link state={location.state} to="/auth/login">
-                  <span className="text-red-500 hover:font-bold"> Login</span>
+                  <span className={`${
+                    isDark 
+                      ? 'text-red-400 hover:font-bold' 
+                      : 'text-red-500 hover:font-bold'
+                  }`}> Login</span>
                 </Link>
               </span>
             </p>

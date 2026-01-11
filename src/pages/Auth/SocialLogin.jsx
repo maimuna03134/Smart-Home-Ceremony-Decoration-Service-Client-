@@ -5,9 +5,11 @@ import Button from "../shared/button/Button";
 import { FcGoogle } from "react-icons/fc";
 import { useLocation, useNavigate } from "react-router";
 import { saveOrUpdateUser } from "../../utils";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const SocialLogin = () => {
   const [loading, setLoading] = useState(false);
+  const { isDark } = useTheme();
 
   const { signInWithGoogle } = useAuth();
   const location = useLocation();
@@ -39,9 +41,15 @@ const SocialLogin = () => {
   return (
     <div className="mt-4">
       <div className="flex items-center justify-center gap-2 my-6">
-        <div className="h-px w-20 bg-gray-300"></div>
-        <span className="text-sm text-gray-500">or</span>
-        <div className="h-px w-20 bg-gray-300"></div>
+        <div className={`h-px w-20 ${
+          isDark ? 'bg-gray-600' : 'bg-gray-300'
+        }`}></div>
+        <span className={`text-sm ${
+          isDark ? 'text-gray-400' : 'text-gray-500'
+        }`}>or</span>
+        <div className={`h-px w-20 ${
+          isDark ? 'bg-gray-600' : 'bg-gray-300'
+        }`}></div>
       </div>
 
       <Button

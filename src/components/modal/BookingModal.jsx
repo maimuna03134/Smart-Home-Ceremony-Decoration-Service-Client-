@@ -6,9 +6,11 @@ import { X, Calendar, MapPin, DollarSign } from "lucide-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const BookingModal = ({ service, onClose }) => {
   const { user, loading: authLoading } = useAuth();
+  const { isDark } = useTheme();
   const axiosSecure = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -119,7 +121,9 @@ const BookingModal = ({ service, onClose }) => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+          className={`booking-modal rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto ${
+            isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
+          }`}
         >
           {/* Header */}
           <div className="sticky top-0 bg-linear-to-r from-primary to-orange-600 text-white p-6 rounded-t-2xl">
@@ -138,9 +142,13 @@ const BookingModal = ({ service, onClose }) => {
           </div>
 
           {/* Content */}
-          <div className="p-6">
+          <div className={`p-6 ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
             {/* Service Info */}
-            <div className="bg-linear-to-br from-orange-50 to-red-50 rounded-xl p-4 mb-6 border border-orange-200">
+            <div className={`rounded-xl p-4 mb-6 border ${
+              isDark 
+                ? 'border-orange-600 bg-gray-700' 
+                : 'border-orange-200 bg-orange-50'
+            }`}>
               <div className="flex gap-4">
                 <img
                   src={service.image}
@@ -148,10 +156,14 @@ const BookingModal = ({ service, onClose }) => {
                   className="w-24 h-24 object-cover rounded-lg"
                 />
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">
+                  <h3 className={`text-xl font-bold mb-1 ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}>
                     {service.name}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-2">
+                  <p className={`text-sm mb-2 ${
+                    isDark ? 'text-gray-400' : 'text-gray-600'
+                  }`}>
                     {service.category}
                   </p>
                   <div className="flex items-center gap-2 text-primary font-bold text-lg">
@@ -162,8 +174,12 @@ const BookingModal = ({ service, onClose }) => {
             </div>
 
             {/* User Info */}
-            <div className="bg-gray-50 rounded-xl p-4 mb-6">
-              <h4 className="font-semibold text-gray-900 mb-3">
+            <div className={`rounded-xl p-4 mb-6 ${
+              isDark ? 'bg-gray-700' : 'bg-gray-50'
+            }`}>
+              <h4 className={`font-semibold mb-3 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
                 Your Information
               </h4>
               <div className="space-y-2">
@@ -181,10 +197,14 @@ const BookingModal = ({ service, onClose }) => {
                     </div>
                   )}
                   <div>
-                    <p className="font-medium text-gray-900">
+                    <p className={`font-medium ${
+                      isDark ? 'text-white' : 'text-gray-900'
+                    }`}>
                       {user?.displayName || "Unknown User"}
                     </p>
-                    <p className="text-sm text-gray-600">{user?.email}</p>
+                    <p className={`text-sm ${
+                      isDark ? 'text-gray-400' : 'text-gray-600'
+                    }`}>{user?.email}</p>
                   </div>
                 </div>
               </div>
@@ -194,7 +214,9 @@ const BookingModal = ({ service, onClose }) => {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Booking Date */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className={`block text-sm font-semibold mb-2 ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   <Calendar className="w-4 h-4 inline mr-2" />
                   Booking Date
                 </label>
@@ -205,13 +227,19 @@ const BookingModal = ({ service, onClose }) => {
                   onChange={handleChange}
                   min={new Date().toISOString().split("T")[0]}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition"
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition ${
+                    isDark 
+                      ? 'bg-gray-700 border-gray-600 text-white' 
+                      : 'border-gray-300'
+                  }`}
                 />
               </div>
 
               {/* Location */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className={`block text-sm font-semibold mb-2 ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   <MapPin className="w-4 h-4 inline mr-2" />
                   Service Location
                 </label>
@@ -222,7 +250,11 @@ const BookingModal = ({ service, onClose }) => {
                   placeholder="Enter complete address where service is needed"
                   rows="3"
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition resize-none"
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition resize-none ${
+                    isDark 
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                      : 'border-gray-300'
+                  }`}
                 />
               </div>
 
@@ -231,7 +263,11 @@ const BookingModal = ({ service, onClose }) => {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition"
+                  className={`flex-1 px-6 py-3 border-2 rounded-xl font-semibold transition ${
+                    isDark 
+                      ? 'border-gray-600 text-gray-300 hover:bg-gray-700' 
+                      : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                  }`}
                 >
                   Cancel
                 </button>

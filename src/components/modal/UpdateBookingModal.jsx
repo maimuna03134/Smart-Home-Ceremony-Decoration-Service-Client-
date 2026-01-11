@@ -3,9 +3,11 @@ import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { X, Calendar, MapPin, Edit } from "lucide-react";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
   const axiosSecure = useAxiosSecure();
+  const { isDark } = useTheme();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     bookingDate: "",
@@ -79,26 +81,38 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
     >
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto bg-black/50 backdrop-blur-sm">
         <div className="flex min-h-full items-center justify-center p-4">
-          <DialogPanel className="w-full max-w-lg bg-white p-6 shadow-2xl rounded-2xl transform transition-all">
+          <DialogPanel className={`update-booking-modal w-full max-w-lg p-6 shadow-2xl rounded-2xl transform transition-all ${
+            isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
+          }`}>
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <DialogTitle
                 as="h3"
-                className="text-2xl font-bold text-gray-900 flex items-center gap-2"
+                className={`text-2xl font-bold flex items-center gap-2 ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}
               >
                 <Edit className="w-6 h-6 text-primary" />
                 Update Booking
               </DialogTitle>
               <button
                 onClick={closeModal}
-                className="p-2 hover:bg-gray-100 rounded-lg transition"
+                className={`p-2 rounded-lg transition ${
+                  isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                }`}
               >
-                <X className="w-5 h-5 text-gray-500" />
+                <X className={`w-5 h-5 ${
+                  isDark ? 'text-gray-400' : 'text-gray-500'
+                }`} />
               </button>
             </div>
 
             {/* Service Info */}
-            <div className="bg-linear-to-br from-purple-50 to-pink-50 rounded-xl p-4 mb-6 border border-purple-200">
+            <div className={`rounded-xl p-4 mb-6 border ${
+              isDark 
+                ? 'border-purple-600 bg-gray-700' 
+                : 'border-purple-200 bg-linear-to-br'
+            }`}>
               <div className="flex gap-3">
                 <img
                   src={booking.serviceImage}
@@ -106,10 +120,14 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
                   className="w-20 h-20 object-cover rounded-lg"
                 />
                 <div className="flex-1">
-                  <h4 className="font-bold text-gray-900">
+                  <h4 className={`font-bold ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}>
                     {booking.serviceName}
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className={`text-sm ${
+                    isDark ? 'text-gray-400' : 'text-gray-600'
+                  }`}>
                     {booking.serviceCategory}
                   </p>
                   <p className="text-lg font-bold text-primary mt-1">
@@ -120,18 +138,26 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
             </div>
 
             {/* Current Details */}
-            <div className="bg-gray-50 rounded-xl p-4 mb-6">
-              <h4 className="font-semibold text-gray-900 mb-3">
+            <div className={`rounded-xl p-4 mb-6 ${
+              isDark ? 'bg-gray-700' : 'bg-gray-50'
+            }`}>
+              <h4 className={`font-semibold mb-3 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
                 Current Details
               </h4>
               <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2 text-gray-700">
+                <div className={`flex items-center gap-2 ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   <Calendar className="w-4 h-4 text-primary" />
                   <span>
                     {new Date(booking.bookingDate).toLocaleDateString("en-GB")}
                   </span>
                 </div>
-                <div className="flex items-start gap-2 text-gray-700">
+                <div className={`flex items-start gap-2 ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   <MapPin className="w-4 h-4 text-orange-600 mt-0.5" />
                   <span>{booking.location}</span>
                 </div>
@@ -142,7 +168,9 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* New Booking Date */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className={`block text-sm font-semibold mb-2 ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   <Calendar className="w-4 h-4 inline mr-2" />
                   New Booking Date
                 </label>
@@ -153,13 +181,19 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
                   onChange={handleChange}
                   min={new Date().toISOString().split("T")[0]}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition ${
+                    isDark 
+                      ? 'bg-gray-700 border-gray-600 text-white' 
+                      : 'border-gray-300'
+                  }`}
                 />
               </div>
 
               {/* New Location */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className={`block text-sm font-semibold mb-2 ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   <MapPin className="w-4 h-4 inline mr-2" />
                   New Location
                 </label>
@@ -170,13 +204,23 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
                   placeholder="Enter complete address"
                   rows="3"
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition resize-none"
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition resize-none ${
+                    isDark 
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                      : 'border-gray-300'
+                  }`}
                 />
               </div>
 
               {/* Note */}
-              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3">
-                <p className="text-sm text-yellow-800">
+              <div className={`border rounded-xl p-3 ${
+                isDark 
+                  ? 'bg-yellow-900/20 border-yellow-600' 
+                  : 'bg-yellow-50 border-yellow-200'
+              }`}>
+                <p className={`text-sm ${
+                  isDark ? 'text-yellow-300' : 'text-yellow-800'
+                }`}>
                   ⚠️ Note: You can only update unpaid bookings. Once payment is
                   made, please contact support for any changes.
                 </p>
@@ -188,7 +232,11 @@ const UpdateBookingModal = ({ isOpen, closeModal, booking, onSuccess }) => {
                   type="button"
                   onClick={closeModal}
                   disabled={loading}
-                  className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition disabled:opacity-50"
+                  className={`flex-1 px-6 py-3 border-2 rounded-xl font-semibold transition disabled:opacity-50 ${
+                    isDark 
+                      ? 'border-gray-600 text-gray-300 hover:bg-gray-700' 
+                      : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                  }`}
                 >
                   Cancel
                 </button>

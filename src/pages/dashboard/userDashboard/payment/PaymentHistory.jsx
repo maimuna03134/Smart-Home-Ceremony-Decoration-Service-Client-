@@ -6,9 +6,11 @@ import Loader from "../../../shared/loader/Loader";
 import MyContainer from "../../../../components/container/MyContainer";
 import { Calendar, CreditCard, DollarSign } from "lucide-react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useTheme } from "../../../../contexts/ThemeContext";
 
 const PaymentHistory = () => {
   const { user } = useAuth();
+  const { isDark } = useTheme();
   const axiosSecure = useAxiosSecure();
 
   const { data: payments = [], isLoading } = useQuery({
@@ -26,21 +28,31 @@ const PaymentHistory = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="min-h-screen  p-6">
+    <div className={`min-h-screen p-6 ${isDark ? 'bg-gray-900' : ''}`}>
       <MyContainer>
         {/* Header with Stats */}
-        <div className=" rounded-2xl shadow-xl p-6 mb-6">
+        <div className={`rounded-2xl shadow-xl p-6 mb-6 ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className={`text-3xl font-bold mb-2 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
                 Payment History
               </h1>
-              <p className="text-gray-600">
+              <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
                 View all your payment transactions
               </p>
             </div>
-            <div className="rounded-xl p-4 border border-purple-200">
-              <p className="text-sm text-gray-600 mb-1">Total Spent</p>
+            <div className={`rounded-xl p-4 border ${
+              isDark 
+                ? 'border-purple-600 bg-gray-700' 
+                : 'border-purple-200 bg-white'
+            }`}>
+              <p className={`text-sm mb-1 ${
+                isDark ? 'text-gray-400' : 'text-gray-600'
+              }`}>Total Spent</p>
               <p className="text-3xl font-bold text-primary">
                 ৳ {totalSpent.toLocaleString()}
               </p>
@@ -50,28 +62,40 @@ const PaymentHistory = () => {
 
         {/* Statistics Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-6">
-          <div className=" rounded-xl shadow-lg p-6">
+          <div className={`rounded-xl shadow-lg p-6 ${
+            isDark ? 'bg-gray-800' : 'bg-white'
+          }`}>
             <div className="flex items-center gap-4">
               <div className="p-3 bg-green-100 rounded-xl">
                 <CreditCard className="w-8 h-8 text-green-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Total Payments</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className={`text-sm ${
+                  isDark ? 'text-gray-400' : 'text-gray-600'
+                }`}>Total Payments</p>
+                <p className={`text-2xl font-bold ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
                   {payments.length}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="rounded-xl shadow-lg p-6">
+          <div className={`rounded-xl shadow-lg p-6 ${
+            isDark ? 'bg-gray-800' : 'bg-white'
+          }`}>
             <div className="flex items-center gap-4">
               <div className="p-3 bg-blue-100 rounded-xl">
                 <Calendar className="w-8 h-8 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">This Month</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className={`text-sm ${
+                  isDark ? 'text-gray-400' : 'text-gray-600'
+                }`}>This Month</p>
+                <p className={`text-2xl font-bold ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
                   {
                     payments.filter((p) => {
                       const paymentDate = new Date(p.paymentDate);
@@ -87,14 +111,20 @@ const PaymentHistory = () => {
             </div>
           </div>
 
-          <div className="rounded-xl shadow-lg p-6">
+          <div className={`rounded-xl shadow-lg p-6 ${
+            isDark ? 'bg-gray-800' : 'bg-white'
+          }`}>
             <div className="flex items-center gap-4">
               <div className="p-3 bg-purple-100 rounded-xl">
                 <DollarSign className="w-8 h-8 text-primary" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Average Payment</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className={`text-sm ${
+                  isDark ? 'text-gray-400' : 'text-gray-600'
+                }`}>Average Payment</p>
+                <p className={`text-2xl font-bold ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
                   ৳{" "}
                   {payments.length > 0
                     ? Math.round(totalSpent / payments.length).toLocaleString()
@@ -107,21 +137,27 @@ const PaymentHistory = () => {
 
         {/* Payment Table */}
         {payments.length === 0 ? (
-          <div className="rounded-2xl shadow-xl p-12 text-center">
+          <div className={`rounded-2xl shadow-xl p-12 text-center ${
+            isDark ? 'bg-gray-800' : 'bg-white'
+          }`}>
             <div className="text-6xl mb-4">💳</div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+            <h3 className={`text-2xl font-bold mb-2 ${
+              isDark ? 'text-white' : 'text-gray-900'
+            }`}>
               No Payment History
             </h3>
-            <p className="text-gray-600">
+            <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
               Your payment transactions will appear here
             </p>
           </div>
         ) : (
-          <div className="rounded-2xl shadow-xl overflow-hidden">
+          <div className={`rounded-2xl shadow-xl overflow-hidden ${
+            isDark ? 'bg-gray-800' : 'bg-white'
+          }`}>
             {/* Desktop Table */}
             <div className="hidden lg:block overflow-x-auto">
               <table className="min-w-full">
-                <thead className="bg-linear-to-r from-primary to-orange-600 text-white">
+                <thead className="bg-gradient-to-r from-primary to-orange-600 text-white">
                   <tr>
                     <th className="text-left py-2 px-6 font-semibold">SL No</th>
                     <th className="text-left py-2 px-6 font-semibold">
@@ -141,17 +177,27 @@ const PaymentHistory = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className={`divide-y ${
+                  isDark ? 'divide-gray-600' : 'divide-gray-200'
+                }`}>
                   {payments.map((payment, index) => (
                     <tr
                       key={payment._id}
-                      className="hover:bg-purple-50 transition"
+                      className={`transition ${
+                        index % 2 === 0 
+                          ? isDark ? 'bg-gray-700' : 'bg-gray-50'
+                          : isDark ? 'bg-gray-800' : 'bg-white'
+                      } hover:${isDark ? 'bg-gray-600' : 'bg-gray-100'}`}
                     >
-                      <td className="py-4 px-6 text-gray-700">{index + 1}</td>
+                      <td className={`py-4 px-6 ${
+                        isDark ? 'text-gray-300' : 'text-gray-700'
+                      }`}>{index + 1}</td>
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-3">
                           <div>
-                            <p className="font-semibold text-gray-900">
+                            <p className={`font-semibold ${
+                              isDark ? 'text-white' : 'text-gray-900'
+                            }`}>
                               {payment.serviceName}
                             </p>
                           </div>
@@ -163,13 +209,21 @@ const PaymentHistory = () => {
                         </span>
                       </td>
                       <td className="py-4 px-6">
-                        <code className="text-xs bg-gray-100 px-2 py-1 rounded font-mono text-gray-700">
+                        <code className={`text-xs px-2 py-1 rounded font-mono ${
+                          isDark 
+                            ? 'bg-gray-600 text-gray-200' 
+                            : 'bg-gray-100 text-gray-700'
+                        }`}>
                           {payment.transactionId?.slice(0, 20)}...
                         </code>
                       </td>
-                      <td className="py-4 px-6 text-gray-700">
+                      <td className={`py-4 px-6 ${
+                        isDark ? 'text-gray-300' : 'text-gray-700'
+                      }`}>
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-gray-500" />
+                          <Calendar className={`w-4 h-4 ${
+                            isDark ? 'text-gray-400' : 'text-gray-500'
+                          }`} />
                           {new Date(payment.paymentDate).toLocaleDateString(
                             "en-GB"
                           )}
@@ -193,7 +247,11 @@ const PaymentHistory = () => {
               {payments.map((payment, index) => (
                 <div
                   key={payment._id}
-                  className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm"
+                  className={`border rounded-xl p-4 shadow-sm ${
+                    isDark 
+                      ? 'bg-gray-700 border-gray-600' 
+                      : 'bg-white border-gray-200'
+                  }`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
@@ -215,10 +273,14 @@ const PaymentHistory = () => {
                       />
                     )}
                     <div>
-                      <h3 className="font-bold text-gray-900">
-                        {payment.name}
+                      <h3 className={`font-bold ${
+                        isDark ? 'text-white' : 'text-gray-900'
+                      }`}>
+                        {payment.serviceName}
                       </h3>
-                      <p className="text-sm text-gray-500">
+                      <p className={`text-sm ${
+                        isDark ? 'text-gray-400' : 'text-gray-500'
+                      }`}>
                         {payment.category}
                       </p>
                     </div>
@@ -226,15 +288,21 @@ const PaymentHistory = () => {
 
                   <div className="space-y-2 mb-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Amount:</span>
+                      <span className={`text-sm ${
+                        isDark ? 'text-gray-300' : 'text-gray-600'
+                      }`}>Amount:</span>
                       <span className="text-lg font-bold text-primary">
                         ৳ {payment.price.toLocaleString()}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Date:</span>
-                      <span className="text-sm text-gray-900">
+                      <span className={`text-sm ${
+                        isDark ? 'text-gray-300' : 'text-gray-600'
+                      }`}>Date:</span>
+                      <span className={`text-sm ${
+                        isDark ? 'text-white' : 'text-gray-900'
+                      }`}>
                         {new Date(payment.paymentDate).toLocaleDateString(
                           "en-GB"
                         )}
@@ -242,9 +310,15 @@ const PaymentHistory = () => {
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 rounded-lg p-3">
-                    <p className="text-xs text-gray-500 mb-1">Transaction ID</p>
-                    <code className="text-xs font-mono text-gray-700 break-all">
+                  <div className={`rounded-lg p-3 ${
+                    isDark ? 'bg-gray-600' : 'bg-gray-50'
+                  }`}>
+                    <p className={`text-xs mb-1 ${
+                      isDark ? 'text-gray-400' : 'text-gray-500'
+                    }`}>Transaction ID</p>
+                    <code className={`text-xs font-mono break-all ${
+                      isDark ? 'text-gray-200' : 'text-gray-700'
+                    }`}>
                       {payment.transactionId}
                     </code>
                   </div>

@@ -4,8 +4,10 @@ import axios from "axios";
 import Loader from "../shared/loader/Loader";
 import Card from "./Card";
 import MyContainer from "../../components/container/MyContainer";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const Services = () => {
+  const { isDark } = useTheme();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [minPrice, setMinPrice] = useState("");
@@ -73,23 +75,31 @@ const Services = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <MyContainer className={"px-4 sm:px-6 lg:px-8 py-8"}>
+    <MyContainer className={`px-4 sm:px-6 lg:px-8 py-8 ${
+      isDark ? 'bg-gray-900' : ''
+    }`}>
       {/* Page Header */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-2">
+        <h1 className={`text-4xl font-bold mb-2 ${
+          isDark ? 'text-white' : 'text-gray-800'
+        }`}>
           Our Decoration Services
         </h1>
-        <p className="text-gray-600">
+        <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
           Find the perfect decoration service for your special occasion
         </p>
       </div>
 
       {/* Filters Section */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div className={`rounded-lg shadow-md p-6 mb-8 ${
+        isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white'
+      }`}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Search Input */}
           <div className="lg:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className={`block text-sm font-medium mb-2 ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               Search Services
             </label>
             <div className="relative">
@@ -98,14 +108,18 @@ const Services = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search by service name..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg 
-                                focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  isDark 
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                    : 'border-gray-300'
+                }`}
               />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 
-                                    text-gray-400 hover:text-gray-600"
+                  className={`absolute right-3 top-1/2 -translate-y-1/2 ${
+                    isDark ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'
+                  }`}
                 >
                   ✕
                 </button>
@@ -115,14 +129,19 @@ const Services = () => {
 
           {/* Category Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className={`block text-sm font-medium mb-2 ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               Service Type
             </label>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg 
-                            focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                isDark 
+                  ? 'bg-gray-700 border-gray-600 text-white' 
+                  : 'border-gray-300'
+              }`}
             >
               <option value="all">All Categories</option>
               {categories.map((category) => (
@@ -140,8 +159,11 @@ const Services = () => {
                 e.preventDefault();
                 handleResetFilters();
               }}
-              className="w-full px-4 py-2 bg-gray-200 hover:bg-gray-300 
-                            text-gray-700 rounded-lg transition font-medium"
+              className={`w-full px-4 py-2 rounded-lg transition font-medium ${
+                isDark 
+                  ? 'bg-gray-600 hover:bg-gray-700 text-gray-300' 
+                  : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
+              }`}
             >
               Reset Filters
             </button>
@@ -149,8 +171,12 @@ const Services = () => {
         </div>
 
         {/* Price Range Filter */}
-        <div className="mt-4 pt-4 border-t border-gray-200">
-          <label className="block text-sm font-medium text-gray-700 mb-3">
+        <div className={`mt-4 pt-4 border-t ${
+          isDark ? 'border-gray-600' : 'border-gray-200'
+        }`}>
+          <label className={`block text-sm font-medium mb-3 ${
+            isDark ? 'text-gray-300' : 'text-gray-700'
+          }`}>
             Budget Range
           </label>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -160,8 +186,11 @@ const Services = () => {
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
                 placeholder="Min Price"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg 
-                                focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  isDark 
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                    : 'border-gray-300'
+                }`}
               />
             </div>
             <div>
@@ -170,15 +199,17 @@ const Services = () => {
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
                 placeholder="Max Price"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg 
-                                focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  isDark 
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                    : 'border-gray-300'
+                }`}
               />
             </div>
             <div>
               <button
                 onClick={handleApplyPriceFilter}
-                className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 
-                                text-white rounded-lg transition font-medium"
+                className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition font-medium"
               >
                 Apply Price Filter
               </button>
@@ -193,7 +224,9 @@ const Services = () => {
         minPrice ||
         maxPrice) && (
         <div className="mb-6 flex flex-wrap gap-2 items-center">
-          <span className="text-sm font-medium text-gray-600">
+          <span className={`text-sm font-medium ${
+            isDark ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             Active Filters:
           </span>
 
@@ -253,9 +286,11 @@ const Services = () => {
 
       {/* Results Count */}
       <div className="mb-4">
-        <p className="text-gray-600">
+        <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
           Found{" "}
-          <span className="font-semibold text-gray-800">{services.length}</span>{" "}
+          <span className={`font-semibold ${
+            isDark ? 'text-white' : 'text-gray-800'
+          }`}>{services.length}</span>{" "}
           services
         </p>
       </div>
@@ -264,10 +299,14 @@ const Services = () => {
       {services.length === 0 ? (
         <div className="text-center py-16">
           <div className="text-6xl mb-4">🔍</div>
-          <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+          <h3 className={`text-2xl font-semibold mb-2 ${
+            isDark ? 'text-white' : 'text-gray-800'
+          }`}>
             No Services Found
           </h3>
-          <p className="text-gray-600 mb-6">
+          <p className={`mb-6 ${
+            isDark ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             Try adjusting your filters or search terms
           </p>
           <button

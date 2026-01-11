@@ -4,7 +4,7 @@ import { IoPersonRemoveSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount, checkActionPermission }) => {
+const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount, checkActionPermission, isDark }) => {
   const axiosSecure = useAxiosSecure();
 
   const updateDecoratorStatus = async (decorator, status, actionName) => {
@@ -109,16 +109,27 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount, checkActionPerm
   };
 
   return (
-    <tr>
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900">{req?.email}</p>
+    <tr className={`
+      transition-colors duration-200 border-b
+      ${isDark ? 'border-gray-700' : 'border-gray-200'}
+    `}>
+      <td className={`px-5 py-5 border-b text-sm ${
+        isDark ? 'border-gray-700' : 'border-gray-200'
+      }`}>
+        <p className={`${isDark ? 'text-gray-300' : 'text-gray-900'}`}>{req?.email}</p>
       </td>
 
-      <td className="px-5 py-5 border-b bg-white text-sm">{req?.name || "N/A"}</td>
+      <td className={`px-5 py-5 border-b text-sm ${
+        isDark ? 'border-gray-700 text-gray-300' : 'border-gray-200 text-gray-900'
+      }`}>{req?.name || "N/A"}</td>
 
-      <td className="px-5 py-5 border-b bg-white text-sm">{req?.district || "N/A"}</td>
+      <td className={`px-5 py-5 border-b text-sm ${
+        isDark ? 'border-gray-700 text-gray-300' : 'border-gray-200 text-gray-900'
+      }`}>{req?.district || "N/A"}</td>
 
-      <td className="px-5 py-5 border-b bg-white text-sm">
+      <td className={`px-5 py-5 border-b text-sm ${
+        isDark ? 'border-gray-700' : 'border-gray-200'
+      }`}>
         <span
           className={`px-3 py-1 rounded-full text-xs font-semibold ${req?.status === "approved"
               ? "bg-green-100 text-green-800"
@@ -133,7 +144,9 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount, checkActionPerm
         </span>
       </td>
 
-      <td className="px-5 py-5 border-b bg-white text-sm">
+      <td className={`px-5 py-5 border-b text-sm ${
+        isDark ? 'border-gray-700' : 'border-gray-200'
+      }`}>
         <span
           className={`px-3 py-1 rounded-full text-xs font-semibold ${req?.workStatus === "available"
               ? "bg-blue-100 text-blue-800"
@@ -144,14 +157,21 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount, checkActionPerm
         </span>
       </td>
 
-      <td className="px-5 py-5 border-b bg-white text-sm">
+      <td className={`px-5 py-5 border-b text-sm ${
+        isDark ? 'border-gray-700' : 'border-gray-200'
+      }`}>
         <div className="flex gap-2">
           {req?.status === "pending" && (
             <>
               <button
                 onClick={() => handleApproval(req)}
                 disabled={isDemoAccount}
-                className={`btn btn-sm ${isDemoAccount ? "btn-disabled" : "btn-success"}`}
+                className={`btn btn-sm ${isDemoAccount 
+                  ? "btn-disabled" 
+                  : isDark 
+                    ? "bg-green-600 hover:bg-green-700 text-white border-green-600" 
+                    : "btn-success"
+                }`}
                 title={isDemoAccount ? "Demo mode" : "Approve"}
               >
                 <FaUserCheck />
@@ -159,7 +179,12 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount, checkActionPerm
               <button
                 onClick={() => handleRejection(req)}
                 disabled={isDemoAccount}
-                className={`btn btn-sm ${isDemoAccount ? "btn-disabled" : "btn-warning"}`}
+                className={`btn btn-sm ${isDemoAccount 
+                  ? "btn-disabled" 
+                  : isDark 
+                    ? "bg-yellow-600 hover:bg-yellow-700 text-white border-yellow-600" 
+                    : "btn-warning"
+                }`}
                 title={isDemoAccount ? "Demo mode" : "Reject"}
               >
                 <IoPersonRemoveSharp />
@@ -171,7 +196,12 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount, checkActionPerm
             <button
               onClick={() => handleDisable(req)}
               disabled={isDemoAccount}
-              className={`btn btn-sm ${isDemoAccount ? "btn-disabled" : "btn-warning"}`}
+              className={`btn btn-sm ${isDemoAccount 
+                ? "btn-disabled" 
+                : isDark 
+                  ? "bg-yellow-600 hover:bg-yellow-700 text-white border-yellow-600" 
+                  : "btn-warning"
+              }`}
               title={isDemoAccount ? "Demo mode" : "Disable Account"}
             >
               <FaBan />
@@ -182,7 +212,12 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount, checkActionPerm
             <button
               onClick={() => handleEnable(req)}
               disabled={isDemoAccount}
-              className={`btn btn-sm ${isDemoAccount ? "btn-disabled" : "btn-success"}`}
+              className={`btn btn-sm ${isDemoAccount 
+                ? "btn-disabled" 
+                : isDark 
+                  ? "bg-green-600 hover:bg-green-700 text-white border-green-600" 
+                  : "btn-success"
+              }`}
               title={isDemoAccount ? "Demo mode" : "Enable Account"}
             >
               <FaUserPlus />
@@ -192,7 +227,12 @@ const DecoratorRequestsDataRow = ({ req, refetch, isDemoAccount, checkActionPerm
           <button
             onClick={() => handleDeleteDecorator(req)}
             disabled={isDemoAccount}
-            className={`btn btn-sm ${isDemoAccount ? "btn-disabled" : "btn-error"}`}
+            className={`btn btn-sm ${isDemoAccount 
+              ? "btn-disabled" 
+              : isDark 
+                ? "bg-red-600 hover:bg-red-700 text-white border-red-600" 
+                : "btn-error"
+            }`}
             title={isDemoAccount ? "Demo mode" : "Delete"}
           >
             <FaTrashCan />
