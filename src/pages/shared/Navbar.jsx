@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import toast from "react-hot-toast";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
@@ -20,6 +20,8 @@ const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
 
   const { data: userRole } = useQuery({
     queryKey: ["userRole", user?.email],
@@ -44,6 +46,20 @@ const Navbar = () => {
       });
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
   const navLinks = [
     { name: "Home", path: "/", icon: GoHomeFill },
     { name: "Services", path: "/services", icon: MdMiscellaneousServices },
@@ -67,16 +83,26 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50 shadow-sm">
+      <nav
+        className={`navbar fixed top-0 left-0 w-full py-0 min-h-0 z-50 transition-all duration-300
+    ${isScrolled
+            ? "bg-white border-b border-gray-200"
+            : "glass-card rounded-full"
+          }`}
+      >
         <MyContainer className={" px-4 sm:px-6 lg:px-8"}>
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Logo />
+            <Logo isScrolled={isScrolled} />
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-1">
               {navRoleBased.map((link) => (
-                <MyLinks key={link.path} to={link.path}>
+                <MyLinks
+                  key={link.path}
+                  to={link.path}
+                  isScrolled={isScrolled}
+                >
                   {link.name}
                 </MyLinks>
               ))}
