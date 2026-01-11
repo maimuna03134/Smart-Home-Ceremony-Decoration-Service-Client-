@@ -12,9 +12,9 @@ const Button = ({
       disabled={disabled || loading}
       onClick={onClick}
       className={`
-        group relative overflow-hidden
-        font-bold transition-all duration-300 ease-in-out
-        active:scale-95
+        button-animated group relative overflow-hidden
+        font-bold transition-all duration-400 cubic-bezier(0.4, 0, 0.2, 1)
+        active:scale-96 active:-translate-y-px
         disabled:opacity-70 disabled:cursor-not-allowed disabled:active:scale-100
         w-full flex items-center justify-center gap-3
         rounded-full
@@ -28,10 +28,10 @@ const Button = ({
       {/* Animated Background */}
       <span
         className={`
-          absolute inset-0 w-full h-full 
+          animated-bg absolute inset-0 w-full h-full 
           scale-x-0 group-hover:scale-x-100
-          transition-transform duration-500 
-          ease-[cubic-bezier(0.68,-0.55,0.265,1.55)]
+          transition-transform duration-600 
+          cubic-bezier(0.25, 0.46, 0.45, 0.94)
           origin-left
           ${outline ? "bg-[#af5f44]" : "bg-white"}
         `}
@@ -40,20 +40,22 @@ const Button = ({
       {/* Content */}
       <span
         className={`
-          relative z-10 flex items-center gap-3 
+          button-text relative z-10 flex items-center gap-3 
           tracking-widest uppercase
           ${outline ? "" : "group-hover:text-[#af5f44]"}
-          transition-colors duration-300
+          transition-all duration-300 cubic-bezier(0.4, 0, 0.2, 1)
         `}
       >
         {loading ? (
-          <span className="loading loading-bars loading-md"></span>
+          <div className="flex items-center justify-center">
+            <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent"></div>
+          </div>
         ) : (
           <>
             {Icon && (
               <Icon
                 size={small ? 18 : 20}
-                className="transition-transform duration-300 ease-in-out group-hover:rotate-20 group-hover:scale-110"
+                className="icon-rotate transition-transform duration-400 cubic-bezier(0.34, 1.56, 0.64, 1)"
               />
             )}
             {label}

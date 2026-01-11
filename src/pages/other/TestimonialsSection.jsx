@@ -2,7 +2,7 @@ import React from 'react';
 import MyContainer from '../../components/container/MyContainer';
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
-import { Quote, Star } from 'lucide-react';
+import { Quote } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,7 +11,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 // Import required modules
-import { Pagination, Autoplay } from 'swiper/modules';
+import {  Autoplay } from 'swiper/modules';
 
 const TestimonialsSection = () => {
     const { isDark } = useTheme();

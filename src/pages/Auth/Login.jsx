@@ -151,21 +151,18 @@ const Login = () => {
         <p className={`py-2 text-sm ${isDark ? 'text-gray-300' : ''}`}>Login with StyleDecor</p>
       </div>
 
-      <div className={`card w-full max-w-sm shrink-0 shadow-2xl ${
-        isDark ? 'bg-gray-800 border border-gray-700' : 'bg-base-100'
-      }`}>
+      <div className={`card w-full max-w-sm shrink-0 shadow-2xl ${isDark ? 'bg-gray-800 border border-gray-700' : 'bg-base-100'
+        }`}>
         <div className="card-body">
           <form onSubmit={handleSubmit(handleLogin)}>
             <fieldset className="fieldset space-y-4">
               {/* Demo Login Section */}
-              <div className={`p-4 rounded-lg border ${
-                isDark 
-                  ? 'border-blue-600 bg-gray-700' 
+              <div className={`p-4 rounded-lg border ${isDark
+                  ? 'border-blue-600 bg-gray-700'
                   : 'border-blue-200 bg-blue-50'
-              }`}>
-                <p className={`text-xs font-semibold mb-3 text-center ${
-                  isDark ? 'text-gray-300' : 'text-gray-700'
                 }`}>
+                <p className={`text-xs font-semibold mb-3 text-center ${isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                   🎯 Try Demo Login
                 </p>
                 <div className="grid grid-cols-3 gap-2">
@@ -212,17 +209,15 @@ const Login = () => {
                   </button>
                 </div>
                 {selectedDemoRole && (
-                  <p className={`text-xs text-center mt-2 ${
-                    isDark ? 'text-gray-400' : 'text-gray-600'
-                  }`}>
+                  <p className={`text-xs text-center mt-2 ${isDark ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
                     ✓ {DEMO_CREDENTIALS[selectedDemoRole].name} selected
                   </p>
                 )}
               </div>
 
-              <div className={`divider text-xs ${
-                isDark ? 'text-gray-400' : 'text-gray-500'
-              }`}>OR Login Manually</div>
+              <div className={`divider text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'
+                }`}>OR Login Manually</div>
 
               {/* Email field */}
               <div>
@@ -230,11 +225,10 @@ const Login = () => {
                 <input
                   type="email"
                   placeholder="you@example.com"
-                  className={`input w-full ${
-                    isDark 
-                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                  className={`input w-full ${isDark
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                       : ''
-                  }`}
+                    }`}
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
@@ -255,11 +249,10 @@ const Login = () => {
                   <input
                     type={showPass ? "text" : "password"}
                     placeholder="••••••••"
-                    className={`input w-full pr-10 ${
-                      isDark 
-                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                    className={`input w-full pr-10 ${isDark
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                         : ''
-                    }`}
+                      }`}
                     {...register("password", {
                       required: "Password is required",
                       minLength: {
@@ -271,11 +264,10 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={handleTogglePasswordShow}
-                    className={`absolute top-3 right-3 ${
-                      isDark 
-                        ? 'text-gray-400 hover:text-gray-200' 
+                    className={`absolute top-3 right-3 ${isDark
+                        ? 'text-gray-400 hover:text-gray-200'
                         : 'text-gray-500 hover:text-gray-700'
-                    }`}
+                      }`}
                   >
                     {showPass ? <FaEyeSlash /> : <FaEye />}
                   </button>
@@ -290,11 +282,10 @@ const Login = () => {
                 <Link
                   to="/auth/forgot-password"
                   state={{ email: email || "" }}
-                  className={`label-text-alt link link-hover ${
-                    isDark 
-                      ? 'text-gray-400 hover:text-orange-400' 
+                  className={`label-text-alt link link-hover ${isDark
+                      ? 'text-gray-400 hover:text-orange-400'
                       : 'hover:text-orange-500'
-                  }`}
+                    }`}
                 >
                   Forgot password?
                 </Link>
@@ -310,19 +301,16 @@ const Login = () => {
               <SocialLogin />
             </fieldset>
 
-            <p className={`text-sm font-semibold text-center mt-4 ${
-              isDark ? 'text-gray-400' : 'text-gray-500'
-            }`}>
-              <span className={`${
-                isDark ? 'hover:text-red-400' : 'hover:text-red-500'
+            <p className={`text-sm font-semibold text-center mt-4 ${isDark ? 'text-gray-400' : 'text-gray-500'
               }`}>
+              <span className={`${isDark ? 'hover:text-red-400' : 'hover:text-red-500'
+                }`}>
                 New to StyleDecor?
                 <Link state={location.state} to="/auth/register">
-                  <span className={`${
-                    isDark 
-                      ? 'text-red-400 hover:font-bold' 
+                  <span className={`${isDark
+                      ? 'text-red-400 hover:font-bold'
                       : 'text-red-500 hover:font-bold'
-                  }`}> Register</span>
+                    }`}> Register</span>
                 </Link>
               </span>
             </p>

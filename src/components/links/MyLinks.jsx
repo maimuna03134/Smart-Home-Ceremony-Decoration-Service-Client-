@@ -13,18 +13,20 @@ const MyLinks = ({ to, children, className = "", isScrolled }) => {
       className={({ isActive }) =>
         `relative px-4 py-2 transition-all duration-200 group
         ${isScrolled
-          ? isDark 
-            ? "text-gray-300 font-semibold" 
-            : "text-gray-600 font-semibold"       
+          ? isDark
+            ? isActive 
+              ? "text-[#af5f44] font-bold" 
+              : "text-gray-300 font-semibold hover:text-[#af5f44]"
+            : isActive 
+              ? "text-[#af5f44] font-bold" 
+              : "text-gray-600 font-semibold hover:text-[#af5f44]"
           : isDark
-            ? "text-white font-bold"
-            : "text-white font-bold"        
-        }
-        ${isActive
-          ? "text-primary font-bold"
-          : isDark 
-            ? "hover:text-primary" 
-            : "hover:text-amber-600"
+            ? isActive 
+              ? "text-[#af5f44] font-bold" 
+              : "text-white font-bold hover:text-[#af5f44]"
+            : isActive 
+              ? "text-[#af5f44] font-bold" 
+              : "text-white font-bold hover:text-[#af5f44]"
         }
         ${className}`
       }
@@ -32,7 +34,7 @@ const MyLinks = ({ to, children, className = "", isScrolled }) => {
       {children}
 
       <span
-        className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300
+        className={`absolute bottom-0 left-0 h-0.5 bg-[#af5f44] transition-all duration-300
           ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}
       />
     </NavLink>

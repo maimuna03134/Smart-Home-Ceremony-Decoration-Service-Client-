@@ -68,7 +68,7 @@ const Features = () => {
                   isDark ? 'bg-gray-800 hover:bg-gray-750' : 'bg-white hover:bg-gray-50'
                 }`}
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-orange-600 rounded-xl flex items-center justify-center text-white mb-6">
+                <div className="w-16 h-16 bg-linear-to-br from-[#af5f44] to-orange-600 rounded-xl flex items-center justify-center text-white mb-6">
                   {feature.icon}
                 </div>
                 <h3 className={`text-xl font-bold mb-3 ${

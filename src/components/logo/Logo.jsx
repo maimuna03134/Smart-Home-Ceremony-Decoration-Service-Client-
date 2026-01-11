@@ -15,7 +15,7 @@ const Logo = ({ isScrolled, isFooter = false }) => {
             ${isFooter
               ? "text-white font-bold"  // Always white in footer
               : isScrolled
-                ? "text-primary font-bold"   
+                ? "text-[#af5f44] font-bold"   
                 : isDark 
                   ? "text-white font-semibold" 
                   : "text-gray-800 font-semibold"

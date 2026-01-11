@@ -26,15 +26,17 @@ const ThemeToggleAdvanced = ({
       <button
         onClick={toggleTheme}
         className={`
-          flex items-center gap-2 px-4 py-2 rounded-lg
-          bg-white border-2 border-[#323232] shadow-[4px_4px_0_#323232]
+          flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer
+          ${isDark 
+            ? 'bg-gray-800 border-2 border-gray-600 shadow-[4px_4px_0_#4b5563]' 
+            : 'bg-white border-2 border-[#323232] shadow-[4px_4px_0_#323232]'
+          }
           active:shadow-none active:translate-x-[3px] active:translate-y-[3px]
-          transition-all duration-200 cursor-pointer
           ${className}
         `}
       >
-        {isDark ? (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 stroke-[#323232]" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        {!isDark ? (
+          <svg viewBox="0 0 24 24" className={`w-5 h-5 ${isDark ? 'stroke-gray-300' : 'stroke-[#323232]'}`} fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="5" />
             <line x1="12" y1="1" x2="12" y2="3" />
             <line x1="12" y1="21" x2="12" y2="23" />
@@ -46,13 +48,13 @@ const ThemeToggleAdvanced = ({
             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
           </svg>
         ) : (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#323232]">
+          <svg viewBox="0 0 24 24" className={`w-5 h-5 ${isDark ? 'fill-gray-300' : 'fill-[#323232]'}`}>
             <path d="m12.3 4.9c.4-.2.6-.7.5-1.1s-.6-.8-1.1-.8c-4.9.1-8.7 4.1-8.7 9 0 5 4 9 9 9 3.8 0 7.1-2.4 8.4-5.9.2-.4 0-.9-.4-1.2s-.9-.2-1.2.1c-1 .9-2.3 1.4-3.7 1.4-3.1 0-5.7-2.5-5.7-5.7 0-1.9 1.1-3.8 2.9-4.8z" />
           </svg>
         )}
         {showLabel && (
-          <span className="text-sm font-medium text-[#323232]">
-            {isDark ? 'Light' : 'Dark'} Mode
+          <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-[#323232]'}`}>
+            {!isDark ? 'Dark' : 'Light'} Mode
           </span>
         )}
       </button>
@@ -63,11 +65,15 @@ const ThemeToggleAdvanced = ({
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       {showLabel && (
-        <span className="text-sm font-medium text-[#323232]">
+        <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-[#323232]'}`}>
           Theme
         </span>
       )}
-      <label className={`relative flex items-center justify-center ${sizes[size]} rounded-full bg-white border-2 border-[#323232] shadow-[4px_4px_0_#323232] active:shadow-none active:translate-x-[3px] active:translate-y-[3px] transition cursor-pointer`}>
+      <label className={`relative flex items-center justify-center ${sizes[size]} rounded-full transition cursor-pointer ${
+        isDark 
+          ? 'bg-gray-800 border-2 border-gray-600 shadow-[4px_4px_0_#4b5563]' 
+          : 'bg-white border-2 border-[#323232] shadow-[4px_4px_0_#323232]'
+      } active:shadow-none active:translate-x-[3px] active:translate-y-[3px]`}>
         {/* checkbox */}
         <input
           type="checkbox"
@@ -76,10 +82,12 @@ const ThemeToggleAdvanced = ({
           className="peer absolute inset-0 opacity-0 cursor-pointer z-10"
         />
         
-        {/* Sun Icon */}
+        {/* Sun Icon - Show in Light Mode */}
         <svg
           viewBox="0 0 24 24"
-          className={`absolute ${iconSizes[size]} stroke-[#323232] hidden peer-checked:block`}
+          className={`absolute ${iconSizes[size]} peer-checked:hidden block ${
+            isDark ? 'stroke-gray-300' : 'stroke-[#323232]'
+          }`}
           fill="none"
           strokeWidth="2"
           strokeLinecap="round"
@@ -96,10 +104,12 @@ const ThemeToggleAdvanced = ({
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
         </svg>
         
-        {/* Moon Icon */}
+        {/* Moon Icon - Show in Dark Mode */}
         <svg
           viewBox="0 0 24 24"
-          className={`absolute ${iconSizes[size]} fill-[#323232] peer-checked:hidden`}
+          className={`absolute ${iconSizes[size]} hidden peer-checked:block ${
+            isDark ? 'fill-gray-300' : 'fill-[#323232]'
+          }`}
         >
           <path d="m12.3 4.9c.4-.2.6-.7.5-1.1s-.6-.8-1.1-.8c-4.9.1-8.7 4.1-8.7 9 0 5 4 9 9 9 3.8 0 7.1-2.4 8.4-5.9.2-.4 0-.9-.4-1.2s-.9-.2-1.2.1c-1 .9-2.3 1.4-3.7 1.4-3.1 0-5.7-2.5-5.7-5.7 0-1.9 1.1-3.8 2.9-4.8z" />
         </svg>

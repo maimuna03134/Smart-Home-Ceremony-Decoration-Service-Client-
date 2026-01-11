@@ -90,11 +90,11 @@ const Navbar = () => {
         className={`fixed top-0 left-0 w-full py-0 min-h-0 z-50 transition-all duration-300
     ${isScrolled
             ? isDark 
-              ? "bg-gray-900/95 backdrop-blur-sm border-b border-gray-700" 
-              : "bg-white/95 backdrop-blur-sm border-b border-gray-200"
-            : isDark
-              ? "glass-card-dark"
+              ? "glass-card-dark" 
               : "glass-card"
+            : isDark
+              ? ""
+              : ""
           }`}
       >
         <MyContainer className={" px-4 sm:px-6 lg:px-8"}>
@@ -273,14 +273,19 @@ const Navbar = () => {
                 
                 {navRoleBased.map((link) => {
                   const Icon = link.icon;
+                  const isActive = window.location.pathname === link.path;
                   return (
                     <Link
                       key={link.path}
                       to={link.path}
                       className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
-                        isDark 
-                          ? 'text-white hover:bg-gray-800' 
-                          : 'text-primary hover:bg-primary/10'
+                        isActive
+                          ? isDark 
+                            ? 'text-[#af5f44] bg-gray-800' 
+                            : 'text-[#af5f44] bg-[#af5f44]/10'
+                          : isDark 
+                            ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]' 
+                            : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -296,8 +301,8 @@ const Navbar = () => {
                       to="/dashboard/profile"
                       className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
                         isDark 
-                          ? 'text-white hover:bg-gray-800' 
-                          : 'text-primary hover:bg-primary/10'
+                          ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]' 
+                          : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -309,8 +314,8 @@ const Navbar = () => {
                       to="/dashboard"
                       className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${
                         isDark 
-                          ? 'text-white hover:bg-gray-800' 
-                          : 'text-primary hover:bg-primary/10'
+                          ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]' 
+                          : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -338,8 +343,8 @@ const Navbar = () => {
                     to="/auth/login"
                     className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${
                       isDark 
-                        ? 'text-white hover:bg-gray-800' 
-                        : 'text-primary hover:bg-primary/10'
+                        ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]' 
+                        : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >

@@ -7,6 +7,8 @@ import Coverage from "../coverage/Coverage";
 import TestimonialsSection from "../other/TestimonialsSection";
 import CTASection from "../other/CTASection";
 import Banner from "./banner/Banner";
+import WhyChooseUs from "../../components/WhyChooseUs";
+import OurServices from "../../components/OurServices";
 import { useTheme } from "../../contexts/ThemeContext";
 
 
@@ -20,6 +22,12 @@ const Home = () => {
       {/* Hero Section */}
       {/* <StyleDecorHero /> */}
       <Banner/>
+
+      {/* Why Choose Us Section */}
+      <WhyChooseUs />
+
+      {/* Our Services Section */}
+      <OurServices />
 
       {/* Features Section */}
       <Features />

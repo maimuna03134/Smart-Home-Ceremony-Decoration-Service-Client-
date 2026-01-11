@@ -42,5 +42,9 @@
 
 /* Update read-the-docs to use theme-aware colors */
 .read-the-docs {
-  @apply text-theme-muted;
+  color: rgba(17, 24, 39, 0.5);
+}
+
+.dark .read-the-docs {
+  color: rgba(249, 250, 251, 0.5);
 }

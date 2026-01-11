@@ -13,6 +13,7 @@ import { FaLock } from "react-icons/fa";
 import { useTheme } from "../../contexts/ThemeContext";
 import Button from "../../pages/shared/button/Button";
 
+
 const AddServicesForm = () => {
   const { user } = useAuth();
   const { isDark } = useTheme();
@@ -20,6 +21,7 @@ const AddServicesForm = () => {
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
   const { checkActionPermission, isDemoAccount } = useDemoProtection();
+
 
   const {
     isPending,
@@ -107,7 +109,20 @@ const AddServicesForm = () => {
   return (
     <div className={`w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center rounded-xl my-20 p-6 md:p-0 ${
       isDark ? 'bg-gray-900 text-white' : 'text-gray-800'
-    }`}>
+      }`}>
+      
+      <div className="text-center mb-8 max-w-3xl px-4">
+        <h1 className={`text-4xl md:text-5xl font-extrabold mb-4 ${isDark ? 'text-white' : 'text-gray-900'
+          }`}>
+          Add New Service
+        </h1>
+        <p className={`text-lg leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-600'
+          }`}>
+          Create a new decoration service for your customers. Fill in all the details below
+          to showcase your service in the best possible way.
+        </p>
+      </div>
+
       {/* Demo Account Warning */}
       {isDemoAccount && (
         <div className="alert alert-warning mb-6 max-w-4xl shadow-lg">
