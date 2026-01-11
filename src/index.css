@@ -2,14 +2,38 @@
 
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default;
-}
-
-@plugin "daisyui/theme" {
-  name: "light";
-  default: true;
-  --color-primary: #af5f44;
-  --color-secondary: #ffffff;
+  themes: [
+    {
+      light: {
+        "primary": "#af5f44",
+        "secondary": "#ffffff", 
+        "accent": "#f3f4f6",
+        "neutral": "#374151",
+        "base-100": "#ffffff",
+        "base-200": "#f9fafb",
+        "base-300": "#f3f4f6",
+        "info": "#3b82f6",
+        "success": "#10b981",
+        "warning": "#f59e0b",
+        "error": "#ef4444",
+      },
+    },
+    {
+      dark: {
+        "primary": "#d97706",
+        "secondary": "#1f2937",
+        "accent": "#374151", 
+        "neutral": "#d1d5db",
+        "base-100": "#111827",
+        "base-200": "#1f2937",
+        "base-300": "#374151",
+        "info": "#60a5fa",
+        "success": "#34d399",
+        "warning": "#fbbf24",
+        "error": "#f87171",
+      },
+    },
+  ],
 }
 
 body {
@@ -20,4 +44,251 @@ body {
 
 .shared-style {
   @apply space-x-2 px-6 py-2 bg-primary text-secondary rounded-full hover:bg-secondary hover:border hover:border-primary hover:text-primary transition-colors duration-200 font-medium cursor-pointer text-center;
+}
+
+/* Theme-aware styles */
+:root {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+html.dark {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+html.light {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+/* Custom theme variables for better control */
+.light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-accent: #f3f4f6;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.dark {
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --bg-accent: #374151;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --border-color: #4b5563;
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+}
+
+/* Enhanced shared styles with theme support */
+.shared-style {
+  @apply space-x-2 px-6 py-2 bg-primary text-white rounded-full 
+         hover:bg-opacity-90 hover:shadow-lg
+         dark:hover:bg-opacity-80
+         transition-all duration-200 font-medium cursor-pointer text-center;
+}
+
+/* Background patterns for visual interest */
+.bg-pattern-light {
+  background-image: 
+    radial-gradient(circle at 25px 25px, rgba(175, 95, 68, 0.05) 2px, transparent 0),
+    radial-gradient(circle at 75px 75px, rgba(175, 95, 68, 0.03) 2px, transparent 0);
+  background-size: 100px 100px;
+}
+
+.bg-pattern-dark {
+  background-image: 
+    radial-gradient(circle at 25px 25px, rgba(217, 119, 6, 0.1) 2px, transparent 0),
+    radial-gradient(circle at 75px 75px, rgba(217, 119, 6, 0.05) 2px, transparent 0);
+  background-size: 100px 100px;
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Card styles with theme support */
+.theme-card {
+  @apply bg-base-100 border border-base-300 rounded-lg shadow-sm
+         hover:shadow-md transition-shadow duration-200;
+}
+
+/* Button variants */
+.btn-theme-primary {
+  @apply bg-primary text-white hover:bg-primary/90 
+         dark:bg-primary dark:text-white dark:hover:bg-primary/80
+         transition-all duration-200;
+}
+
+.btn-theme-secondary {
+  @apply bg-base-200 text-base-content hover:bg-base-300
+         border border-base-300 hover:border-base-400
+         transition-all duration-200;
+}
+
+/* Text styles */
+.text-theme-primary {
+  @apply text-base-content;
+}
+
+.text-theme-secondary {
+  @apply text-base-content/70;
+}
+
+.text-theme-muted {
+  @apply text-base-content/50;
+}
+/* Global dark mode styles */
+.dark body {
+  background-color: #111827 !important;
+  color: #f9fafb !important;
+}
+
+.light body {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+}
+
+/* Ensure all main containers have proper backgrounds */
+.dark #root {
+  background-color: #111827 !important;
+  color: #f9fafb !important;
+  min-height: 100vh;
+}
+
+.light #root {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  min-height: 100vh;
+}
+
+/* Fix any white backgrounds in dark mode */
+.dark .bg-white {
+  background-color: #111827 !important;
+  color: #f9fafb !important;
+}
+
+.dark .text-gray-900 {
+  color: #f9fafb !important;
+}
+
+.dark .text-black {
+  color: #f9fafb !important;
+}
+
+/* Ensure buttons and interactive elements are visible */
+.dark button {
+  color: inherit;
+}
+
+.dark a {
+  color: inherit;
+}
+
+/* Simple theme toggle styles */
+.theme-toggle-simple {
+  /* Custom styles for the new theme toggle if needed */
+}
+
+/* Ensure the new toggle works well in both themes */
+.dark .theme-toggle-simple {
+  /* Dark mode specific styles if needed */
+}
+
+.light .theme-toggle-simple {
+  /* Light mode specific styles if needed */
+}
+
+/* Navbar fixes */
+.dark .navbar {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+.light .navbar {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #e5e7eb !important;
+}
+/* Glass card effect for navbar */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.glass-card-dark {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(55, 65, 81, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure logo is always visible */
+.logo-text {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.dark .logo-text {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+/* Enhanced logo visibility */
+.dark .logo-text {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.light .logo-text {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar text visibility improvements */
+.dark nav a {
+  color: #ffffff !important;
+}
+
+.dark nav button {
+  color: #ffffff !important;
+}
+
+.dark nav span {
+  color: #ffffff !important;
+}
+
+/* Footer logo visibility */
+.dark footer .logo-text,
+.light footer .logo-text {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Ensure primary color is visible in both themes */
+.text-primary {
+  color: #d97706 !important;
+}
+
+.dark .text-primary {
+  color: #f59e0b !important;
+}
+/* Simple theme toggle styles */
+.theme-toggle-simple {
+  /* Custom styles for the new theme toggle if needed */
+}
+
+/* Ensure the new toggle works well in both themes */
+.dark .theme-toggle-simple {
+  /* Dark mode specific styles if needed */
+}
+
+.light .theme-toggle-simple {
+  /* Light mode specific styles if needed */
 }

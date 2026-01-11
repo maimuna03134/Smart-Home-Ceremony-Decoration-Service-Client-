@@ -7,13 +7,15 @@ import Coverage from "../coverage/Coverage";
 import TestimonialsSection from "../other/TestimonialsSection";
 import CTASection from "../other/CTASection";
 import Banner from "./banner/Banner";
-
-
-
+import { useTheme } from "../../contexts/ThemeContext";
 
 const Home = () => {
+  const { isDark } = useTheme();
+  
   return (
-    <div className="min-h-screen bg-white">
+    <div className={`min-h-screen transition-colors duration-300 ${
+      isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
+    }`}>
       {/* Hero Section */}
       {/* <StyleDecorHero /> */}
       <Banner/>

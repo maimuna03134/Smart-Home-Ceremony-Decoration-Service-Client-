@@ -1,9 +1,11 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const MyLinks = ({ to, children, className = "", isScrolled }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
+  const { isDark } = useTheme();
 
   return (
     <NavLink
@@ -11,12 +13,18 @@ const MyLinks = ({ to, children, className = "", isScrolled }) => {
       className={({ isActive }) =>
         `relative px-4 py-2 transition-all duration-200 group
         ${isScrolled
-          ? "text-gray-600 font-semibold"       
-          : "text-white font-bold"        
+          ? isDark 
+            ? "text-gray-300 font-semibold" 
+            : "text-gray-600 font-semibold"       
+          : isDark
+            ? "text-white font-bold"
+            : "text-white font-bold"        
         }
         ${isActive
           ? "text-primary font-bold"
-          : "hover:text-amber-600"
+          : isDark 
+            ? "hover:text-primary" 
+            : "hover:text-amber-600"
         }
         ${className}`
       }

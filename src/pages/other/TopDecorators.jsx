@@ -26,7 +26,7 @@ const TopDecorators = () => {
   }
 
   return (
-    <section className="py-16 bg-linear-to-b from-white to-purple-50">
+    <section className="py-16">
       <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
         {/* Section Header */}
         <div className="text-center mb-12">
@@ -44,7 +44,7 @@ const TopDecorators = () => {
           {decorators.map((decorator) => (
             <div
               key={decorator._id}
-              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl 
+              className="rounded-2xl shadow-lg hover:shadow-2xl 
               transition-all duration-300 overflow-hidden group"
             >
               <div

@@ -45,7 +45,7 @@ const FeaturedServices = () => {
   };
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16">
       <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -78,7 +78,7 @@ const FeaturedServices = () => {
             >
               <Link
                 to={`/service/${service._id}`}
-                className="block bg-white rounded-2xl shadow-lg overflow-hidden 
+                className="block  rounded-2xl shadow-lg overflow-hidden 
                 hover:shadow-2xl transition-all duration-300 h-60"
               >
                 {/* Service Image */}
@@ -180,8 +180,7 @@ const FeaturedServices = () => {
             to="/services"
             className="inline-flex items-center gap-2 px-8 py-4 
             bg-linear-to-r from-primary to-orange-600 text-white 
-            rounded-full font-semibold text-lg hover:from-purple-700 
-            hover:to-pink-700 transition-all duration-300 
+            rounded-full font-semibold text-lg transition-all duration-300 
             transform hover:scale-105 shadow-lg hover:shadow-xl"
           >
             View All Services

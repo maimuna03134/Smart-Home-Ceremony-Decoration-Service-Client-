@@ -9,7 +9,7 @@ const CTASection = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <section className="py-20 mb-20 bg-linear-to-r from-primary via-orange-600 to-amber-600">
+      <section className="py-20 bg-linear-to-r from-orange-400 via-primary to-amber-200">
         <MyContainer className={"px-4 sm:px-6 lg:px-8 text-center"}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

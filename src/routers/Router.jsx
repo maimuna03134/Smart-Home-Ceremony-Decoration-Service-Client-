@@ -17,7 +17,6 @@ import PaymentHistory from "../pages/dashboard/userDashboard/payment/PaymentHist
 import PaymentSuccess from "../pages/dashboard/userDashboard/payment/PaymentSuccess";
 import DashBoard from "../layouts/dashboard/DashBoard";
 import ManageBookings from "../pages/dashboard/adminDashboard/ManageBookings/ManageBookings";
-
 import ManageServices from "../pages/dashboard/adminDashboard/ManageServices/ManageServices";
 import PrivateRouter from "./PrivateRouter";
 import BecomeDecorator from "../pages/dashboard/userDashboard/BecomeDecorator";
@@ -31,6 +30,7 @@ import AdminAnalytics from "../pages/dashboard/adminDashboard/AnalyticsCharts/Ad
 import DefaultDashboardRedirect from "../layouts/dashboard/DefaultDashboardRedirect";
 import Loader from "../pages/shared/loader/Loader";
 import Coverage from "../pages/coverage/Coverage";
+import ThemeDemo from "../pages/ThemeDemo";
 
 export const router = createBrowserRouter([
   {
@@ -62,6 +62,10 @@ export const router = createBrowserRouter([
       {
         path: "/coverage",
         element: <Coverage />,
+      },
+      {
+        path: "/theme-demo",
+        element: <ThemeDemo />,
       },
       {
         path: "/payment-success",

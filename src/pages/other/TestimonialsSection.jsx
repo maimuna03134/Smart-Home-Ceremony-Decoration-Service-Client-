@@ -33,7 +33,7 @@ const TestimonialsSection = () => {
     ];
     return (
       <div>
-        <section className="py-20 bg-white">
+        <section className="py-20 ">
           <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -57,9 +57,9 @@ const TestimonialsSection = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-linear-to-br from-purple-50 to-pink-50 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300"
+                  className="rounded-2xl p-8 hover:shadow-2xl transition-all duration-300"
                 >
-                  <Quote className="w-10 h-10 text-purple-400 mb-4" />
+                  <Quote className="w-10 h-10 text-primary mb-4" />
                   <p className="text-gray-700 mb-6 italic">
                     "{testimonial.text}"
                   </p>

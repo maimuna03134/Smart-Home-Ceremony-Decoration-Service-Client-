@@ -31,7 +31,7 @@ const Features = () => {
   ];
   return (
     <div>
-      <section className="py-20 bg-white">
+      <section className="py-20 ">
         <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -57,7 +57,7 @@ const Features = () => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -10 }}
-                className="bg-linear-to-br from-purple-50 to-pink-50 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300"
+                className="rounded-2xl p-8 hover:shadow-2xl transition-all duration-300"
               >
                 <div className="w-16 h-16 bg-linear-to-br from-primary to-orange-600 rounded-xl flex items-center justify-center text-white mb-6">
                   {feature.icon}
