@@ -77,8 +77,7 @@ if(isRoleLoading) return <Loader/>
           isDark ? 'bg-gray-800 border-r border-gray-700' : 'bg-base-200'
         }`}>
           {/* Sidebar content here */}
-          <div className="w-full h-full overflow-auto dashboard-sidebar-scroll">
-            <ul className="menu w-full grow">
+          <ul className="menu w-full grow">
             {/* Theme Toggle for Mobile Sidebar */}
             <li className="block md:hidden">
               <div className={`flex items-center justify-between p-4 ${
@@ -142,8 +141,7 @@ if(isRoleLoading) return <Loader/>
                 <span className="is-drawer-close:hidden">Settings</span>
               </button>
             </li>
-            </ul>
-          </div>
+          </ul>
         </div>
       </div>
     </div>
