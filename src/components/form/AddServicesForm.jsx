@@ -134,7 +134,7 @@ const AddServicesForm = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-4xl">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-4xl px-2 md:px-4 ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="space-y-6">
             {/* Name */}

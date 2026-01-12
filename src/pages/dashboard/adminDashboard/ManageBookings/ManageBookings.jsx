@@ -127,7 +127,7 @@ const ManageBookings = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <div className={`w-full overflow-x-auto p-6 ${isDark ? 'bg-gray-900' : ''}`}>
+    <div className={`w-full overflow-x-auto p-6 dashboard-content ${isDark ? 'bg-gray-900' : ''}`}>
       <div className="mb-6">
         <h2 className="text-3xl font-bold text-primary">Manage Bookings</h2>
         <p className={`mt-1 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -149,14 +149,16 @@ const ManageBookings = () => {
 
       <div className="mb-4 space-y-4">
         {/* Payment Filter */}
-        <div className=" p-4 rounded-lg shadow">
-          <span className="font-medium text-gray-700 mr-4">Filter by Payment:</span>
+        <div className={`p-4 rounded-lg shadow ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
+          <span className={`font-medium mr-4 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Filter by Payment:</span>
           <div className="inline-flex gap-2">
             <button
               onClick={() => handlePaymentFilterChange("all")}
               className={`px-4 py-2 rounded-lg transition font-medium ${paymentFilter === "all"
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  : isDark 
+                    ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
             >
               All ({response.total || 0})
@@ -165,7 +167,9 @@ const ManageBookings = () => {
               onClick={() => handlePaymentFilterChange("Paid")}
               className={`px-4 py-2 rounded-lg transition font-medium ${paymentFilter === "Paid"
                   ? "bg-green-500 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  : isDark 
+                    ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
             >
               Paid
@@ -174,7 +178,9 @@ const ManageBookings = () => {
               onClick={() => handlePaymentFilterChange("Unpaid")}
               className={`px-4 py-2 rounded-lg transition font-medium ${paymentFilter === "Unpaid"
                   ? "bg-red-500 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  : isDark 
+                    ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
             >
               Unpaid
@@ -183,13 +189,15 @@ const ManageBookings = () => {
         </div>
 
         {/* Sorting Controls */}
-        <div className="mb-4 flex gap-4 items-center  p-4 rounded-lg shadow">
-          <span className="font-medium text-gray-700">Sort by:</span>
+        <div className={`mb-4 flex gap-4 items-center p-4 rounded-lg shadow ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
+          <span className={`font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Sort by:</span>
           <button
             onClick={() => handleSort("createdAt")}
             className={`px-4 py-2 rounded-lg transition ${sortBy === "createdAt"
                 ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                : isDark 
+                  ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
           >
             Date {getSortIcon("createdAt")}
@@ -198,14 +206,16 @@ const ManageBookings = () => {
             onClick={() => handleSort("status")}
             className={`px-4 py-2 rounded-lg transition ${sortBy === "status"
                 ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                : isDark 
+                  ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
           >
             Status {getSortIcon("status")}
           </button>
         </div>
 
-        <div className={`min-w-[1100px] shadow rounded-lg overflow-hidden ${
+        <div className={`min-w-[1100px] shadow rounded-lg overflow-hidden dashboard-table-container ${
           isDark ? 'bg-gray-800' : 'bg-white'
         }`}>
           <table className="min-w-full border-collapse manage-services-table">

@@ -64,6 +64,25 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    };
+  }, [isMobileMenuOpen]);
+
 
   const navLinks = [
     { name: "Home", path: "/", icon: GoHomeFill },
@@ -250,17 +269,22 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <>
-            <div
-              className="fixed inset-0  bg-opacity-25 z-40 lg:hidden"
+            {/* Overlay to prevent background scroll */}
+            <div 
+              className="fixed inset-0 bg-transparent z-30 lg:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
-            ></div>
-            <div className={`lg:hidden border-t relative z-50 ${isDark
+            />
+            <div className={`lg:hidden border-t relative z-40 ${isDark
                 ? 'border-gray-700 bg-gray-900'
                 : 'border-gray-200 bg-white'
               }`}>
-              <div className="px-4 py-3 space-y-1">
+              <div 
+                className="max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent px-4 py-3 space-y-1"
+                onTouchMove={(e) => e.stopPropagation()}
+                onWheel={(e) => e.stopPropagation()}
+              >
                 {/* Theme Toggle for Mobile */}
-                <div className="block md:hidden flex items-center justify-between px-4 py-3">
+                <div className="md:hidden flex items-center justify-between px-4 py-3">
                   <span className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
                     Theme
                   </span>
@@ -289,6 +313,16 @@ const Navbar = () => {
                     </Link>
                   );
                 })}
+
+                {/* Add some extra items for testing scroll */}
+                {Array.from({ length: 10 }, (_, i) => (
+                  <div
+                    key={`test-${i}`}
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg ${isDark ? 'text-gray-400' : 'text-gray-500'}`}
+                  >
+                    <span className="font-medium">Test Item {i + 1}</span>
+                  </div>
+                ))}
 
                 {user ? (
                   <>
