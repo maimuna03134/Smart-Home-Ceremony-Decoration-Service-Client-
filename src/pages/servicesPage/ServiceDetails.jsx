@@ -7,17 +7,18 @@ import Loader from "../shared/loader/Loader";
 import toast from "react-hot-toast";
 import BookingModal from "../../components/modal/BookingModal";
 import useAuth from "../../hooks/useAuth";
-import { Star, Users, AlertCircle } from "lucide-react";
+import { Star, Users, AlertCircle, Clock, Shield, Award, CheckCircle, ArrowLeft } from "lucide-react";
 import useDemoProtection from "../../hooks/useDemoProtection";
 import { useTheme } from "../../contexts/ThemeContext";
 import Button from "../shared/button/Button";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 const ServiceDetails = () => {
   const { user } = useAuth();
   const { isDark } = useTheme();
   const { id } = useParams();
   const { isDemoAccount } = useDemoProtection();
-  console.log(id);
   const navigate = useNavigate();
   const [showBookingModal, setShowBookingModal] = useState(false);
 
@@ -75,10 +76,20 @@ const ServiceDetails = () => {
 
   if (!service) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <AlertCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+      <div className={`min-h-screen flex items-center justify-center ${
+        isDark ? 'bg-gray-900' : 'bg-gray-50'
+      }`}>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <AlertCircle className={`w-16 h-16 mx-auto mb-4 ${
+            isDark ? 'text-gray-400' : 'text-gray-400'
+          }`} />
+          <h2 className={`text-2xl font-bold mb-2 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
             Service Not Found
           </h2>
           <Button
@@ -86,320 +97,379 @@ const ServiceDetails = () => {
             onClick={() => navigate("/services")}
             small
           />
-        </div>
+        </motion.div>
       </div>
     );
   }
 
-  const { image, name, description, category, quantity, price, decorator } =
-    service;
-
+  const { image, name, description, category, quantity, price, decorator } = service;
   const isBookingDisabled = userBooking?.hasBooked;
 
+  const features = [
+    { icon: "🌸", title: "Premium Floral Arrangements", description: "Fresh, high-quality flowers" },
+    { icon: "💡", title: "Custom Lighting & Chandelier", description: "Professional lighting setup" },
+    { icon: "🎭", title: "Themed Backdrop & Stage", description: "Custom designed backdrops" },
+    { icon: "🎈", title: "Balloon Arch & Ceiling Decor", description: "Creative balloon arrangements" }
+  ];
+
+  const trustCards = [
+    { icon: Shield, title: "100% Quality Guaranteed", description: "Premium materials & expert execution" },
+    { icon: Award, title: "Professional Team", description: "Experienced designers & craftsmen" },
+    { icon: Clock, title: "On-Time Delivery", description: "Completed within promised timeline" }
+  ];
+
   return (
-    <>
-      <div className={`min-h-screen py-12 px-4 ${
-        isDark ? 'bg-gray-900' : ''
-      }`}>
-        <MyContainer>
-          {/* Main Card */}
-          <div className={`rounded-3xl shadow-2xl overflow-hidden lg:p-12 px-6 md:px-4 py-6 md:py-4 ${
-            isDark ? 'bg-gray-800' : 'bg-white'
-          }`}>
-            <div className="mx-auto flex flex-col lg:flex-row justify-between w-full gap-6 md:gap-12">
-              {/* Left Side - Image */}
-              <div className="flex flex-col gap-6 flex-1">
-                <div>
-                  <div className="w-full overflow-hidden rounded-xl">
-                    <img
-                      className="object-cover hover:scale-110 
-                transition w-full md:h-[600px]"
-                      src={image}
-                      alt="Service"
-                    />
+    <div className={`min-h-screen transition-all duration-300 ${
+      isDark ? 'bg-gray-900' : 'bg-gray-50'
+    }`}>
+      <MyContainer className="px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="mb-6"
+        >
+          <button
+            onClick={() => navigate("/services")}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 hover:scale-105 ${
+              isDark 
+                ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' 
+                : 'bg-white text-gray-600 hover:bg-gray-100 shadow-sm'
+            }`}
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Services</span>
+          </button>
+        </motion.div>
+
+        {/* Main Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="rounded-2xl  overflow-hidden"
+        >
+          {/* Top - Image Section */}
+          <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              className="w-full h-64 sm:h-80 lg:h-96 overflow-hidden"
+            >
+              <img
+                src={image}
+                alt={name}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+            
+            {/* Category Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="absolute top-6 left-6"
+            >
+              <span className="inline-block px-4 py-2 bg-[#af5f44] text-white rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
+                {category}
+              </span>
+            </motion.div>
+          </div>
+
+          {/* Bottom - Service Details */}
+          <div className="py-8 lg:py-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+            >
+              {/* Service Title */}
+              <h1 className={`text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 leading-tight ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
+                {name}
+              </h1>
+
+              {/* Rating & Stats */}
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-6">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+                  <span className={`text-lg font-semibold ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    4.8
+                  </span>
+                  <span className={`text-sm ${
+                    isDark ? 'text-gray-400' : 'text-gray-500'
+                  }`}>
+                    (289 reviews)
+                  </span>
+                </div>
+                <div className={`flex items-center gap-2 ${
+                  isDark ? 'text-gray-400' : 'text-gray-600'
+                }`}>
+                  <Users className="w-4 h-4" />
+                  <span className="text-sm">145 bookings</span>
+                </div>
+              </div>
+
+              {/* Description */}
+              <p className={`text-lg leading-relaxed mb-8 ${
+                isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
+                {description}
+              </p>
+
+              {/* Designer Info & Price Row */}
+              <div className="grid lg:grid-cols-2 gap-8 mb-8">
+                {/* Designer Info */}
+                <div className={`flex items-center gap-4 p-4 rounded-xl ${
+                  isDark ? 'bg-gray-700' : 'bg-gray-50'
+                }`}>
+                  <img
+                    src={decorator?.image}
+                    alt={decorator?.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <p className={`font-semibold ${
+                      isDark ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      Designer: {decorator?.name}
+                    </p>
+                    <p className={`text-sm ${
+                      isDark ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                      Professional Decorator
+                    </p>
+                  </div>
+                </div>
+
+                {/* Price Section */}
+                <div className="flex items-start md:items-center justify-start lg:justify-end">
+                  <div className="text-start  lg:text-right">
+                    <p className={`text-sm mb-2 ${
+                      isDark ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                      Starting from
+                    </p>
+                    <p className="text-4xl font-bold text-[#af5f44]">
+                      ৳{price?.toLocaleString()}
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* Right Side - Service Details */}
-              <div className="md:gap-10 flex-1 ">
-                {/* Category Badge */}
-                <span className="inline-block px-5 py-2  text-primary rounded-full text-sm font-bold uppercase tracking-wider mb-4">
-                  {category}
-                </span>
-
-                {/* Service Title */}
-                <h1 className={`text-4xl lg:text-5xl font-extrabold mb-2 leading-tight ${
-                  isDark ? 'text-white' : 'text-gray-900'
+              {/* Service Details Grid */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className={`p-4 rounded-xl border ${
+                  isDark 
+                    ? 'border-gray-600 bg-gray-700' 
+                    : 'border-gray-200 bg-gray-50'
                 }`}>
-                  {name}
-                </h1>
-
-                <p className={`text-lg mb-6 ${
-                  isDark ? 'text-gray-400' : 'text-gray-500'
-                }`}>
-                  Category: {category}
-                </p>
-
-                {/* Rating & Stats */}
-                <div className="flex items-center gap-6 mb-6">
-                  <div className="flex items-center gap-1">
-                    <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
-                    <span className={`text-lg font-semibold ${
-                      isDark ? 'text-white' : 'text-gray-900'
-                    }`}>
-                      4.8
-                    </span>
-                    <span className={`text-sm ml-1 ${
-                      isDark ? 'text-gray-400' : 'text-gray-500'
-                    }`}>
-                      (289 reviews)
-                    </span>
-                  </div>
-                  <div className={`flex items-center gap-2 ${
-                    isDark ? 'text-gray-400' : 'text-gray-600'
+                  <p className={`text-sm mb-1 ${
+                    isDark ? 'text-gray-400' : 'text-gray-500'
+                  }`}>Duration</p>
+                  <p className={`font-semibold ${
+                    isDark ? 'text-white' : 'text-gray-900'
                   }`}>
-                    <Users className="w-5 h-5" />
-                    <span className="text-sm">145 bookings</span>
-                  </div>
-                </div>
-
-                {/* Description */}
-                <div className={`text-lg font-light ${
-                  isDark ? 'text-gray-300' : 'text-neutral-500'
-                }`}>
-                  {description}
-                </div>
-
-                {/* Designer Info */}
-                <div className={`text-xl font-semibold flex flex-row items-center gap-2 my-6 ${
-                  isDark ? 'text-white' : 'text-gray-900'
-                }`}>
-                  <div>Designer: {decorator?.name}</div>
-                  <img
-                    className="rounded-full"
-                    height="30"
-                    width="30"
-                    alt="Avatar"
-                    referrerPolicy="no-referrer"
-                    src={decorator?.image}
-                  />
-                </div>
-
-                {/* Duration & Availability */}
-                <div className="my-6">
-                  <p className={`gap-4 font-light ${
-                    isDark ? 'text-gray-300' : 'text-neutral-500'
-                  }`}>
-                    Duration:{" "}
-                    <span className={`font-semibold ${
-                      isDark ? 'text-white' : 'text-gray-900'
-                    }`}>
-                      7-10 days
-                    </span>
-                  </p>
-                  <p className={`gap-4 font-light mt-2 ${
-                    isDark ? 'text-gray-300' : 'text-neutral-500'
-                  }`}>
-                    Status:{" "}
-                    <span className="px-4 py-1 bg-green-500 text-white font-semibold rounded-full text-sm">
-                      Available
-                    </span>
+                    7-10 days
                   </p>
                 </div>
-
-                {/* Price & Book Button */}
-                <div className="flex flex-col md:flex-row gap-4 justify-between md:items-center my-6">
-                  <p className={`font-bold text-3xl ${
-                    isDark ? 'text-gray-300' : 'text-gray-500'
+                <div className={`p-4 rounded-xl border ${
+                  isDark 
+                    ? 'border-gray-600 bg-gray-700' 
+                    : 'border-gray-200 bg-gray-50'
+                }`}>
+                  <p className={`text-sm mb-1 ${
+                    isDark ? 'text-gray-400' : 'text-gray-500'
+                  }`}>Setup Time</p>
+                  <p className={`font-semibold ${
+                    isDark ? 'text-white' : 'text-gray-900'
                   }`}>
-                    Price: <span className="text-primary">৳ {price}</span>
+                    8-10 hours
                   </p>
-                  <div>
-                    {isDemoAccount && (
-                      <div className={`border-l-4 border-yellow-400 p-4 rounded-lg mb-4 ${
-                        isDark ? 'bg-yellow-900/20' : 'bg-yellow-50'
-                      }`}>
-                        <p className={`font-semibold ${
-                          isDark ? 'text-yellow-300' : 'text-yellow-800'
-                        }`}>
-                          ⚠️ You are using a demo account. Booking is disabled.
-                        </p>
-                      </div>
-                    )}
-
-                    <Button
-                      label={isBookingDisabled ? "Already Booked" : "Book Now"}
-                      onClick={handleBookNow}
-                      disabled={isBookingDisabled}
-                    />
-                  </div>
                 </div>
-
-                {isBookingDisabled && (
-                  <div className={`border-l-4 border-yellow-400 p-4 rounded-lg ${
-                    isDark ? 'bg-yellow-900/20' : 'bg-yellow-50'
+                <div className={`p-4 rounded-xl border ${
+                  isDark 
+                    ? 'border-gray-600 bg-gray-700' 
+                    : 'border-gray-200 bg-gray-50'
+                }`}>
+                  <p className={`text-sm mb-1 ${
+                    isDark ? 'text-gray-400' : 'text-gray-500'
+                  }`}>Unit</p>
+                  <p className={`font-semibold ${
+                    isDark ? 'text-white' : 'text-gray-900'
                   }`}>
-                    <p className={`text-sm ${
+                    {quantity} per event
+                  </p>
+                </div>
+                <div className={`p-4 rounded-xl border ${
+                  isDark 
+                    ? 'border-gray-600 bg-gray-700' 
+                    : 'border-gray-200 bg-gray-50'
+                }`}>
+                  <p className={`text-sm mb-1 ${
+                    isDark ? 'text-gray-400' : 'text-gray-500'
+                  }`}>Status</p>
+                  <span className="inline-block px-3 py-1 bg-green-500 text-white font-semibold rounded-full text-sm">
+                    Available
+                  </span>
+                </div>
+              </div>
+
+              {/* Warnings and Booking */}
+              <div className="space-y-6">
+                {/* Demo Account Warning */}
+                {isDemoAccount && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`border-l-4 border-yellow-400 p-4 rounded-lg ${
+                      isDark ? 'bg-yellow-900/20' : 'bg-yellow-50'
+                    }`}
+                  >
+                    <p className={`font-semibold ${
                       isDark ? 'text-yellow-300' : 'text-yellow-800'
                     }`}>
-                      You have already booked this service. To book again,
-                      please delete your previous booking from
+                      ⚠️ You are using a demo account. Booking is disabled.
+                    </p>
+                  </motion.div>
+                )}
+
+                {/* Already Booked Warning */}
+                {isBookingDisabled && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`border-l-4 border-blue-400 p-4 rounded-lg ${
+                      isDark ? 'bg-blue-900/20' : 'bg-blue-50'
+                    }`}
+                  >
+                    <p className={`text-sm ${
+                      isDark ? 'text-blue-300' : 'text-blue-800'
+                    }`}>
+                      You have already booked this service. To book again, please delete your previous booking from{" "}
                       <span
                         onClick={() => navigate("/dashboard/my-bookings")}
-                        className={`font-semibold underline cursor-pointer ml-1 ${
-                          isDark ? 'hover:text-yellow-200' : 'hover:text-yellow-900'
+                        className={`font-semibold underline cursor-pointer ${
+                          isDark ? 'hover:text-blue-200' : 'hover:text-blue-900'
                         }`}
                       >
                         My Bookings
                       </span>
                       .
                     </p>
-                  </div>
+                  </motion.div>
                 )}
 
-                {/* Additional Info */}
-                <div className="grid grid-cols-2 gap-4 my-6">
-                  <div className={`rounded-xl p-4 border ${
-                    isDark 
-                      ? 'border-purple-600 bg-gray-700' 
-                      : 'border-purple-200 bg-white'
-                  }`}>
-                    <p className={`text-sm mb-1 ${
-                      isDark ? 'text-gray-400' : 'text-gray-600'
-                    }`}>Unit</p>
-                    <p className={`font-semibold ${
-                      isDark ? 'text-white' : 'text-gray-900'
-                    }`}>
-                      {quantity} per event
-                    </p>
-                  </div>
-                  <div className={`rounded-xl p-4 border ${
-                    isDark 
-                      ? 'border-pink-600 bg-gray-700' 
-                      : 'border-pink-200 bg-white'
-                  }`}>
-                    <p className={`text-sm mb-1 ${
-                      isDark ? 'text-gray-400' : 'text-gray-600'
-                    }`}>Setup Time</p>
-                    <p className={`font-semibold ${
-                      isDark ? 'text-white' : 'text-gray-900'
-                    }`}>8-10 hours</p>
-                  </div>
+                {/* Book Now Button */}
+                <div className="w-full">
+                  <Button
+                    label={isBookingDisabled ? "Already Booked" : "Book Now"}
+                    onClick={handleBookNow}
+                    disabled={isBookingDisabled}
+                  />
                 </div>
               </div>
-            </div>
-
-            {/* Features Section */}
-            <div className="mt-12">
-              <h3 className={`text-2xl font-bold mb-6 ${
-                isDark ? 'text-white' : 'text-gray-900'
-              }`}>
-                What's Included
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className={`flex items-center gap-3 rounded-xl p-4 border ${
-                  isDark 
-                    ? 'border-purple-600 bg-gray-700' 
-                    : 'border-purple-200 bg-white'
-                }`}>
-                  <span className="text-2xl text-green-500">✅</span>
-                  <span className={`font-medium ${
-                    isDark ? 'text-gray-300' : 'text-gray-800'
-                  }`}>
-                    Premium Floral Arrangements
-                  </span>
-                </div>
-                <div className={`flex items-center gap-3 rounded-xl p-4 border ${
-                  isDark 
-                    ? 'border-purple-600 bg-gray-700' 
-                    : 'border-purple-200 bg-white'
-                }`}>
-                  <span className="text-2xl text-green-500">✅</span>
-                  <span className={`font-medium ${
-                    isDark ? 'text-gray-300' : 'text-gray-800'
-                  }`}>
-                    Custom Lighting & Chandelier
-                  </span>
-                </div>
-                <div className={`flex items-center gap-3 rounded-xl p-4 border ${
-                  isDark 
-                    ? 'border-purple-600 bg-gray-700' 
-                    : 'border-purple-200 bg-white'
-                }`}>
-                  <span className="text-2xl text-green-500">✅</span>
-                  <span className={`font-medium ${
-                    isDark ? 'text-gray-300' : 'text-gray-800'
-                  }`}>
-                    Themed Backdrop & Stage
-                  </span>
-                </div>
-                <div className={`flex items-center gap-350 rounded-xl p-4 border ${
-                  isDark 
-                    ? 'border-purple-600 bg-gray-700' 
-                    : 'border-purple-200 bg-white'
-                }`}>
-                  <span className="text-2xl text-green-500">✅</span>
-                  <span className={`font-medium ${
-                    isDark ? 'text-gray-300' : 'text-gray-800'
-                  }`}>
-                    Balloon Arch & Ceiling Decor
-                  </span>
-                </div>
-              </div>
-            </div>
+            </motion.div>
           </div>
+        </motion.div>
 
-          {/* Bottom Trust Cards */}
-          <div className="grid md:grid-cols-3 gap-8 mt-12">
-            <div className={`rounded-2xl p-8 shadow-xl text-center hover:shadow-2xl transition-shadow ${
-              isDark ? 'bg-gray-800' : 'bg-white'
-            }`}>
-              <div className="text-5xl mb-4">🛡️</div>
-              <h3 className={`text-2xl font-bold mb-3 ${
-                isDark ? 'text-white' : 'text-gray-900'
-              }`}>
-                100% Quality Guaranteed
-              </h3>
-              <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>
-                Premium materials & expert execution
-              </p>
-            </div>
-            <div className={`rounded-2xl p-8 shadow-xl text-center hover:shadow-2xl transition-shadow ${
-              isDark ? 'bg-gray-800' : 'bg-white'
-            }`}>
-              <div className="text-5xl mb-4">👨‍🎨</div>
-              <h3 className={`text-2xl font-bold mb-3 ${
-                isDark ? 'text-white' : 'text-gray-900'
-              }`}>Professional Team</h3>
-              <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>Experienced designers & craftsmen</p>
-            </div>
-            <div className={`rounded-2xl p-8 shadow-xl text-center hover:shadow-2xl transition-shadow ${
-              isDark ? 'bg-gray-800' : 'bg-white'
-            }`}>
-              <div className="text-5xl mb-4">⏰</div>
-              <h3 className={`text-2xl font-bold mb-3 ${
-                isDark ? 'text-white' : 'text-gray-900'
-              }`}>On-Time Delivery</h3>
-              <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>
-                Completed within promised timeline
-              </p>
-            </div>
+        {/* Features Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="mt-12"
+        >
+          <h3 className={`text-2xl lg:text-3xl font-bold mb-8 text-center ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
+            What's Included
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 + index * 0.1 }}
+                className={`p-6 rounded-2xl border hover:shadow-lg transition-all duration-300 hover:scale-105 ${
+                  isDark 
+                    ? 'border-gray-600 bg-gray-800 hover:bg-gray-700' 
+                    : 'border-gray-200 bg-white hover:bg-gray-50'
+                }`}
+              >
+                <div className="text-3xl mb-4">{feature.icon}</div>
+                <h4 className={`font-semibold mb-2 ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
+                  {feature.title}
+                </h4>
+                <p className={`text-sm ${
+                  isDark ? 'text-gray-400' : 'text-gray-600'
+                }`}>
+                  {feature.description}
+                </p>
+                <CheckCircle className="w-5 h-5 text-green-500 mt-3" />
+              </motion.div>
+            ))}
           </div>
+        </motion.div>
 
-          {/* Booking Modal */}
-          {showBookingModal && (
-            <BookingModal
-              service={service}
-              onClose={() => {
-                setShowBookingModal(false);
-                refetchUserBooking();
-              }}
-            />
-          )}
-        </MyContainer>
-      </div>
-    </>
+        {/* Trust Cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.6 }}
+          className="grid md:grid-cols-3 gap-8 mt-16"
+        >
+          {trustCards.map((card, index) => {
+            const Icon = card.icon;
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 + index * 0.1 }}
+                className={`p-8 rounded-2xl shadow-xl text-center hover:shadow-2xl transition-all duration-300 hover:scale-105 ${
+                  isDark ? 'bg-gray-800' : 'bg-white'
+                }`}
+              >
+                <div className="w-16 h-16 mx-auto mb-4 bg-[#af5f44]/10 rounded-full flex items-center justify-center">
+                  <Icon className="w-8 h-8 text-[#af5f44]" />
+                </div>
+                <h3 className={`text-xl font-bold mb-3 ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
+                  {card.title}
+                </h3>
+                <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>
+                  {card.description}
+                </p>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* Booking Modal */}
+        {showBookingModal && (
+          <BookingModal
+            service={service}
+            onClose={() => {
+              setShowBookingModal(false);
+              refetchUserBooking();
+            }}
+          />
+        )}
+      </MyContainer>
+    </div>
   );
 };
 

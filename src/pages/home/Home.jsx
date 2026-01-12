@@ -10,6 +10,7 @@ import Banner from "./banner/Banner";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import OurServices from "../../components/OurServices";
 import BeforeAfterSection from "../../components/BeforeAfterSection";
+import CompanyList from "../../components/CompanyList";
 import { useTheme } from "../../contexts/ThemeContext";
 
 
@@ -39,11 +40,11 @@ const Home = () => {
       {/* Before After Transformation Section */}
       <BeforeAfterSection />
 
+      {/* Trusted Companies Section */}
+      <CompanyList />
+
       {/* Top Decorators Section */}
       <TopDecorators />
-
-      {/* Service Coverage Map */}
-      <Coverage />
 
       {/* Testimonials Section */}
       <TestimonialsSection />

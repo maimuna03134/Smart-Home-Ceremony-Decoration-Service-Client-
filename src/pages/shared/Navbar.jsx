@@ -17,6 +17,8 @@ import { useTheme } from "../../contexts/ThemeContext";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { FaMagnifyingGlassLocation } from "react-icons/fa6";
+import { FaDollarSign } from "react-icons/fa";
+import { FaQuestionCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -66,6 +68,8 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/", icon: GoHomeFill },
     { name: "Services", path: "/services", icon: MdMiscellaneousServices },
+    { name: "Pricing", path: "/pricing", icon: FaDollarSign },
+    { name: "FAQ", path: "/faq", icon: FaQuestionCircle },
     { name: "About", path: "/about", icon: FaInfoCircle },
     { name: "Contact", path: "/contact", icon: FaEnvelope },
     { name: "Coverage", path: "/coverage", icon: FaMagnifyingGlassLocation },

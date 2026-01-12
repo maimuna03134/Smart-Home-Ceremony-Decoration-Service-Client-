@@ -31,6 +31,8 @@ import DefaultDashboardRedirect from "../layouts/dashboard/DefaultDashboardRedir
 import Loader from "../pages/shared/loader/Loader";
 import Coverage from "../pages/coverage/Coverage";
 import ThemeDemo from "../pages/ThemeDemo";
+import Pricing from "../pages/pricing/Pricing";
+import FAQ from "../pages/faq/FAQ";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +56,14 @@ export const router = createBrowserRouter([
       {
         path: "services",
         element: <Services />,
+      },
+      {
+        path: "pricing",
+        element: <Pricing />,
+      },
+      {
+        path: "faq",
+        element: <FAQ />,
       },
       {
         path: "service/:id",
