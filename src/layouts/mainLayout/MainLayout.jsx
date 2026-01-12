@@ -4,6 +4,7 @@ import { Outlet } from 'react-router';
 import Footer from '../../pages/shared/Footer';
 import { Toaster } from 'react-hot-toast';
 import ScrollTop from '../../components/scroll/ScrollTop';
+import SmoothScroll from '../../components/scroll/SmoothScroll';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const MainLayout = () => {
@@ -13,6 +14,7 @@ const MainLayout = () => {
       <div className={`min-h-screen transition-all duration-300 ${
         isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
       }`}>
+        <SmoothScroll />
         <Navbar />
         <main className={`min-h-screen ${
           isDark ? 'bg-gray-900' : 'bg-white'

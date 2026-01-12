@@ -26,7 +26,7 @@ const MyLinks = ({ to, children, className = "", isScrolled }) => {
               : "text-white font-bold hover:text-[#af5f44]"
             : isActive 
               ? "text-[#af5f44] font-bold" 
-              : "text-white font-bold hover:text-[#af5f44]"
+              : "text-gray-800 font-bold hover:text-[#af5f44]"
         }
         ${className}`
       }

@@ -13,6 +13,7 @@ import MyContainer from "../../components/container/MyContainer";
 import Coverage from "../coverage/Coverage";
 import Button from "../shared/button/Button";
 import { useTheme } from "../../contexts/ThemeContext";
+import { Link } from "react-router";
 
 const Contact = () => {
   const { isDark } = useTheme();
@@ -55,26 +56,43 @@ const Contact = () => {
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-gray-900' : ''}`}>
-      {/* Hero Section */}
-      <section className="py-16 bg-primary/10">
-        <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center"
-          >
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              <span className="bg-linear-to-r from-primary to-amber-600 bg-clip-text text-transparent">
+      {/* Hero Section with Background Image */}
+      <section className="relative h-80 lg:h-96 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('https://plus.unsplash.com/premium_photo-1683880731792-39c07ceea617?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bW9kZXJuJTIwb2ZmaWNlfGVufDB8fDB8fHww')`
+          }}
+        />
+        
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/60" />
+        
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <MyContainer className="text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-4">
                 Get In Touch
-              </span>
-            </h1>
-            <p className={`text-xl max-w-3xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-600'
-              }`}>
-              Have questions? We'd love to hear from you. Send us a message and
-              we'll respond as soon as possible.
-            </p>
-          </motion.div>
-        </MyContainer>
+              </h1>
+              <p className="text-xl text-white/80 max-w-2xl mx-auto">
+                Have questions about our smart home and ceremony decoration services? We'd love to hear from you.
+              </p>
+              <div className="flex items-center justify-center gap-2 text-white/60 mt-4">
+                <Link to='/'>
+                  <span>Home</span>
+                </Link>
+                <span>›</span>
+                <span>Contact Us</span>
+              </div>
+            </motion.div>
+          </MyContainer>
+        </div>
       </section>
 
       {/* Contact Section */}

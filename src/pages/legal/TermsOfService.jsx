@@ -3,6 +3,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import MyContainer from '../../components/container/MyContainer';
 import { motion } from 'framer-motion';
 import { FileText, Handshake, AlertTriangle, CreditCard, Calendar, Phone } from 'lucide-react';
+import { Link } from 'react-router';
 
 const TermsOfService = () => {
   const { isDark } = useTheme();
@@ -113,7 +114,9 @@ const TermsOfService = () => {
                 Clear terms and conditions for our smart home and ceremony decoration services.
               </p>
               <div className="flex items-center justify-center gap-2 text-white/60 mt-4">
-                <span>Home</span>
+                <Link to='/'>
+                  <span>Home</span>
+                </Link>
                 <span>›</span>
                 <span>Terms of Service</span>
               </div>

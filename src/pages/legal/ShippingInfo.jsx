@@ -3,6 +3,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import MyContainer from '../../components/container/MyContainer';
 import { motion } from 'framer-motion';
 import { Truck, MapPin, Clock, Package, Shield, Headphones } from 'lucide-react';
+import { Link } from 'react-router';
 
 const ShippingInfo = () => {
   const { isDark } = useTheme();
@@ -110,7 +111,7 @@ const ShippingInfo = () => {
   ];
 
   return (
-    <div className={`min-h-screen transition-all duration-300 ${
+    <div className={` min-h-screen transition-all duration-300 ${
       isDark ? 'bg-gray-900' : 'bg-gray-50'
     }`}>
       {/* Hero Banner */}
@@ -140,7 +141,9 @@ const ShippingInfo = () => {
                 Professional delivery and setup for all smart home and ceremony decoration services.
               </p>
               <div className="flex items-center justify-center gap-2 text-white/60 mt-4">
-                <span>Home</span>
+                <Link to='/'>
+                  <span>Home</span>
+                </Link>
                 <span>›</span>
                 <span>Service Delivery</span>
               </div>

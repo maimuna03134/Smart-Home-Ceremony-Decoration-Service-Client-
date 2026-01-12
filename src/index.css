@@ -49,6 +49,23 @@ body {
   font-style: normal;
 }
 
+/* Smooth Scrolling Styles */
+html {
+  scroll-behavior: auto; /* Let Lenis handle the smooth scrolling */
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
 .shared-style {
   padding: 0.5rem 1.5rem;
   background-color: #af5f44;

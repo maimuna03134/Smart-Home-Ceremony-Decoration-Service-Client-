@@ -13,34 +13,50 @@ import {
 } from "react-icons/fa";
 import MyContainer from "../../components/container/MyContainer";
 import { useTheme } from "../../contexts/ThemeContext";
+import { Link } from "react-router";
 
 const About = () => {
   const { isDark } = useTheme();
   
   return (
     <div className={`min-h-screen ${isDark ? 'bg-gray-900' : ''}`}>
-      {/* Hero Section */}
-      <section className="relative py-16 bg-primary/10 overflow-hidden">
-        <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center"
-          >
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              <span className="bg-linear-to-r from-primary to-amber-600 bg-clip-text text-transparent">
+      {/* Hero Section with Background Image */}
+      <section className="relative h-80 lg:h-96 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1608903172435-6c64fee81d7f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bGlnaHRpbmclMjBkZWNvcmF0aW9ufGVufDB8fDB8fHww')`
+          }}
+        />
+        
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/60" />
+        
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <MyContainer className="text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-4">
                 About StyleDecor
-              </span>
-            </h1>
-            <p className={`text-xl max-w-3xl mx-auto ${
-              isDark ? 'text-gray-300' : 'text-gray-600'
-            }`}>
-              We're on a mission to make professional decoration services
-              accessible to everyone, transforming ordinary spaces into
-              extraordinary experiences.
-            </p>
-          </motion.div>
-        </MyContainer>
+              </h1>
+              <p className="text-xl text-white/80 max-w-2xl mx-auto">
+                Transforming spaces with smart home technology and elegant ceremony decorations
+              </p>
+              <div className="flex items-center justify-center gap-2 text-white/60 mt-4">
+                <Link to='/'>
+                  <span>Home</span>
+                </Link>
+                <span>›</span>
+                <span>About Us</span>
+              </div>
+            </motion.div>
+          </MyContainer>
+        </div>
       </section>
 
       {/* Our Story */}

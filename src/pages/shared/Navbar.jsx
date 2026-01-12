@@ -97,8 +97,8 @@ const Navbar = () => {
               ? "glass-card-dark"
               : "glass-card"
             : isDark
-              ? ""
-              : ""
+              ? "bg-transparent"
+              : "bg-white/80 backdrop-blur-sm"
           }`}
       >
         <MyContainer className={" px-4 sm:px-6 lg:px-8"}>
@@ -106,8 +106,8 @@ const Navbar = () => {
             {/* Logo */}
             <Logo isScrolled={isScrolled} />
 
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-1">
+            {/* Desktop Menu - Only show on large screens */}
+            <div className="hidden lg:flex items-center space-x-1">
               {navRoleBased.map((link) => (
                 <MyLinks
                   key={link.path}
@@ -131,7 +131,7 @@ const Navbar = () => {
 
               {/* User Profile (Desktop Only) */}
               {user && (
-                <div className="relative hidden md:block">
+                <div className="relative hidden lg:block">
                   <button
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                     className={`flex items-center space-x-2 p-1 pr-3 rounded-full transition-all duration-200
@@ -219,7 +219,7 @@ const Navbar = () => {
 
               {/* Mobile Only */}
               {!user && (
-                <div className="hidden md:block">
+                <div className="hidden lg:block">
                   <Link
                     to="/auth/login"
                     className="flex items-center  shared-style"
@@ -230,10 +230,10 @@ const Navbar = () => {
                 </div>
               )}
 
-              {/* Mobile Menu Button */}
+              {/* Mobile Menu Button - Show on tablet and mobile */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`md:hidden p-2 rounded-lg transition-colors duration-200
+                className={`lg:hidden p-2 rounded-lg transition-colors duration-200
                   ${isDark ? 'hover:bg-gray-800 text-white' : 'hover:bg-gray-100 text-gray-900'}
                 `}
               >
@@ -251,16 +251,16 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <>
             <div
-              className="fixed inset-0  bg-opacity-25 z-40 md:hidden"
+              className="fixed inset-0  bg-opacity-25 z-40 lg:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             ></div>
-            <div className={`md:hidden border-t relative z-50 ${isDark
+            <div className={`lg:hidden border-t relative z-50 ${isDark
                 ? 'border-gray-700 bg-gray-900'
                 : 'border-gray-200 bg-white'
               }`}>
               <div className="px-4 py-3 space-y-1">
                 {/* Theme Toggle for Mobile */}
-                <div className="flex items-center justify-between px-4 py-3">
+                <div className="block md:hidden flex items-center justify-between px-4 py-3">
                   <span className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
                     Theme
                   </span>

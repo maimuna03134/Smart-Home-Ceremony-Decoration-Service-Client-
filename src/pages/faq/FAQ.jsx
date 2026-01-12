@@ -4,6 +4,7 @@ import MyContainer from '../../components/container/MyContainer';
 import { ChevronDown, ChevronUp, Plus, Minus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CompanyList from '../../components/CompanyList';
+import { Link } from 'react-router';
 
 const FAQ = () => {
   const { isDark } = useTheme();
@@ -134,7 +135,7 @@ const FAQ = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&q=80')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1767054172028-ea50613c91f8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGxpZ2h0aW5nJTIwZGVjb3JhdGlvbnxlbnwwfHwwfHx8MA%3D%3D')`
           }}
         />
         
@@ -153,7 +154,9 @@ const FAQ = () => {
                 FAQ
               </h1>
               <div className="flex items-center justify-center gap-2 text-white/80">
-                <span>Home</span>
+                <Link to='/'>
+                  <span>Home</span>
+                </Link>
                 <span>›</span>
                 <span>FAQ</span>
               </div>

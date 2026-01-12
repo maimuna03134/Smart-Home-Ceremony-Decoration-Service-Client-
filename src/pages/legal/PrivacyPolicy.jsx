@@ -3,6 +3,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import MyContainer from '../../components/container/MyContainer';
 import { motion } from 'framer-motion';
 import { Shield, Eye, Lock, Database, UserCheck, Mail } from 'lucide-react';
+import { Link } from 'react-router';
 
 const PrivacyPolicy = () => {
   const { isDark } = useTheme();
@@ -115,7 +116,9 @@ const PrivacyPolicy = () => {
                 Your privacy is important to us. Learn how we collect, use, and protect your information.
               </p>
               <div className="flex items-center justify-center gap-2 text-white/60 mt-4">
-                <span>Home</span>
+                <Link to='/'>
+                  <span>Home</span>
+                </Link>
                 <span>›</span>
                 <span>Privacy Policy</span>
               </div>

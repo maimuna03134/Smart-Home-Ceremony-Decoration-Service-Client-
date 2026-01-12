@@ -4,6 +4,7 @@ import MyContainer from '../../components/container/MyContainer';
 import Button from '../shared/button/Button';
 import { Check, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router';
 
 const Pricing = () => {
   const { isDark } = useTheme();
@@ -68,7 +69,7 @@ const Pricing = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&q=80')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1636115798885-68e47c928729?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cHJpY2luZ3xlbnwwfHwwfHx8MA%3D%3D')`
           }}
         />
         
@@ -87,7 +88,9 @@ const Pricing = () => {
                 PRICING PACKAGES
               </h1>
               <div className="flex items-center justify-center gap-2 text-white/80">
-                <span>Home</span>
+                <Link to='/'>
+                  <span>Home</span>
+                </Link>
                 <span>›</span>
                 <span>Pricing Packages</span>
               </div>
