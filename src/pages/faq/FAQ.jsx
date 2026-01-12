@@ -3,6 +3,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import MyContainer from '../../components/container/MyContainer';
 import { ChevronDown, ChevronUp, Plus, Minus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import CompanyList from '../../components/CompanyList';
 
 const FAQ = () => {
   const { isDark } = useTheme();
@@ -272,7 +273,9 @@ const FAQ = () => {
               </motion.div>
             ))}
           </div>
-
+          <div>
+    <CompanyList/>
+</div>
           {/* Contact CTA Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

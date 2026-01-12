@@ -79,12 +79,12 @@ const Navbar = () => {
     ...navLinks,
     ...(userRole === "user" || userRole === "customer"
       ? [
-          {
-            name: "Be a Decorator",
-            path: "/become-decorator",
-            icon: GrUserAdmin,
-          },
-        ]
+        {
+          name: "Be a Decorator",
+          path: "/become-decorator",
+          icon: GrUserAdmin,
+        },
+      ]
       : []),
   ];
 
@@ -93,8 +93,8 @@ const Navbar = () => {
       <nav
         className={`fixed top-0 left-0 w-full py-0 min-h-0 z-50 transition-all duration-300
     ${isScrolled
-            ? isDark 
-              ? "glass-card-dark" 
+            ? isDark
+              ? "glass-card-dark"
               : "glass-card"
             : isDark
               ? ""
@@ -123,8 +123,8 @@ const Navbar = () => {
             <div className="flex items-center space-x-4">
               {/* Theme Toggle */}
               <div className="hidden sm:flex items-center">
-                <ThemeToggleAdvanced 
-                  size="sm" 
+                <ThemeToggleAdvanced
+                  size="sm"
                   variant="toggle"
                 />
               </div>
@@ -135,8 +135,8 @@ const Navbar = () => {
                   <button
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                     className={`flex items-center space-x-2 p-1 pr-3 rounded-full transition-all duration-200
-                      ${isDark 
-                        ? 'border border-gray-600 hover:bg-gray-800 text-white' 
+                      ${isDark
+                        ? 'border border-gray-600 hover:bg-gray-800 text-white'
                         : 'border border-gray-200 hover:shadow-md hover:bg-gray-50 text-gray-900'
                       }`}
                   >
@@ -161,33 +161,28 @@ const Navbar = () => {
                         className="fixed inset-0 z-40"
                         onClick={() => setIsProfileOpen(false)}
                       ></div>
-                      <div className={`absolute right-0 mt-2 w-56 rounded-lg shadow-lg border py-2 z-50 ${
-                        isDark 
-                          ? 'bg-gray-800 border-gray-600' 
+                      <div className={`absolute right-0 mt-2 w-56 rounded-lg shadow-lg border py-2 z-50 ${isDark
+                          ? 'bg-gray-800 border-gray-600'
                           : 'bg-white border-gray-200'
-                      }`}>
-                        <div className={`px-4 py-3 border-b ${
-                          isDark ? 'border-gray-600' : 'border-gray-200'
                         }`}>
-                          <p className={`text-sm font-semibold ${
-                            isDark ? 'text-white' : 'text-gray-900'
+                        <div className={`px-4 py-3 border-b ${isDark ? 'border-gray-600' : 'border-gray-200'
                           }`}>
+                          <p className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-gray-900'
+                            }`}>
                             {user?.displayName || "User"}
                           </p>
-                          <p className={`text-xs truncate ${
-                            isDark ? 'text-gray-300' : 'text-gray-500'
-                          }`}>
+                          <p className={`text-xs truncate ${isDark ? 'text-gray-300' : 'text-gray-500'
+                            }`}>
                             {user?.email}
                           </p>
                         </div>
 
                         <Link
                           to="/dashboard/profile"
-                          className={`flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${
-                            isDark 
-                              ? 'text-white hover:bg-gray-700' 
+                          className={`flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${isDark
+                              ? 'text-white hover:bg-gray-700'
                               : 'text-gray-700 hover:bg-gray-50'
-                          }`}
+                            }`}
                           onClick={() => setIsProfileOpen(false)}
                         >
                           <FaUser size={16} />
@@ -196,11 +191,10 @@ const Navbar = () => {
 
                         <Link
                           to="/dashboard"
-                          className={`flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${
-                            isDark 
-                              ? 'text-white hover:bg-gray-700' 
+                          className={`flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${isDark
+                              ? 'text-white hover:bg-gray-700'
                               : 'text-gray-700 hover:bg-gray-50'
-                          }`}
+                            }`}
                           onClick={() => setIsProfileOpen(false)}
                         >
                           <MdDashboard size={16} />
@@ -209,11 +203,10 @@ const Navbar = () => {
 
                         <button
                           onClick={handleLogOut}
-                          className={`w-full flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${
-                            isDark 
-                              ? 'text-red-400 hover:bg-red-900/20' 
+                          className={`w-full flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${isDark
+                              ? 'text-red-400 hover:bg-red-900/20'
                               : 'text-red-600 hover:bg-red-50'
-                          }`}
+                            }`}
                         >
                           <IoLogOut size={16} />
                           <span>Logout</span>
@@ -261,11 +254,10 @@ const Navbar = () => {
               className="fixed inset-0  bg-opacity-25 z-40 md:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             ></div>
-            <div className={`md:hidden border-t relative z-50 ${
-              isDark 
-                ? 'border-gray-700 bg-gray-900' 
+            <div className={`md:hidden border-t relative z-50 ${isDark
+                ? 'border-gray-700 bg-gray-900'
                 : 'border-gray-200 bg-white'
-            }`}>
+              }`}>
               <div className="px-4 py-3 space-y-1">
                 {/* Theme Toggle for Mobile */}
                 <div className="flex items-center justify-between px-4 py-3">
@@ -274,7 +266,7 @@ const Navbar = () => {
                   </span>
                   <ThemeToggleAdvanced size="sm" variant="toggle" />
                 </div>
-                
+
                 {navRoleBased.map((link) => {
                   const Icon = link.icon;
                   const isActive = window.location.pathname === link.path;
@@ -282,15 +274,14 @@ const Navbar = () => {
                     <Link
                       key={link.path}
                       to={link.path}
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
-                        isActive
-                          ? isDark 
-                            ? 'text-[#af5f44] bg-gray-800' 
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${isActive
+                          ? isDark
+                            ? 'text-[#af5f44] bg-gray-800'
                             : 'text-[#af5f44] bg-[#af5f44]/10'
-                          : isDark 
-                            ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]' 
+                          : isDark
+                            ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]'
                             : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
-                      }`}
+                        }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <Icon size={20} />
@@ -303,11 +294,10 @@ const Navbar = () => {
                   <>
                     <Link
                       to="/dashboard/profile"
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
-                        isDark 
-                          ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]' 
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${isDark
+                          ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]'
                           : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
-                      }`}
+                        }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <FaUser size={20} />
@@ -316,11 +306,10 @@ const Navbar = () => {
 
                     <Link
                       to="/dashboard"
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${
-                        isDark 
-                          ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]' 
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${isDark
+                          ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]'
                           : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
-                      }`}
+                        }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <MdDashboard size={20} />
@@ -332,11 +321,10 @@ const Navbar = () => {
                         handleLogOut();
                         setIsMobileMenuOpen(false);
                       }}
-                      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
-                        isDark 
-                          ? 'text-red-400 hover:bg-red-900/20' 
+                      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${isDark
+                          ? 'text-red-400 hover:bg-red-900/20'
                           : 'text-red-600 hover:bg-red-50'
-                      }`}
+                        }`}
                     >
                       <IoLogOut size={20} />
                       <span className="font-medium">Logout</span>
@@ -345,11 +333,10 @@ const Navbar = () => {
                 ) : (
                   <Link
                     to="/auth/login"
-                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${
-                      isDark 
-                        ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]' 
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${isDark
+                        ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]'
                         : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
-                    }`}
+                      }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <IoLogIn size={20} />

@@ -52,7 +52,7 @@ if(isRoleLoading) return <Loader/>
             <span className="text-lg font-semibold">Dashboard</span>
           </div>
           {/* Theme Toggle in Dashboard */}
-          <div className="px-4">
+          <div className="hidden md:block px-4">
             <ThemeToggle />
           </div>
         </nav>
@@ -75,6 +75,20 @@ if(isRoleLoading) return <Loader/>
         }`}>
           {/* Sidebar content here */}
           <ul className="menu w-full grow">
+            {/* Theme Toggle for Mobile Sidebar */}
+            <li className="block md:hidden">
+              <div className={`flex items-center justify-between p-4 ${
+                isDark ? 'bg-gray-700/50' : 'bg-gray-100'
+              } rounded-lg mx-2 my-2`}>
+                <span className={`font-medium text-sm ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
+                  Theme
+                </span>
+                <ThemeToggle />
+              </div>
+            </li>
+            
             {/* List item */}
             <li>
               <Link

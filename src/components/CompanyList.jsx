@@ -37,20 +37,17 @@ const CompanyList = () => {
   ];
 
   return (
-    <section className={`py-16 transition-all duration-300 ${
-      isDark ? 'bg-gray-800' : 'bg-gray-100'
-    }`}>
+    <section className={`py-16 transition-all duration-300 ${isDark ? 'bg-gray-800' : 'bg-gray-100'
+      }`}>
       <MyContainer className="px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className={`text-2xl sm:text-3xl font-bold mb-4 ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
+          <h2 className={`text-2xl sm:text-3xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'
+            }`}>
             TRUSTED BY <span className="text-[#af5f44]">LEADING BRANDS</span>
           </h2>
-          <p className={`text-sm sm:text-base max-w-2xl mx-auto ${
-            isDark ? 'text-gray-300' : 'text-gray-600'
-          }`}>
+          <p className={`text-sm sm:text-base max-w-2xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-600'
+            }`}>
             Join hundreds of satisfied clients who trust us with their decoration needs
           </p>
         </div>
@@ -96,11 +93,10 @@ const CompanyList = () => {
           >
             {brands.map((brand) => (
               <SwiperSlide key={brand.id} className="w-auto!">
-                <div className={`group flex items-center justify-center p-6 rounded-xl transition-all duration-300 hover:scale-105 ${
-                  isDark 
-                    ? 'bg-gray-700 hover:bg-gray-600 border border-gray-600' 
+                <div className={`group flex items-center justify-center p-6 rounded-xl transition-all duration-300 hover:scale-105 ${isDark
+                    ? 'bg-gray-700 hover:bg-gray-600 border border-gray-600'
                     : 'bg-white hover:bg-gray-50 border border-gray-200 shadow-sm hover:shadow-md'
-                }`}>
+                  }`}>
                   {/* Brand Logo */}
                   <div className="w-20 h-10 flex items-center justify-center">
                     <img

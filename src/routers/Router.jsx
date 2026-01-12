@@ -33,6 +33,9 @@ import Coverage from "../pages/coverage/Coverage";
 import ThemeDemo from "../pages/ThemeDemo";
 import Pricing from "../pages/pricing/Pricing";
 import FAQ from "../pages/faq/FAQ";
+import PrivacyPolicy from "../pages/legal/PrivacyPolicy";
+import TermsOfService from "../pages/legal/TermsOfService";
+import ShippingInfo from "../pages/legal/ShippingInfo";
 
 export const router = createBrowserRouter([
   {
@@ -64,6 +67,18 @@ export const router = createBrowserRouter([
       {
         path: "faq",
         element: <FAQ />,
+      },
+      {
+        path: "privacy-policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "terms-of-service",
+        element: <TermsOfService />,
+      },
+      {
+        path: "shipping-info",
+        element: <ShippingInfo />,
       },
       {
         path: "service/:id",

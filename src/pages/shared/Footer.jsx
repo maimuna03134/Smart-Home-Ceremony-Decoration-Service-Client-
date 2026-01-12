@@ -13,6 +13,7 @@ import {
 import Logo from "../../components/logo/Logo";
 import MyContainer from "../../components/container/MyContainer";
 import { useTheme } from "../../contexts/ThemeContext";
+import { Link } from "react-router";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -32,8 +33,8 @@ const Footer = () => {
             <p className={`text-sm leading-relaxed ${
               isDark ? 'text-gray-400' : 'text-gray-400'
             }`}>
-              Premium home decor and interior solutions. Transforming spaces
-              with elegance and style.
+              Professional smart home automation and ceremony decoration services. 
+              Transforming your events and homes with modern technology and elegant design.
             </p>
           </div>
 
@@ -42,8 +43,10 @@ const Footer = () => {
             <h4 className={`font-bold text-lg mb-5 flex items-center gap-2 ${
               isDark ? 'text-white' : 'text-white'
             }`}>
-              <FaEnvelope className="text-primary" />
-              Contact Us
+              <Link to='/contact' className="flex justify-center items-center gap-2">
+                <FaEnvelope className="text-primary" />
+                Contact Us
+              </Link>
             </h4>
             <ul className="space-y-4 text-sm">
               <li className="flex items-center gap-3">
@@ -158,16 +161,25 @@ const Footer = () => {
         <div className={`mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-sm border-t ${
           isDark ? 'border-gray-700' : 'border-gray-800'
         }`}>
-          <p>© {currentYear} StyleDecor. All rights reserved.</p>
+          <p>© {currentYear} Smart Home & Ceremony Decoration Services. All rights reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
-            <a href="/privacy" className="hover:text-primary transition">
+            <a 
+              href="/privacy-policy" 
+              className="hover:text-[#af5f44] transition-colors duration-200"
+            >
               Privacy Policy
             </a>
-            <a href="/terms" className="hover:text-primary transition">
+            <a 
+              href="/terms-of-service" 
+              className="hover:text-[#af5f44] transition-colors duration-200"
+            >
               Terms of Service
             </a>
-            <a href="/shipping" className="hover:text-primary transition">
-              Shipping Info
+            <a 
+              href="/shipping-info" 
+              className="hover:text-[#af5f44] transition-colors duration-200"
+            >
+              Service Delivery
             </a>
           </div>
         </div>
