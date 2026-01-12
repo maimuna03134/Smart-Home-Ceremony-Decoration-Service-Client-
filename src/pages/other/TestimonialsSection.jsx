@@ -68,7 +68,7 @@ const TestimonialsSection = () => {
     ];
     return (
       <div>
-        <section className="py-20">
+        <section className="">
           <MyContainer className={"px-4 sm:px-6 lg:px-8"}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}

@@ -9,6 +9,7 @@ import CTASection from "../other/CTASection";
 import Banner from "./banner/Banner";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import OurServices from "../../components/OurServices";
+import BeforeAfterSection from "../../components/BeforeAfterSection";
 import { useTheme } from "../../contexts/ThemeContext";
 
 
@@ -34,6 +35,9 @@ const Home = () => {
 
       {/* Services Section */}
       <FeaturedServices />
+
+      {/* Before After Transformation Section */}
+      <BeforeAfterSection />
 
       {/* Top Decorators Section */}
       <TopDecorators />
