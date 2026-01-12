@@ -907,3 +907,23 @@ html.light {
 .dashboard-content {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+/* Fast Mobile Menu Animation */
+.mobile-menu-fast {
+  animation: slideDown 0.15s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Faster button transitions */
+.btn-fast {
+  transition: all 0.1s ease-out;
+}

@@ -45,7 +45,7 @@ const Banner = () => {
                             playsInline
                             preload="auto"
                             className="w-full h-[90vh] object-cover"
-                           
+
                         />
 
                         {/* Overlay */}
@@ -68,7 +68,7 @@ const Banner = () => {
                                 </p>
 
                                 {/* CTA Button */}
-                                <div className="mt-6">
+                                <div className="mt-6 mr-10 md:mr-0">
                                     <Button
                                         label="Browse Services"
                                         onClick={() => navigate("/services")}

@@ -33,7 +33,7 @@ const WhyChooseUs = () => {
 
   return (
     <section className={`pt-8 ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`}>
-      <MyContainer className="px-4 sm:px-6 lg:px-8">
+      <MyContainer className="">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <motion.div

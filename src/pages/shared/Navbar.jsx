@@ -27,7 +27,6 @@ const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-
   const { data: userRole } = useQuery({
     queryKey: ["userRole", user?.email],
     queryFn: async () => {
@@ -63,26 +62,6 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-    }
-
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-    };
-  }, [isMobileMenuOpen]);
-
 
   const navLinks = [
     { name: "Home", path: "/", icon: GoHomeFill },
@@ -139,13 +118,10 @@ const Navbar = () => {
             </div>
 
             {/* Right Side */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
               {/* Theme Toggle */}
               <div className="hidden sm:flex items-center">
-                <ThemeToggleAdvanced
-                  size="sm"
-                  variant="toggle"
-                />
+                <ThemeToggleAdvanced size="sm" variant="toggle" />
               </div>
 
               {/* User Profile (Desktop Only) */}
@@ -155,11 +131,14 @@ const Navbar = () => {
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                     className={`flex items-center space-x-2 p-1 pr-3 rounded-full transition-all duration-200
                       ${isDark
-                        ? 'border border-gray-600 hover:bg-gray-800 text-white'
-                        : 'border border-gray-200 hover:shadow-md hover:bg-gray-50 text-gray-900'
+                        ? "border border-gray-600 hover:bg-gray-800 text-white"
+                        : "border border-gray-200 hover:shadow-md hover:bg-gray-50 text-gray-900"
                       }`}
                   >
-                    <AiOutlineMenu className="ml-2" style={{ color: isDark ? 'white' : 'black' }} />
+                    <AiOutlineMenu
+                      className="ml-2"
+                      style={{ color: isDark ? "white" : "black" }}
+                    />
                     {user.photoURL ? (
                       <img
                         src={user?.photoURL || avatarImg}
@@ -180,18 +159,26 @@ const Navbar = () => {
                         className="fixed inset-0 z-40"
                         onClick={() => setIsProfileOpen(false)}
                       ></div>
-                      <div className={`absolute right-0 mt-2 w-56 rounded-lg shadow-lg border py-2 z-50 ${isDark
-                          ? 'bg-gray-800 border-gray-600'
-                          : 'bg-white border-gray-200'
-                        }`}>
-                        <div className={`px-4 py-3 border-b ${isDark ? 'border-gray-600' : 'border-gray-200'
-                          }`}>
-                          <p className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-gray-900'
-                            }`}>
+                      <div
+                        className={`absolute right-0 mt-2 w-56 rounded-lg shadow-lg border py-2 z-50 ${isDark
+                            ? "bg-gray-800 border-gray-600"
+                            : "bg-white border-gray-200"
+                          }`}
+                      >
+                        <div
+                          className={`px-4 py-3 border-b ${isDark ? "border-gray-600" : "border-gray-200"
+                            }`}
+                        >
+                          <p
+                            className={`text-sm font-semibold ${isDark ? "text-white" : "text-gray-900"
+                              }`}
+                          >
                             {user?.displayName || "User"}
                           </p>
-                          <p className={`text-xs truncate ${isDark ? 'text-gray-300' : 'text-gray-500'
-                            }`}>
+                          <p
+                            className={`text-xs truncate ${isDark ? "text-gray-300" : "text-gray-500"
+                              }`}
+                          >
                             {user?.email}
                           </p>
                         </div>
@@ -199,8 +186,8 @@ const Navbar = () => {
                         <Link
                           to="/dashboard/profile"
                           className={`flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${isDark
-                              ? 'text-white hover:bg-gray-700'
-                              : 'text-gray-700 hover:bg-gray-50'
+                              ? "text-white hover:bg-gray-700"
+                              : "text-gray-700 hover:bg-gray-50"
                             }`}
                           onClick={() => setIsProfileOpen(false)}
                         >
@@ -211,8 +198,8 @@ const Navbar = () => {
                         <Link
                           to="/dashboard"
                           className={`flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${isDark
-                              ? 'text-white hover:bg-gray-700'
-                              : 'text-gray-700 hover:bg-gray-50'
+                              ? "text-white hover:bg-gray-700"
+                              : "text-gray-700 hover:bg-gray-50"
                             }`}
                           onClick={() => setIsProfileOpen(false)}
                         >
@@ -223,8 +210,8 @@ const Navbar = () => {
                         <button
                           onClick={handleLogOut}
                           className={`w-full flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${isDark
-                              ? 'text-red-400 hover:bg-red-900/20'
-                              : 'text-red-600 hover:bg-red-50'
+                              ? "text-red-400 hover:bg-red-900/20"
+                              : "text-red-600 hover:bg-red-50"
                             }`}
                         >
                           <IoLogOut size={16} />
@@ -236,12 +223,12 @@ const Navbar = () => {
                 </div>
               )}
 
-              {/* Mobile Only */}
+              {/* Desktop Login Button */}
               {!user && (
                 <div className="hidden lg:block">
                   <Link
                     to="/auth/login"
-                    className="flex items-center  shared-style"
+                    className="flex items-center shared-style"
                   >
                     <IoLogIn size={18} />
                     <span>Login</span>
@@ -252,8 +239,11 @@ const Navbar = () => {
               {/* Mobile Menu Button - Show on tablet and mobile */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`lg:hidden p-2 rounded-lg transition-colors duration-200
-                  ${isDark ? 'hover:bg-gray-800 text-white' : 'hover:bg-gray-100 text-gray-900'}
+                className={`lg:hidden p-2 rounded-lg transition-colors duration-100
+                  ${isDark
+                    ? "hover:bg-gray-800 text-white"
+                    : "hover:bg-gray-100 text-gray-900"
+                  }
                 `}
               >
                 {isMobileMenuOpen ? (
@@ -268,123 +258,111 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <>
-            {/* Overlay to prevent background scroll */}
-            <div 
-              className="fixed inset-0 bg-transparent z-30 lg:hidden"
-              onClick={() => setIsMobileMenuOpen(false)}
-            />
-            <div className={`lg:hidden border-t relative z-40 ${isDark
-                ? 'border-gray-700 bg-gray-900'
-                : 'border-gray-200 bg-white'
-              }`}>
-              <div 
-                className="max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent px-4 py-3 space-y-1"
-                onTouchMove={(e) => e.stopPropagation()}
-                onWheel={(e) => e.stopPropagation()}
-              >
-                {/* Theme Toggle for Mobile */}
-                <div className="md:hidden flex items-center justify-between px-4 py-3">
-                  <span className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                    Theme
-                  </span>
-                  <ThemeToggleAdvanced size="sm" variant="toggle" />
-                </div>
+          <div
+            className={`absolute top-full left-0 right-0 lg:hidden z-40 ${isDark
+                ? "bg-gray-900/95 backdrop-blur-md border-gray-700"
+                : "bg-white/95 backdrop-blur-md border-gray-200"
+              } border-t shadow-lg max-h-[calc(100vh-4rem)] mobile-menu-fast`}
+          >
+            <div
+              className="max-h-[calc(100vh-3.5rem)] sm:max-h-[calc(100vh-5rem)] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent px-3 sm:px-4 py-2 sm:py-3 space-y-1"
+              onTouchMove={(e) => e.stopPropagation()}
+              onWheel={(e) => e.stopPropagation()}
+            >
+              {/* Theme Toggle for Mobile */}
+              <div className="md:hidden flex items-center justify-between px-4 py-3">
+                <span
+                  className={`font-medium ${isDark ? "text-white" : "text-gray-900"
+                    }`}
+                >
+                  Theme
+                </span>
+                <ThemeToggleAdvanced size="sm" variant="toggle" />
+              </div>
 
-                {navRoleBased.map((link) => {
-                  const Icon = link.icon;
-                  const isActive = window.location.pathname === link.path;
-                  return (
-                    <Link
-                      key={link.path}
-                      to={link.path}
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${isActive
-                          ? isDark
-                            ? 'text-[#af5f44] bg-gray-800'
-                            : 'text-[#af5f44] bg-[#af5f44]/10'
-                          : isDark
-                            ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]'
-                            : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
-                        }`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <Icon size={20} />
-                      <span className="font-medium">{link.name}</span>
-                    </Link>
-                  );
-                })}
-
-                {/* Add some extra items for testing scroll */}
-                {Array.from({ length: 10 }, (_, i) => (
-                  <div
-                    key={`test-${i}`}
-                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg ${isDark ? 'text-gray-400' : 'text-gray-500'}`}
-                  >
-                    <span className="font-medium">Test Item {i + 1}</span>
-                  </div>
-                ))}
-
-                {user ? (
-                  <>
-                    <Link
-                      to="/dashboard/profile"
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${isDark
-                          ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]'
-                          : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
-                        }`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <FaUser size={20} />
-                      <span className="font-medium">Profile</span>
-                    </Link>
-
-                    <Link
-                      to="/dashboard"
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${isDark
-                          ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]'
-                          : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
-                        }`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <MdDashboard size={20} />
-                      <span>Dashboard</span>
-                    </Link>
-
-                    <button
-                      onClick={() => {
-                        handleLogOut();
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${isDark
-                          ? 'text-red-400 hover:bg-red-900/20'
-                          : 'text-red-600 hover:bg-red-50'
-                        }`}
-                    >
-                      <IoLogOut size={20} />
-                      <span className="font-medium">Logout</span>
-                    </button>
-                  </>
-                ) : (
+              {navRoleBased.map((link) => {
+                const Icon = link.icon;
+                const isActive = window.location.pathname === link.path;
+                return (
                   <Link
-                    to="/auth/login"
-                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${isDark
-                        ? 'text-white hover:bg-gray-800 hover:text-[#af5f44]'
-                        : 'text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]'
+                    key={link.path}
+                    to={link.path}
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${isActive
+                        ? isDark
+                          ? "text-[#af5f44] bg-gray-800"
+                          : "text-[#af5f44] bg-[#af5f44]/10"
+                        : isDark
+                          ? "text-white hover:bg-gray-800 hover:text-[#af5f44]"
+                          : "text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]"
                       }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <IoLogIn size={20} />
-                    <span>Login</span>
+                    <Icon size={20} />
+                    <span className="font-medium">{link.name}</span>
                   </Link>
-                )}
-              </div>
+                );
+              })}
+
+              {user ? (
+                <>
+                  <Link
+                    to="/dashboard/profile"
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${isDark
+                        ? "text-white hover:bg-gray-800 hover:text-[#af5f44]"
+                        : "text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]"
+                      }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <FaUser size={20} />
+                    <span className="font-medium">Profile</span>
+                  </Link>
+
+                  <Link
+                    to="/dashboard"
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${isDark
+                        ? "text-white hover:bg-gray-800 hover:text-[#af5f44]"
+                        : "text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]"
+                      }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <MdDashboard size={20} />
+                    <span>Dashboard</span>
+                  </Link>
+
+                  <button
+                    onClick={() => {
+                      handleLogOut();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${isDark
+                        ? "text-red-400 hover:bg-red-900/20"
+                        : "text-red-600 hover:bg-red-50"
+                      }`}
+                  >
+                    <IoLogOut size={20} />
+                    <span className="font-medium">Logout</span>
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/auth/login"
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${isDark
+                      ? "text-white hover:bg-gray-800 hover:text-[#af5f44]"
+                      : "text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]"
+                    }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <IoLogIn size={20} />
+                  <span>Login</span>
+                </Link>
+              )}
             </div>
-          </>
+          </div>
         )}
       </nav>
 
       {/* Spacer */}
-      <div className="h-16"></div>
+      <div className="h-14 sm:h-16"></div>
     </>
   );
 };
