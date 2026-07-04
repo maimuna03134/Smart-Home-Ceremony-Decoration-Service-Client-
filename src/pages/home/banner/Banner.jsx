@@ -11,7 +11,7 @@ const titles = [
     { title: "Elegant Wedding Decoration", subtitle: "Create Your Dream Wedding" },
 ];
 
-const videoSrc = "https://res.cloudinary.com/dzbsfjpyf/video/upload/v1768128906/smartHome_ugfrey.mp4";
+
 
 const Banner = () => {
     const [current, setCurrent] = useState(0);
@@ -38,7 +38,7 @@ const Banner = () => {
 
                         {/* Single Video Background */}
                         <video
-                            src={videoSrc}
+                            src="/hero-video.mp4" type="video/mp4"
                             autoPlay
                             loop
                             muted

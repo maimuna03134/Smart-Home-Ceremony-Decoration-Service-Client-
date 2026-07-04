@@ -17,6 +17,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 // Import required modules
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+import FeaturedServiceSkeleton from '../../components/skeleton/FeaturedServiceSkeleton';
 
 const FeaturedServices = () => {
   const { isDark } = useTheme();
@@ -62,15 +63,20 @@ const FeaturedServices = () => {
         {/* Mobile Grid Layout (No Swiper) */}
         <div className="block md:hidden">
           <div className="grid grid-cols-1 gap-6">
-            {services.slice(0, 4).map((service, index) => (
-              <motion.div
-                key={service._id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group h-full"
-              >
+            {isLoading ? (
+              Array.from({ length: 4 }).map((_, index) => (
+                <FeaturedServiceSkeleton key={index} />
+              ))
+            ) : (
+              services.slice(0, 4).map((service, index) => (
+                <motion.div
+                  key={service._id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group h-full"
+                >
                 <Link
                   to={`/service/${service._id}`}
                   className={`block rounded-xl shadow-lg overflow-hidden 
@@ -132,46 +138,55 @@ const FeaturedServices = () => {
                   </div>
                 </Link>
               </motion.div>
-            ))}
+            ))
+            )}
           </div>
         </div>
 
         {/* Desktop/Tablet Swiper (768px and up) */}
         <div className="hidden md:block relative">
-          <Swiper
-            modules={[Pagination, Navigation, Autoplay]}
-            grabCursor={true}
-            centeredSlides={services.length > 3}
-            slidesPerView="auto"
-            spaceBetween={30}
-            pagination={{
-              clickable: true,
-              bulletClass: 'swiper-pagination-bullet services-bullet',
-              bulletActiveClass: 'swiper-pagination-bullet-active services-bullet-active',
-            }}
-            navigation={{
-              nextEl: '.services-swiper-button-next',
-              prevEl: '.services-swiper-button-prev',
-            }}
-            autoplay={{
-              delay: 4000,
-              disableOnInteraction: false,
-            }}
-            loop={services.length > 3}
-            breakpoints={{
-              768: {
-                slidesPerView: Math.min(2, services.length),
-                spaceBetween: 25,
-                centeredSlides: services.length > 2,
-              },
-              1024: {
-                slidesPerView: Math.min(3, services.length),
-                spaceBetween: 30,
-                centeredSlides: services.length > 3,
-              },
-            }}
-            className="services-carousel"
-          >
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <FeaturedServiceSkeleton key={index} />
+              ))}
+            </div>
+          ) : (
+            <>
+            <Swiper
+              modules={[Pagination, Navigation, Autoplay]}
+              grabCursor={true}
+              centeredSlides={services.length > 3}
+              slidesPerView="auto"
+              spaceBetween={30}
+              pagination={{
+                clickable: true,
+                bulletClass: 'swiper-pagination-bullet services-bullet',
+                bulletActiveClass: 'swiper-pagination-bullet-active services-bullet-active',
+              }}
+              navigation={{
+                nextEl: '.services-swiper-button-next',
+                prevEl: '.services-swiper-button-prev',
+              }}
+              autoplay={{
+                delay: 4000,
+                disableOnInteraction: false,
+              }}
+              loop={services.length > 3}
+              breakpoints={{
+                768: {
+                  slidesPerView: Math.min(2, services.length),
+                  spaceBetween: 25,
+                  centeredSlides: services.length > 2,
+                },
+                1024: {
+                  slidesPerView: Math.min(3, services.length),
+                  spaceBetween: 30,
+                  centeredSlides: services.length > 3,
+                },
+              }}
+              className="services-carousel"
+            >
             {services.map((service, index) => (
               <SwiperSlide key={service._id} className="services-slide">
                 <motion.div
@@ -272,6 +287,8 @@ const FeaturedServices = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l12 7-12 7" />
             </svg>
           </div>
+          </>
+          )}
         </div>
 
         {/* View All Button */}

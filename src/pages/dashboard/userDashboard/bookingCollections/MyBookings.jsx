@@ -350,7 +350,11 @@ const MyBookings = () => {
                             <>
                               <button
                                 onClick={() => handleUpdate(booking)}
-                                className="btn btn-square btn-sm hover:bg-green-500 hover:text-white transition"
+                                className={`btn btn-square btn-sm transition ${
+                                  isDark 
+                                    ? 'bg-green-600 hover:bg-green-700 text-white border-green-600' 
+                                    : 'hover:bg-green-500 hover:text-white'
+                                }`}
                                 title="Update Booking"
                               >
                                 <FiEdit className="w-5 h-5" />
@@ -358,7 +362,11 @@ const MyBookings = () => {
 
                               <button
                                 onClick={() => handleBookingDelete(booking._id)}
-                                className="btn btn-square btn-sm hover:bg-red-500 hover:text-white transition"
+                                className={`btn btn-square btn-sm transition ${
+                                  isDark 
+                                    ? 'bg-red-600 hover:bg-red-700 text-white border-red-600' 
+                                    : 'hover:bg-red-500 hover:text-white'
+                                }`}
                                 title="Cancel Booking"
                               >
                                 <FaTrashCan className="w-5 h-5" />
@@ -368,21 +376,31 @@ const MyBookings = () => {
 
                         {booking.paymentStatus === "Paid" &&
                           booking.status !== "cancelled_by_admin" && (
-                            <span className="text-green-600 font-medium text-sm px-3 py-1 bg-green-50 rounded-full">
+                            <span className={`font-medium text-sm px-3 py-1 rounded-full ${
+                              isDark 
+                                ? 'text-green-400 bg-green-900/30' 
+                                : 'text-green-600 bg-green-50'
+                            }`}>
                               ✓ Payment Complete. No actions available now.
                             </span>
                           )}
 
                         {booking.status === "cancelled_by_admin" &&
                           booking.status === "cancelled_by_admin" && (
-                            <span className="text-xs text-gray-600 italic">
+                            <span className={`text-xs italic ${
+                              isDark ? 'text-red-400' : 'text-gray-600'
+                            }`}>
                               ⚠️ Service unavailable
                             </span>
                           )}
 
                         {(booking.status === "Cancelled" ||
                           booking.status === "cancelled") && (
-                          <span className="text-gray-500 font-medium text-sm px-3 py-1 bg-gray-100 rounded-full">
+                          <span className={`font-medium text-sm px-3 py-1 rounded-full ${
+                            isDark 
+                              ? 'text-gray-400 bg-gray-700' 
+                              : 'text-gray-500 bg-gray-100'
+                          }`}>
                             Booking Cancelled
                           </span>
                         )}

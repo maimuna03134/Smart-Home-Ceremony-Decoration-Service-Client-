@@ -5,6 +5,7 @@ import Loader from "../shared/loader/Loader";
 import Card from "./Card";
 import MyContainer from "../../components/container/MyContainer";
 import { useTheme } from "../../contexts/ThemeContext";
+import ServiceCardSkeleton from "../../components/skeleton/ServiceCardSkeleton";
 
 const Services = () => {
   const { isDark } = useTheme();
@@ -296,7 +297,13 @@ const Services = () => {
       </div>
 
       {/* Services Grid */}
-      {services.length === 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <ServiceCardSkeleton key={index} />
+          ))}
+        </div>
+      ) : services.length === 0 ? (
         <div className="text-center py-16">
           <div className="text-6xl mb-4">🔍</div>
           <h3 className={`text-2xl font-semibold mb-2 ${
@@ -321,7 +328,7 @@ const Services = () => {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
           {services.map((service) => (
             <Card key={service._id} service={service} />
           ))}

@@ -75,15 +75,6 @@ const Navbar = () => {
 
   const navRoleBased = [
     ...navLinks,
-    ...(userRole === "user" || userRole === "customer"
-      ? [
-        {
-          name: "Be a Decorator",
-          path: "/become-decorator",
-          icon: GrUserAdmin,
-        },
-      ]
-      : []),
   ];
 
   return (
@@ -207,6 +198,20 @@ const Navbar = () => {
                           <span>Dashboard</span>
                         </Link>
 
+                        {(userRole === "user" || userRole === "customer") && (
+                          <Link
+                            to="/become-decorator"
+                            className={`flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${isDark
+                                ? "text-white hover:bg-gray-700"
+                                : "text-gray-700 hover:bg-gray-50"
+                              }`}
+                            onClick={() => setIsProfileOpen(false)}
+                          >
+                            <GrUserAdmin size={16} />
+                            <span>Be a Decorator</span>
+                          </Link>
+                        )}
+
                         <button
                           onClick={handleLogOut}
                           className={`w-full flex items-center space-x-3 px-4 py-2.5 text-sm transition-colors ${isDark
@@ -328,6 +333,20 @@ const Navbar = () => {
                     <MdDashboard size={20} />
                     <span>Dashboard</span>
                   </Link>
+
+                  {(userRole === "user" || userRole === "customer") && (
+                    <Link
+                      to="/become-decorator"
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors duration-200 ${isDark
+                          ? "text-white hover:bg-gray-800 hover:text-[#af5f44]"
+                          : "text-gray-700 hover:bg-[#af5f44]/10 hover:text-[#af5f44]"
+                        }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <GrUserAdmin size={20} />
+                      <span>Be a Decorator</span>
+                    </Link>
+                  )}
 
                   <button
                     onClick={() => {
