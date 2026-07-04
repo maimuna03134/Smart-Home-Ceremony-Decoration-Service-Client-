@@ -20,6 +20,9 @@ This project solves critical problems faced by local decoration businesses:
 
 **Live URL:**   https://smart-home-decoration-service.web.app/
 
+<p align="center">
+  <img src="./styleDecor.png" width="100%" alt="Banner" />
+</p>
 
 ## ✨ Key Features
 
